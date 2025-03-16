@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path = "/" element = {<HomePage/>}/>    
       </Routes>
       <Routes>
-        <Route path = "/login" element = {<Prova/>}/>    
+        <Route path = "/login" element = {<Login/>}/>    
       </Routes>
     </Router>
   
