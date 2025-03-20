@@ -5,17 +5,19 @@ import './index.css'
 
 import HomePage from './components/homepage/HomePage.tsx'
 import Login from './components/login.tsx'
-import Prova from './components/prova.tsx'
+
+import SignIn from './components/signup_login/SignIn.tsx'
+import SignUp from './components/signup_login/SignUp.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
+
       <Routes>
-        <Route path = "/" element = {<HomePage/>}/>    
+        <Route path = "/" element = {<SignIn/>}/>    
+        <Route path = "/signup" element = {<SignUp/>}/>    
       </Routes>
-      <Routes>
-        <Route path = "/login" element = {<Login/>}/>    
-      </Routes>
+
     </Router>
   
   </StrictMode>,

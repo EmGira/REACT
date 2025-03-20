@@ -4,11 +4,15 @@ import Header from '../header/Header.tsx'
 import Footer from '../footer/Footer.tsx'
 
 
+
+
 function HomePage(){
 
+  
 
   return(
     <div>
+     
         <Header/>
         <Home/>
         <Footer/>

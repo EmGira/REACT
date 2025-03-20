@@ -1,5 +1,7 @@
 import './Header.css'
 import {Link} from 'react-router-dom'
+import FirebaseService from '../../services/FirebaseService'
+
 function Header(){
     return(
         <nav className = "nav">
@@ -17,6 +19,8 @@ function Header(){
                 <li> 
                      <Link to = '/farmaci'> Farmaci </Link>
                 </li>
+
+                 {/* <button onClick = {() => FirebaseService.signUp("ema.giiiri@gmail.com", "PippoPlutoPippo12")}> signUp</button> */}
                
               
 
