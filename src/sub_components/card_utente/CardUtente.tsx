@@ -1,6 +1,6 @@
 import './CardUtente.css'
 
-function CardUtente(){
+function CardUtente({}){
     return (
         <>
             <div className='cardContainer'>

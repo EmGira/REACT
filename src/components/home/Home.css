@@ -1,5 +1,4 @@
 .pulsanti {
-    margin-top: 20px;
     display: flex;
     width: 100%;
     align-items: center;   /* Allinea i bottoni verticalmente al centro */
@@ -8,18 +7,21 @@
 }
 
 .pulsanti button{
-    height: 40px;
-    width: 150px;
+    height: 6vh;
+    width: 20vh;
     border-radius: 10px;
-    background-color: blue;
+    border:0;
+    cursor: pointer;
 }
 
 .griglia {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* Colonne che si adattano */
-    margin-top: 30px;
-    gap: 20px;
+    margin-top: 4vh;
+    gap: 3vh;
+    margin-bottom: 4vh;
+    box-sizing: border-box;
 }
 
 .centro {
@@ -27,4 +29,13 @@
     justify-content: center;   /* Centra la Card all'interno del div */
     align-items: center;       /* Centra verticalmente la Card */
     width: 100%;               /* Assicurati che il div occupi tutto lo spazio disponibile */
+    box-sizing: border-box;
+}
+
+.selezionato{
+    background-color: blue;
+}
+
+.non-selezionato{
+    background-color: gray;
 }
