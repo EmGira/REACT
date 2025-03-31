@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FirebaseService from "../services/FirebaseService.ts";
+import FirebaseService from "../../services/FirebaseService.ts";
 import { FirebaseError } from "firebase/app";
 
 const Login: React.FC = () => {

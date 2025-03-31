@@ -1,12 +1,11 @@
 import './Header.css'
 import {Link} from 'react-router-dom'
-import FirebaseService from '../../services/FirebaseService'
 
 function Header(){
     return(
         <nav className = "nav">
             <a href="/" className = "title">WELCOME!</a>
-            <ul>
+            <ul className='voci'>
                 <li>
                     <Link to = '/login'> Login </Link>
                 </li>
@@ -21,12 +20,9 @@ function Header(){
                 </li>
 
                  {/* <button onClick = {() => FirebaseService.signUp("ema.giiiri@gmail.com", "PippoPlutoPippo12")}> signUp</button> */}
-               
-              
-
             </ul> 
         </nav>
     )
 }
 
-export default Header
+export default Header;
