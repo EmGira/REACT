@@ -4,15 +4,15 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
-    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
-  };
+  apiKey: "AIzaSyDRCGQUvk9LpULOhJd3PHhO9VnIK0dVVAM",
+  authDomain: "react-farmaci-f85c3.firebaseapp.com",
+  databaseURL: "https://react-farmaci-f85c3-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "react-farmaci-f85c3",
+  storageBucket: "react-farmaci-f85c3.firebasestorage.app",
+  messagingSenderId: "672408559692",
+  appId: "1:672408559692:web:d899861b5eb7c0487314e9",
+  measurementId: "G-HT894BD3R1"
+};
 
 // Inizializza Firebase
 const app = initializeApp(firebaseConfig);
