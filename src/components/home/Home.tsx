@@ -1,8 +1,14 @@
 import { useState } from 'react';
-import CardUtente from '../../sub_components/card_utente/CardUtente';
 import './Home.css'
+import CardPaziente from '../../sub_components/card_utente/CardPaziente';
+import CardFarmaco from '../../sub_components/card_farmaco/CardFarmaco';
+import CardAggiungi from '../../sub_components/card_aggiungi/CardAggiungi';
 
 function Home(){
+
+    const isAdmin = true; // variabile se sono admin
+    
+    const [selectedButton, setSelectedButton] = useState((isAdmin?1:2));
 
     const farmaci = [
         {
@@ -29,12 +35,18 @@ function Home(){
           id: 5,
           nome: "Aspirina",
           descrizione: "Farmaco antinfiammatorio, analgesico e antipiretico, usato per alleviare il dolore e ridurre la febbre."
+        },
+        {
+            id: 6,
+            nome: "Aspirina",
+            descrizione: "Farmaco antinfiammatorio, analgesico e antipiretico, usato per alleviare il dolore e ridurre la febbre."
         }
     ];
-      
-    const [selectedButton, setSelectedButton] = useState(1);
 
-    const pazienti = [{nome:'prova'}];
+    const pazienti = [
+        {id:1,nome:'edoardo',cognome:'poltronieri',sesso:'M'},
+        {id:2,nome:'gaia',cognome:'poltronieri',sesso:'F'}
+    ];
 
     function selectButton(bottone: number) {
             setSelectedButton(bottone);
@@ -44,16 +56,17 @@ function Home(){
         <>
             <div className='container' style={{paddingTop:'4vh'}}>
                 <div className='pulsanti'>
-                    <button onClick={() => selectButton(1)} className={selectedButton==1?'selezionato':'non-selezionato'}>Pazienti</button>
-                    <button onClick={() => selectButton(2)} className={selectedButton==2?'selezionato':'non-selezionato'}>Farmaci</button>
-                    <button onClick={() => selectButton(3)} className={selectedButton==3?'selezionato':'non-selezionato'}>Appuntamenti</button>
+                    {isAdmin && (<button onClick={() => selectButton(1)} className={selectedButton==1?'selezionato':'non-selezionato'}><p className='testo'>Pazienti</p></button>)}
+                    <button onClick={() => selectButton(2)} className={selectedButton==2?'selezionato':'non-selezionato'}><p className='testo'>Farmaci</p></button>
+                    <button onClick={() => selectButton(3)} className={selectedButton==3?'selezionato':'non-selezionato'}><p className='testo'>Appuntamenti</p></button>
                 </div>
                 
-                {selectedButton == 1 &&(
+                {(selectedButton == 1) &&(
                     <div className='griglia'>
+                    <CardAggiungi/>
                     {pazienti.map((paziente)=>(
-                        <div className='centro'>
-                            <CardUtente></CardUtente>
+                        <div className='centro' key={paziente.id}>
+                            <CardPaziente paziente={paziente}/>
                         </div>
                     ))}
                     </div>
@@ -61,9 +74,10 @@ function Home(){
 
                 {selectedButton == 2 &&(
                     <div className='griglia'>
+                    <CardAggiungi/>
                     {farmaci.map((farmaco)=>(
-                        <div className='centro'>
-                            <CardUtente></CardUtente>
+                        <div className='centro' key={farmaco.id}>
+                            <CardFarmaco farmaco={farmaco}/>
                         </div>
                     ))}
                     </div>
