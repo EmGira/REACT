@@ -5,6 +5,7 @@ import Home from './components/home/Home';
 import SignIn from './components/signup_login/SignIn';
 import SignUp from './components/signup_login/SignUp';
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import User from './components/user/User';
 
 function Impaginazione({ children } : any){
     return (
@@ -24,6 +25,7 @@ function App(){
                     <Route path = "/" element = {<SignIn/>}/>    
                     <Route path = "/signup" element = {<SignUp/>}/> 
                     <Route path = "/home" element = {<Impaginazione><Home/></Impaginazione>} />
+                    <Route path = "/user" element = {<Impaginazione><User/></Impaginazione>} />
                 </Routes>
             </Router>
         </>
