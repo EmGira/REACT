@@ -1,0 +1,42 @@
+.SignInCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 350px;
+    padding: 30px;
+    margin: auto;
+    margin-top: 30vh;
+    border-radius: 3vh;
+    background-color: rgb(26, 181, 192);
+}
+
+.buttons{
+    margin: 2vh;
+    display: flex;
+    flex-direction: row;
+    gap: 1vh;
+    color: white;
+}
+
+.SignInCard button{
+    color: grey ;
+    background-color: white;
+    border-color: white;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    
+
+
+}
+
+
+.Login{
+    margin-bottom: 5vh;
+    color: white;
+}

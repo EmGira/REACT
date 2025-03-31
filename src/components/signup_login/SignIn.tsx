@@ -2,6 +2,7 @@
 import { useState } from "react";
 import FirebaseService from "../../services/FirebaseService"
 import { Link, useNavigate } from "react-router-dom";
+import './SignIn.css'
 
 function SignIn(){
 
@@ -24,14 +25,17 @@ function SignIn(){
 
     //RENDER
     return(
-        <div>
+        <div className = "SignInCard">
 
-            <h1>LOGIN</h1>
-        
-            <input type = "email" placeholder="email" onChange = {(e) => setEmail(e.target.value)} />
-            <input type = "password" placeholder="password" onChange = {(e) => setPassword(e.target.value)}/> 
-            <button onClick = {handleSubmit}>SignIn</button>
-            <button onClick = {handleSignup}>SIGNUP</button>
+            <h1 className="Login">LOGIN</h1>
+            <div className="inputs">
+                <input type = "email" placeholder="email" onChange = {(e) => setEmail(e.target.value)} />
+                <input type = "password" placeholder="password" onChange = {(e) => setPassword(e.target.value)}/> 
+            </div>
+            <div className="buttons">
+                <button onClick = {handleSubmit}>SignIn</button>
+                <button onClick = {handleSignup}>SIGNUP</button>
+            </div>
         </div>
     )
     
