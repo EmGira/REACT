@@ -1,0 +1,6 @@
+.cardContainer{
+    aspect-ratio: 2/3;
+    width: 100%;
+    border-radius: 15px;
+    background-color: orange;
+}

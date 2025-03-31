@@ -10,7 +10,7 @@ function Impaginazione({ children } : any){
     return (
         <>  
             <Header></Header>
-            <div className='container'>{children}</div>
+            {children}
             <Footer></Footer>
         </>
     )

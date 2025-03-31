@@ -1,0 +1,30 @@
+.pulsanti {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    align-items: center;   /* Allinea i bottoni verticalmente al centro */
+    justify-content: center; /* Allinea i bottoni orizzontalmente al centro */
+    gap: 2vh;               /* Aggiunge uno spazio tra i bottoni */
+}
+
+.pulsanti button{
+    height: 40px;
+    width: 150px;
+    border-radius: 10px;
+    background-color: blue;
+}
+
+.griglia {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Colonne che si adattano */
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.centro {
+    display: flex;
+    justify-content: center;   /* Centra la Card all'interno del div */
+    align-items: center;       /* Centra verticalmente la Card */
+    width: 100%;               /* Assicurati che il div occupi tutto lo spazio disponibile */
+}
