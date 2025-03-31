@@ -4,9 +4,9 @@ import Header from './components/header/Header';
 import Home from './components/home/Home';
 import SignIn from './components/signup_login/SignIn';
 import SignUp from './components/signup_login/SignUp';
-import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 
-function Impaginazione({ children } : any){
+function Impaginazione({ children } ){
     return (
         <>  
             <Header></Header>
@@ -24,6 +24,7 @@ function App(){
                     <Route path = "/" element = {<SignIn/>}/>    
                     <Route path = "/signup" element = {<SignUp/>}/> 
                     <Route path = "/home" element = {<Impaginazione><Home/></Impaginazione>} />
+                    <Route path = "*" element={<Navigate to="/" replace />}/>   
                 </Routes>
             </Router>
         </>
