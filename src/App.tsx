@@ -7,6 +7,7 @@ import SignUp from './components/signup_login/SignUp';
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import User from './components/user/User';
 
+
 function Impaginazione({ children } : any){
     return (
         <>  
