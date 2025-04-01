@@ -25,7 +25,7 @@ function SignUp(){
 
             <h1>LOGIN</h1>
         
-            <input type = "email" placeholder="email" onChange = {(e) => setEmail(e.target.value)} />
+            <input type = "email" placeholder="email" onChange = {(e) => setEmail(e.target.value)} required />
             <input type = "password" placeholder="password" onChange = {(e) => setPassword(e.target.value)}/> 
             <button onClick = {handleSignup}>Submit</button>
 
