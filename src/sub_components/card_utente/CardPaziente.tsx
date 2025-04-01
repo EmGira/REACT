@@ -1,9 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import './CardPaziente.css'
 
 function CardPaziente({paziente}){
+
+    const navigate = useNavigate();
+
+    function naviga() {
+        navigate(`/user/${paziente.id}`);
+    };
+
     return (
         <>
-            <div className={`cardContainer ${paziente.sesso === "M" ? 'maschio' : 'femmina'}`}>
+            <div onClick={()=>naviga()} className={`cardContainer ${paziente.sesso === "M" ? 'maschio' : 'femmina'}`}>
                 <img src={paziente.imgSrc} className='card-immagine'/>
                 <div className={'card-data'}>
                     <p className='testo'><strong>Nome:</strong> {paziente.nome}</p>

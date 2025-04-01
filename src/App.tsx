@@ -27,7 +27,7 @@ function App(){
                     <Route path = "/signup" element = {<SignUp/>}/> 
                     <Route path = "/home" element = {<Impaginazione><Home/></Impaginazione>} />
                     <Route path = "*" element={<Navigate to="/" replace />}/>   
-                    <Route path = "/user" element = {<Impaginazione><User/></Impaginazione>} />
+                    <Route path = "/user/:id" element = {<Impaginazione><User/></Impaginazione>} />
                 </Routes>
             </Router>
         </>
