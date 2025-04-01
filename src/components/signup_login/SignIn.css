@@ -9,27 +9,41 @@
     margin: auto;
     margin-top: 30vh;
     border-radius: 3vh;
-    background-color: rgb(26, 181, 192);
+    box-shadow: 0 0 2vh black;
+    background-color: rgb(255, 255, 255);
 }
 
 .buttons{
     margin: 2vh;
     display: flex;
     flex-direction: row;
-    gap: 1vh;
+    gap: 2vh;
     color: white;
 }
 
 .SignInCard button{
-    color: grey ;
+    color: rgb(60, 60, 60) ;
     background-color: white;
     border-color: white;
+    border-radius: 1vh;
+    border-width: 2vh;
+    border: 0.2vh solid black;
+
+
+    
 }
 
+.SignInCard button:hover{
+    color: rgb(75, 213, 255) ;
+
+    border: 0.5vh solid black;
+    
+}
 .inputs{
     display: flex;
     flex-direction: column;
     gap: 2vh;
+    color: rgb(60, 60, 60);
     
 
 
@@ -38,5 +52,5 @@
 
 .Login{
     margin-bottom: 5vh;
-    color: white;
+    color: rgb(0, 0, 0);
 }

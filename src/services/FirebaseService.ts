@@ -8,6 +8,17 @@ import {
 } from "firebase/auth";
 import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
 
+interface userData {
+  email: string;
+  password: string;
+  nome: string;
+  cognome: string;
+  sesso: string;
+  birthDate: String;
+  comune: string;
+  codiceFiscale: string;
+  paziente: boolean;
+}
 // 🔥 Oggetto per gestire Firebase in modo centralizzato
 const FirebaseService = {
   
@@ -21,13 +32,23 @@ const FirebaseService = {
   },
 
   // 🔹 Registra un nuovo utente e salva nel database
-  signUp: async (email: string, password: string) => {
+  signUp: async (userData: userData) => {
+    const {email, password, ...otherData} = userData;
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
     // Salviamo i dati dell'utente in Firestore
     await setDoc(doc(db, "users", user.uid), {
+
+      nome: otherData.nome,
+      cognome: otherData.cognome,
+      sesso: otherData.sesso,
+      birthDate: otherData.birthDate,
+      comune: otherData.comune,
+      codiceFiscale: otherData.codiceFiscale,
+      paziente: otherData.paziente,
       email: user.email,
+    
       createdAt: new Date()
     });
 
@@ -56,7 +77,11 @@ const FirebaseService = {
   getAllUsers: async () => {
     const querySnapshot = await getDocs(collection(db, "users"));
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  }
+  },
+
+
+
 };
+
 
 export default FirebaseService;

@@ -1,0 +1,79 @@
+.SignUpCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 350px;
+    padding: 30px;
+    margin: auto;
+    margin-top: 30vh;
+    border-radius: 3vh;
+    box-shadow: 0 0 2vh black;
+    background-color: rgb(255, 255, 255);
+}
+
+.buttons{
+    margin: 2vh;
+    display: flex;
+    flex-direction: row;
+    gap: 2vh;
+    color: white;
+}
+
+.SignUpCard button{
+    color: rgb(60, 60, 60) ;
+    background-color: white;
+    border-color: white;
+    border-radius: 1vh;
+    border-width: 2vh;
+    border: 0.2vh solid black;
+    margin-top: 2vh;
+
+
+    
+}
+
+.SignUpCard button:hover{
+    color: rgb(75, 213, 255) ;
+
+    border: 0.5vh solid black;
+    
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    color: rgb(60, 60, 60);
+    
+
+
+}
+
+
+.SignUp{
+    margin-bottom: 5vh;
+    color: rgb(0, 0, 0);
+}
+
+
+.Anagrafica{
+    margin: 2vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+    
+}
+
+.Anagrafica input{
+    width: 40%;
+    border-width: 50%;
+}
+
+.Anagrafica select{
+    width: 40%;
+    border-width: 50%;
+}
+
