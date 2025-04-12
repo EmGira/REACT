@@ -1,7 +1,8 @@
 
 import { useState } from "react";
 import FirebaseService from "../../services/FirebaseService"
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {useAuth} from '../contexts/AuthContext'
 import './SignIn.css'
 
 function SignIn(){
@@ -10,6 +11,11 @@ function SignIn(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const {
+        setAuthUser,
+        isLoggedIn,
+        setIsLoggedIn
+        } = useAuth();
     //FUNCTIONS
 
 
@@ -19,15 +25,23 @@ function SignIn(){
         const userId = (await credential).uid
         const userData = await FirebaseService.getUserData(userId);
         
+        
+
         if (userData) {
-            if(userData.paziente == true)
+            if(userData.paziente == true){
+                setIsLoggedIn(true);
+                setAuthUser(userData.email)
+                console.log({isLoggedIn});
                 navigate('./home')
+            }
+               
         } else
             console.log("User data not found");
         
     }
 
     const handleSignup = () => {
+
         navigate('/signup')
       
     }
