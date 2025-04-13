@@ -29,11 +29,12 @@ function App(){
         <>
             <Router>
                 <Routes>
-                    //temporaneo
-                    <Route path = "/" element = {<CalendarComponent/>}/>  
-                    //temporaneo
-                    {/* <Route path = "/" element = {<SignIn/>}/>     */}
+                   
+                    <Route path = "/" element = {<SignIn/>}/>  
+                    
                     <Route path = "/signup" element = {<SignUp/>}/> 
+
+                    <Route path = "/calendar" element = {<CalendarComponent/>}/>  
 
                     //route protette
                     <Route element={<ProtectedRoute isAuthenticated = {isLoggedIn} />}>
