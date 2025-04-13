@@ -6,7 +6,7 @@ interface ProtectedRouteProps {
 }
 
 
-//prende come pror isAthenticated, 
+//prende come prop isAthenticated, 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ isAuthenticated, redirect = "/"}) => {
     return isAuthenticated ? <Outlet /> : <Navigate to={redirect} replace />;        //replace aggiorna la cronologia browser, user non puo tornare indietro alla pagina protetta
 }                                                                                   //outlet renderizza componente figlio se autenticato
