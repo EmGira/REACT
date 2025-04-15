@@ -1,22 +1,66 @@
 
 import CalendarEx from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import './Calendario.css'
+import FirebaseService from '@/services/FirebaseService';
+import {useAuth} from '../contexts/AuthContext'
 
-
+interface Appointments{
+  id: string,
+  data: string,
+  orario: string,
+  paziente: string,
+  descrizione: string
+}
 
 function CalendarComponent(){
 
+    const {
+      authUser
+      } = useAuth();
+
     const [selectedDates, setSelectedDates] = useState<Date[]>([]);
     const [activeDate, setActiveDate] = useState<Date | null>(null)
+    const [appointment, setAppointment] = useState<Appointments>({
+      id: authUser?.email || "",
+      data: "",
+      orario: "",
+      paziente: "",
+      descrizione: "" 
+    })
+    const emptyAppointment: Appointments = {
+      id: authUser?.email || "",
+      data: "",
+      orario: "",
+      paziente: "",
+      descrizione: "" 
+    };
+
+    useEffect(() => {
+      setAppointment(prev => ({
+        ...prev,
+        data: activeDate?.toDateString() || "",
+      }));
+    }, [activeDate]);
+    
+
+
+    
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+
+      setAppointment({
+          ...appointment,
+          [e.target.name]: e.target.value
+      })
+
+
+  }
 
     const handleClick = (date: Date) => {   //salva la data selezionata
         setActiveDate(date);
-
- 
-
         return null;
     }
     
@@ -28,25 +72,25 @@ function CalendarComponent(){
           setSelectedDates([...selectedDates, activeDate]);
         }
 
+        FirebaseService.addData("Appuntamenti",appointment); // Aggiungi questa riga per salvare i dati su Firebase
+        setAppointment(emptyAppointment)
         setActiveDate(null);
       };
 
 
     const tileContent = ({date, view}: { date: Date; view: string }) => {     //modifica contenuto della tile
         // Mostra il punto rosso solo se la data combacia con quella selezionata
-   
-    if (
-        view === 'month' && selectedDates && 
-        selectedDates.some((d) => d.toDateString() === date.toDateString())         //some: controlla se almeno un elemento soddisfa la condizione, se Si termina
-      ) 
-        {
-            return (
-            <div>
-                <span style={{ color: 'red' }}>•</span>
-            </div>
-            );
-        }
-  
+        if (
+            view === 'month' && selectedDates && 
+            selectedDates.some((d) => d.toDateString() === date.toDateString())         //some: controlla se almeno un elemento soddisfa la condizione, se Si termina
+          ) 
+            {
+                return (
+                <div>
+                    <span style={{ color: 'red' }}>•</span>
+                </div>
+                );
+            }
     }
 
 
@@ -54,42 +98,33 @@ function CalendarComponent(){
 
     return(
         <>
-
         <div className = "all">
+
             <CalendarEx onClickDay={handleClick} tileContent={tileContent} className = "calendar"/>
               
-                {selectedDates.length > 0 && (         //se selectedDate e' truthy (non null o undefined) allora renderizza
-                    <div>
-                      <p> hai selezioneto le seguenti date: </p>
-                        <ul>
-                            {selectedDates.map((d, i) => 
-                            
-                             (<li key = {i}>{d.toDateString()}</li>)
-                        
-                            )}
-                        </ul>
-                    </div>
-                )}
+             
 
-                {activeDate && (
+                {activeDate && (                    //se activeDate e' truthy (non null o undefined) allora renderizza
                  <div className="modal-overlay">
-                 <div className="modal-content">
-                   <h1 className="Login">Crea Appuntamento</h1>
-                   <div className="inputs">
-                     <input type="email" placeholder="Email" />
-                     <input type="password" placeholder="Password" />
-                   </div>
-                   <div className="buttons">
-                     <button onClick={handleSubmit}>Submit</button>
-                     <button onClick={() => {setActiveDate(null)}}>Annulla</button>
-                   
-                   </div>
+                  <div className="modal-content">
+                    
+                    <h1 className="title">Crea Appuntamento</h1>
+
+                    <div className="inputs">
+                      <Input name = "data" type="data" placeholder="Data" value={activeDate.toDateString()}/>
+                      <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {appointment.orario}/>
+                      <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {appointment.paziente}/>
+                      <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {appointment.descrizione} />
+
+                    </div>
+
+                    <div className="buttons">
+                      <Button onClick={handleSubmit}>Submit</Button>
+                      <Button onClick={() => {setActiveDate(null); setAppointment(emptyAppointment)}}>Annulla</Button>
+                     </div>
                  </div>
                </div>
                 )}
-
-
-
 
         </div>
         </>
@@ -105,3 +140,6 @@ export default CalendarComponent
 //appare form quado selezioni data
 //on Submit, data viene segnata in rosso
 //se premo data salvata, vedo i form e posso aggiungerne un altro
+
+
+//Invece di una collezione in root, crea una sottocollezione appuntaenti per ogni utente medico???

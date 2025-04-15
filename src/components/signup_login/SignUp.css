@@ -22,7 +22,7 @@
 }
 
 .SignUpCard button{
-    color: rgb(60, 60, 60) ;
+    color: rgb(153, 153, 153) ;
     background-color: white;
     border-color: white;
     border-radius: 1vh;
@@ -73,7 +73,17 @@
 }
 
 .Anagrafica select{
-    width: 40%;
-    border-width: 50%;
+    color: gray;
+    width: 15vh;
+    margin: 3vh;
+    padding: 1vh;
+    border-color: rgb(240, 240, 240);
+    border-width: 0.1vh;
+    border-radius: 1.5vh;
+    
 }
 
+
+.birthdate {
+    color: gray; /* gray-500 */
+  }

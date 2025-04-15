@@ -34,11 +34,12 @@ function App(){
                     
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
-                    <Route path = "/calendar" element = {<CalendarComponent/>}/>  
+                    <Route path = "/calendar" element = {<CalendarComponent/>}/> 
 
                     //route protette
                     <Route element={<ProtectedRoute isAuthenticated = {isLoggedIn} />}>
                         <Route path = "/home" element = {<Impaginazione><Home/></Impaginazione>} />
+
                     </Route>
 
                 </Routes>

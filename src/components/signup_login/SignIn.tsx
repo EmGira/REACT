@@ -4,6 +4,9 @@ import FirebaseService from "../../services/FirebaseService"
 import { useNavigate } from "react-router-dom";
 import {useAuth} from '../contexts/AuthContext'
 import './SignIn.css'
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+
 
 function SignIn(){
 
@@ -51,16 +54,16 @@ function SignIn(){
     return(
         <div className = "SignInCard">
 
-            <h1 className="Login">LOGIN</h1>
+            <h1 className="Login">SIGN IN</h1>
             <div className="inputs">
-                <input type = "email" placeholder="email" onChange = {(e) => setEmail(e.target.value)} />
-                <input type = "password" placeholder="password" onChange = {(e) => setPassword(e.target.value)}/> 
-                
+                <Input type = "email" placeholder="email" onChange = {(e) => setEmail(e.target.value)} />
+                <Input type = "password" placeholder="password" onChange = {(e) => setPassword(e.target.value)}/> 
+       
 
             </div>
             <div className="buttons">
-                <button onClick = {handleSubmit}>Sign In</button>
-                <button onClick = {handleSignup}>Sign Up</button>
+                <Button onClick = {handleSubmit}>Sign In</Button>
+                <Button onClick = {handleSignup}>Sign Up</Button>
             </div>
         </div>
     )

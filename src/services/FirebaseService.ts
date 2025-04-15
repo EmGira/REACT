@@ -77,7 +77,18 @@ const FirebaseService = {
   getAllUsers: async () => {
     const querySnapshot = await getDocs(collection(db, "users"));
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    },
+
+  // 🔹 Aggiunge dati a una collezione specificata
+  addData: async (collectionName: string, docData: Record<string, any>) => {
+    const newDocRef = doc(collection(db, collectionName));
+    await setDoc(newDocRef, docData);
+    return { id: newDocRef.id, ...docData };
   },
+
+  
+
+  
 
 
 
