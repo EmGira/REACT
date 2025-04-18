@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./User.css"
 
 
@@ -9,7 +10,7 @@ function User() {
         nome: "Mario",
         cognome: "Rossi",
         data: "23/03/1997",
-        genere: "M",
+        genere: "F",
         comune_di_nascita: "Verona",
         codice_fiscale: "RSSMRI05HB296T",
         indirizzo_residenza: "via Verona, 5b",
@@ -22,6 +23,21 @@ function User() {
     const icon = (genere : string) => {
         return user.genere === "M" ? image[0] : image[1];
     }   
+
+    const [editMode, setEditMode] = useState(false);
+
+    const handleModifica = () => {
+        setEditMode(true);
+      };
+    
+      const handleAnnulla = () => {
+        setEditMode(false);
+      };
+    
+      const handleInvia = () => {
+        console.log("Invio dati...");
+        setEditMode(false);
+      };
 
 return(
     <div className="body_user">
@@ -39,15 +55,26 @@ return(
 
         <div className="anagrafica">
             <h2>Anagrafica</h2>
+            {!editMode && (
+                <button onClick={handleModifica} className="button_modifica">Modifica</button>
+            )}
             <div className="profilo_user">
                 {Object.entries(user).map(([key, value]) => (
                 <div key={key} className="input-box">
-                    <label><strong>{key.toUpperCase()}</strong></label>
+                    <label className="label_anagrafica">{key}</label>
                     <input type="text" value={value} readOnly className="input_anagrafica"/>
                 </div>
                 ))}
             </div>
+            {editMode && (
+            <div className="tasti_modifica">
+              <button  onClick={handleAnnulla}>Annulla</button>
+              <button onClick={handleInvia}>Invia</button>
+            </div>
+            )}
+
         </div>
+
 
     </div>
     </div>

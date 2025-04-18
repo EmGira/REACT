@@ -1,3 +1,6 @@
+.hidden { display: none; }
+
+
 .body_user {
     display: flex;
     justify-content: center; 
@@ -63,11 +66,17 @@
     flex-direction: column;
 }
 
+.label_anagrafica{
+    font-size: 14px;
+}
+
 .input_anagrafica{
-    width: 80%;
+    width: 90%;
     font-size:medium;
-    background-color: #72a0c15f;
+    background-color: none;
     border: none;
+    font-size: 17px;
+    font-weight: bold;
 }
 
 .div_button_nav{
@@ -95,4 +104,7 @@
     border-radius: 30px;
     height: 30px;
     border: none;
+}
+.tasti_modifica{
+    display: flex;
 }
