@@ -1,0 +1,135 @@
+.hidden { display: none; }
+
+
+.body_user {
+    display: flex;
+    align-items: center;
+    margin-top: 150px;
+    height: 100vh;
+    font-family: Optimistic Text, -apple-system, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    font-size: 19px;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
+
+.h1_name_user{
+    margin-top:-20px;
+}
+
+.box_user {
+    width: 50%;
+    height: auto; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); 
+    padding: 30px; 
+}
+
+.cerchio_icon {
+    border: 8px solid black;
+    background-color: white;
+    border-radius: 100%;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; 
+    margin-top: -100px;
+}
+
+.icon {
+    z-index: 1; /* Porta l'icona sopra il cerchio */
+}
+
+.Outlet{
+    margin: 0 auto; /* Centra la box orizzontalmente */
+
+}
+
+.anagrafica{
+    margin: 0 auto; /* Centra la box orizzontalmente */
+
+}
+
+.profilo_user{
+    border: 2px solid rgba(0, 0, 0, 0.138);
+    border-radius: 30px;
+    flex-wrap: wrap;
+    gap: 41px;
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 25px;
+}
+
+.input-box{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+
+.label_anagrafica{
+    font-size: 14px;
+}
+
+.input_anagrafica{
+    width: 90%;
+    font-size:medium;
+    background-color: none;
+    border: none;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.div_button_nav{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 70%;
+    height: 80px;
+}
+
+.menu_button{
+    background-color: blue;
+    color: white;
+    border-radius: 30px;
+    height: 30px;
+    border: none;
+}
+
+.profilo_button{
+    background-color: blue;
+    color: white;
+    border-radius: 30px;
+    height: 30px;
+    border: none;
+}
+
+.registro_button{
+    border-radius: 30px;
+    height: 30px;
+    border: none;
+}
+
+.piano_button{
+    border-radius: 30px;
+    height: 30px;
+    border: none;
+}
+.tasti_modifica{
+    display: flex;
+}
+
+.linea_h2{
+    width: 6vh;
+    height: 1vh;
+    background-color: #007BFF;
+    margin: 5px 0 20px 0;
+}
+
+.h2{
+    text-align: left;
+}
