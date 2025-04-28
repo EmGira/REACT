@@ -24,6 +24,7 @@ function CalendarComponent(){
 
     const [selectedDates, setSelectedDates] = useState<Date[]>([]);
     const [activeDate, setActiveDate] = useState<Date | null>(null)
+
     const [appointment, setAppointment] = useState<Appointments>({
       id: authUser?.email || "",
       data: "",
@@ -31,6 +32,7 @@ function CalendarComponent(){
       paziente: "",
       descrizione: "" 
     })
+
     const emptyAppointment: Appointments = {
       id: authUser?.email || "",
       data: "",
@@ -56,7 +58,6 @@ function CalendarComponent(){
           [e.target.name]: e.target.value
       })
 
-
   }
 
     const handleClick = (date: Date) => {   //salva la data selezionata
@@ -71,6 +72,8 @@ function CalendarComponent(){
         ) {
           setSelectedDates([...selectedDates, activeDate]);
         }
+
+        console.log(authUser.email)
 
         FirebaseService.addData("Appuntamenti",appointment); // Aggiungi questa riga per salvare i dati su Firebase
         setAppointment(emptyAppointment)
@@ -87,7 +90,7 @@ function CalendarComponent(){
             {
                 return (
                 <div>
-                    <span style={{ color: 'red' }}>•</span>
+                    <span style={{ color: 'yellow' }}>•</span>
                 </div>
                 );
             }
@@ -111,7 +114,7 @@ function CalendarComponent(){
                     <h1 className="title">Crea Appuntamento</h1>
 
                     <div className="inputs">
-                      <Input name = "data" type="data" placeholder="Data" value={activeDate.toDateString()}/>
+                      <Input name = "data" type="data" placeholder="Data" defaultValue={activeDate.toDateString()}/>
                       <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {appointment.orario}/>
                       <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {appointment.paziente}/>
                       <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {appointment.descrizione} />
