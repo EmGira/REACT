@@ -5,7 +5,7 @@ import Home from './components/home/Home';
 import SignIn from './components/signup_login/SignIn';
 import SignUp from './components/signup_login/SignUp';
 import CalendarComponent from './components/calendario/Calendario';
-import ProtectedRoute from './components/contexts/ProtectedRoute';
+import {ProtectedRoutePatients, ProtectedRoute} from './components/contexts/ProtectedRoute';
 import {useAuth} from './components/contexts/AuthContext'
 import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import User from './components/user/User';
@@ -30,6 +30,8 @@ function App(){
 
     const {
         isLoggedIn,
+        isPatient,
+        isMedic
         } = useAuth();          //tira fuori i valori Context del utente con useContext e li assegna alla struttura
         
     return(
@@ -41,11 +43,19 @@ function App(){
                     
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
-                    //route protette
-                    <Route element={<ProtectedRoute isAuthenticated = {isLoggedIn} />}>
-                        <Route path = "/home" element = {<Impaginazione><Home/></Impaginazione>} />
-                        <Route path = "/calendar" element = {<CalendarComponent/>}/> 
+                    //route protette condivise
+                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} />}>
+                        <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />
+                    </Route>
+                    
+                    //route protette per i Pazienti
+                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='patient' />}>
+                        <Route path="/profilo" element={<Impaginazione><Profilo /></Impaginazione>} />
+                    </Route>
 
+                    //route protette per i Medici
+                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='medic' />}>
+                        <Route path="/calendar" element={<Impaginazione><CalendarComponent /></Impaginazione>} />
                     </Route>
                     
 

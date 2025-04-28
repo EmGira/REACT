@@ -17,7 +17,8 @@ function SignIn(){
     const {
         setAuthUser,
         setIsLoggedIn,
-        setIsPatient
+        setIsPatient,
+        setIsMedic
         } = useAuth();
     //FUNCTIONS
 
@@ -40,18 +41,22 @@ function SignIn(){
                  // Salvo in localStorage
                 localStorage.setItem('authUser', JSON.stringify(userData));
                 localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('isPatient', 'true')
-
+                localStorage.setItem('isPatient', 'true');
+                localStorage.setItem('isMedic', 'false');
+           
                 navigate('./home')
             }
             else if(userData.paziente ==false){
                 setIsLoggedIn(true);
-                setAuthUser(userData.email)
-                setIsPatient(false)
+                setAuthUser(userData.email);
+                setIsMedic(true);
 
                 localStorage.setItem('authUser', JSON.stringify(userData));
                 localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('isPatient', 'false')
+                localStorage.setItem('isMedic', 'true');
+                localStorage.setItem('isPatient', 'false');
+
+            
                 navigate('./calendar')
             }
                

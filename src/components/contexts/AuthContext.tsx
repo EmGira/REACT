@@ -9,6 +9,8 @@ interface AuthContextType{
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
     isPatient: boolean;
     setIsPatient: React.Dispatch<React.SetStateAction<boolean>>;
+    isMedic: boolean;
+    setIsMedic: React.Dispatch<React.SetStateAction<boolean>>;
     loading: boolean;
 
 }
@@ -22,6 +24,8 @@ const AuthContext = createContext<AuthContextType>( {
     setIsLoggedIn: () => {},
     isPatient: false,
     setIsPatient: () => {},
+    isMedic: false,
+    setIsMedic: () => {},
     loading: true
 
 });
@@ -34,12 +38,15 @@ export function AuthProvider(props: any){               //gestisce e fornisce st
     const[authUser, setAuthUser] = useState(null);
     const[isLoggedIn, setIsLoggedIn] = useState(false);
     const[isPatient, setIsPatient] = useState(false);
+    const[isMedic, setIsMedic] = useState(false);
     const[loading, setLoading] = useState(true);
 
     useEffect(() => {
         //quando carico un componente, provo cercare in localStorage
         const storedUser = localStorage.getItem('authUser');
         const storedLoggedIn = localStorage.getItem('isLoggedIn');
+        const storedIsPatient = localStorage.getItem('isPatient')
+        const storedIsMedic = localStorage.getItem('isMedic')
 
         if (storedUser) {
             setAuthUser(JSON.parse(storedUser));
@@ -47,6 +54,13 @@ export function AuthProvider(props: any){               //gestisce e fornisce st
 
         if (storedLoggedIn === 'true') {
             setIsLoggedIn(true);
+        }
+
+        if (storedIsPatient === 'true') {
+            setIsPatient(true);
+        }
+        if (storedIsMedic === 'true') {
+            setIsMedic(true);
         }
 
         setLoading(false);
@@ -60,6 +74,8 @@ export function AuthProvider(props: any){               //gestisce e fornisce st
         setIsLoggedIn,
         isPatient,
         setIsPatient,
+        isMedic,
+        setIsMedic,
         loading
     };
 

@@ -2,19 +2,31 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 interface ProtectedRouteProps {
     isAuthenticated: boolean; // Pass authentication state
+    isMedic: boolean;
+    isPatient: boolean;
+    requiredRole: string;
     redirect?: string;
 }
 
 
-//prende come prop isAthenticated, 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ isAuthenticated, redirect = "/"}) => {
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ isAuthenticated, isPatient, isMedic, requiredRole}) => {
     const {loading} = useAuth();
 
     if(loading){
         return <div><p>SPINNER</p></div>        //da mettere effettivamente lo spinner
     }
-    if(!loading)
-     return isAuthenticated ? <Outlet /> : <Navigate to={redirect} replace />;        //replace aggiorna la cronologia browser, user non puo tornare indietro alla pagina protetta
-}                                                                                   //outlet renderizza componente figlio se autenticato
 
-export default ProtectedRoute;
+    if (!isAuthenticated) {
+        return <Navigate to="/" replace />;
+      }
+
+    if (requiredRole === "patient" && !isPatient) {
+        return <Navigate to="/" replace />; // Se non è paziente, viene reindirizzato
+    }
+
+    if (requiredRole === "medic" && !isMedic) {
+        return <Navigate to="/" replace />; // Se è un paziente, non può accedere alle rotte per i medici
+    }
+
+    return <Outlet/>
+} 
