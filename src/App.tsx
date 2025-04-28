@@ -7,13 +7,13 @@ import SignUp from './components/signup_login/SignUp';
 import CalendarComponent from './components/calendario/Calendario';
 import ProtectedRoute from './components/signup_login/ProtectedRoute';
 import {useAuth} from './components/contexts/AuthContext'
-import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 
-function Impaginazione({ children } : any){
+function Impaginazione({ children } ){
     return (
         <>  
             <Header></Header>
-            <div className='container'>{children}</div>
+            {children}
             <Footer></Footer>
         </>
     )
@@ -42,6 +42,7 @@ function App(){
 
                     </Route>
 
+                    <Route path = "*" element={<Navigate to="/" replace />}/>   
                 </Routes>
             </Router>
         </>
