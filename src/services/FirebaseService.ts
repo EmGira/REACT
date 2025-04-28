@@ -6,7 +6,7 @@ import {
   onAuthStateChanged, 
   User 
 } from "firebase/auth";
-import { collection, getDocs, doc, setDoc, getDoc, query, where } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc, query, where, addDoc } from "firebase/firestore";
 
 interface userData {
   email: string;
@@ -116,7 +116,22 @@ export const FirebaseService = {
     }
   },
 
-
+  addFarmaco: async (farmaco: any) => {
+    try {
+      // Aggiungi il documento nella collezione "farmaci"
+      const docRef = await addDoc(collection(db, "farmaci"), {
+        descrizione: farmaco.descrizione,
+        nome: farmaco.nome,
+        quantità: farmaco.quantità,
+        scadenza: farmaco.scadenza,
+        srcImg: farmaco.srcImg
+      });
+  
+      console.log("Documento scritto con ID: ", docRef.id);
+    } catch (e) {
+      console.error("Errore nell'aggiungere il documento: ", e);
+    }
+  }
   
 
 

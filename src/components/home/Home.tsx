@@ -4,16 +4,13 @@ import CardPaziente from '../../sub_components/card_utente/CardPaziente';
 import CardFarmaco from '../../sub_components/card_farmaco/CardFarmaco';
 import CardAggiungi from '../../sub_components/card_aggiungi/CardAggiungi';
 import { FirebaseService } from '../../services/FirebaseService';
-
-
-function caricaArray(){
-    
-}
+import { useNavigate } from 'react-router-dom';
 
 function Home(){
 
-    // array
+    const navigate = useNavigate();
 
+    // array
     const [farmaci, setFarmaci] = useState<any[]>([]);
     const [pazienti, setUsers] = useState<any[]>([]);
 
@@ -84,7 +81,7 @@ function Home(){
 
                 {selectedButton == 2 &&(
                     <div className='griglia'>
-                    <CardAggiungi/>
+                    <div onClick={() => { navigate('/crea-farmaco'); }}><CardAggiungi/></div>
                     {farmaci.map((farmaco)=>(
                         <div className='centro' key={farmaco.id}>
                             <CardFarmaco farmaco={farmaco}/>

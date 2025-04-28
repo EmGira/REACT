@@ -13,6 +13,7 @@ import User from './components/user/User';
 /* ICON */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
+import CreaFarmaci from './components/crea-farmaci/CreaFarmaci';
 
 
 
@@ -58,7 +59,10 @@ function App(){
                     //route protette per i Medici
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='medic' />}>
                         <Route path="/calendar" element={<Impaginazione><CalendarComponent /></Impaginazione>} />
+                        
                     </Route>
+
+                    <Route path="/crea-farmaco" element={<Impaginazione><CreaFarmaci /></Impaginazione>} />
                     
 
                     <Route path = "*" element={<Navigate to="/" replace />}/>   
