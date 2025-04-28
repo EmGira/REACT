@@ -1,26 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "../User.css"
-
+import "../User"
+import { User } from "firebase/auth";
+import { user } from "../User";
 
 function Profilo() {
     const navigate = useNavigate();
 
     const image = ["/src/assets/user/manIcon.svg", "/src/assets/user/girlIcon.svg"];
-    const user = {
-        nome: "Mario",
-        cognome: "Rossi",
-        data: "23/03/1997",
-        genere: "F",
-        comune_di_nascita: "Verona",
-        codice_fiscale: "RSSMRI05HB296T",
-        indirizzo_residenza: "via Verona, 5b",
-        comune_residenza: "Verona",
-        stato: "Italia",
-        numero_telefono: 3759950478,
-        email: "mario.rossi@gmail.com",
-    };
-
     const icon = (genere : string) => {
         return user.genere === "M" ? image[0] : image[1];
     }   
@@ -52,7 +40,7 @@ return(
                 {Object.entries(user).map(([key, value]) => (
                 <div key={key} className="input-box">
                     <label className="label_anagrafica">{key}</label>
-                    <input type="text" value={value} readOnly className="input_anagrafica"/>
+                    <input type="text" value={String(value)} readOnly className="input_anagrafica"/>
                 </div>
                 ))}
             </div>

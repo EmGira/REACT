@@ -1,7 +1,22 @@
 import { useState } from "react";
 import "./User.css"
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import Profilo from "./profilo/Profilo";
 
+
+  export const user:any = {
+    nome: "Mario",
+    cognome: "Rossi",
+    data: "23/03/1997",
+    genere: "F",
+    comune_di_nascita: "Verona",
+    codice_fiscale: "RSSMRI05HB296T",
+    indirizzo_residenza: "via Verona, 5b",
+    comune_residenza: "Verona",
+    stato: "Italia",
+    numero_telefono: 3759950478,
+    email: "mario.rossi@gmail.com",
+}; 
 
 
 function User() {
@@ -9,19 +24,6 @@ function User() {
     const { name } = useParams(); 
 
     const image = ["/src/assets/user/manIcon.svg", "/src/assets/user/girlIcon.svg"];
-    const user = {
-        nome: "Mario",
-        cognome: "Rossi",
-        data: "23/03/1997",
-        genere: "F",
-        comune_di_nascita: "Verona",
-        codice_fiscale: "RSSMRI05HB296T",
-        indirizzo_residenza: "via Verona, 5b",
-        comune_residenza: "Verona",
-        stato: "Italia",
-        numero_telefono: 3759950478,
-        email: "mario.rossi@gmail.com",
-    };
 
     const icon = (genere : string) => {
         return user.genere === "M" ? image[0] : image[1];
