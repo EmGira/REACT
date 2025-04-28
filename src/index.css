@@ -81,6 +81,37 @@ div{
 }
 
 
+.pulsanti button{
+    height: 6vh;
+    width: 20vh;
+    border-radius: 10px;
+    border:0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.pulsanti :hover{
+    transform: scale(1.02);
+}
+
+.selezionato{
+    background-color: #2F4858;
+    color: white;
+}
+
+.non-selezionato{
+    background-color: white;
+    color: #2F4858;
+    box-shadow: 0 0 30px rgba(47, 72, 88, 0.1);
+
+}
+
+
+
+
+
+
 @theme inline {
     --radius-sm:calc(var(--radius) - 4px);
     --radius-md:calc(var(--radius) - 2px);

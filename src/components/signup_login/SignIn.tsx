@@ -6,6 +6,7 @@ import {useAuth} from '../contexts/AuthContext'
 import './SignIn.css'
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { Scale } from "lucide-react";
 
 
 function SignIn(){
@@ -53,7 +54,7 @@ function SignIn(){
     //RENDER
     return(
         <div className = "SignInCard">
-
+        
             <h1 className="Login">SIGN IN</h1>
             <div className="inputs">
                 <Input type = "email" placeholder="email" onChange = {(e) => setEmail(e.target.value)} />

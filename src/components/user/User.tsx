@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import Profilo from "./profilo/Profilo";
 
 
+
   export const user:any = {
     nome: "Mario",
     cognome: "Rossi",
@@ -34,6 +35,15 @@ function User() {
     const button_menu = ["profilo", "registro", "piano"];
 
 
+    const isAdmin = true;
+    const [selectedButton, setSelectedButton] = useState((isAdmin?1:2));
+    
+    function selectButton(bottone: number) {
+        setSelectedButton(bottone);
+}
+
+
+
 return(
     <div className="body_user">
         <div className="box_user">
@@ -42,11 +52,24 @@ return(
             </div>
             <h1 className="h1_name_user">{user.nome} {user.cognome}</h1>
 
-            <div className="div_button_nav">
-                {button_menu.map((name) =>(
-                    <button key={name} className="menu_button" onClick={() =>  navigate(`/user/${name}`)}>{name}</button>
+            <div className="pulsanti">
+                {button_menu.map((name, index) => (
+                <button key={name} onClick={() => {selectButton(index); navigate(`/user/${name}`)}} className={selectedButton==index?'selezionato':'non-selezionato'}>{name}</button>
                 ))}
+
+
+                {/* {button_menu.map((name) =>(
+                    <button key={name} className="" onClick={() =>  navigate(`/user/${name}`)}>{name}</button>
+                ))}       */}
             </div>
+
+{/*
+            <div className='pulsanti'>
+                    {isAdmin && (<button onClick={() => selectButton(1)} className={selectedButton==1?'selezionato':'non-selezionato'}><p className='testo-button'>Pazienti</p></button>)}
+                    <button onClick={() => selectButton(2)} className={selectedButton==2?'selezionato':'non-selezionato'}><p className='testo-button'>Farmaci</p></button>
+                    <button onClick={() => selectButton(3)} className={selectedButton==3?'selezionato':'non-selezionato'}><p className='testo-button'>Appuntamenti</p></button>
+            </div>
+            */}
         </div>
         <Outlet />
     </div>

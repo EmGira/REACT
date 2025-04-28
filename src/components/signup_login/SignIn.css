@@ -9,9 +9,10 @@
     margin: auto;
     margin-top: 30vh;
     border-radius: 3vh;
-    box-shadow: 0 0 2vh black;
+    box-shadow: 0 0 2vh rgba(47, 72, 88, 0.3);
     background-color: rgb(255, 255, 255);
 }
+
 
 .buttons{
     margin: 2vh;
@@ -52,5 +53,9 @@
 
 .Login{
     margin-bottom: 5vh;
-    color: rgb(0, 0, 0);
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 700; 
+    line-height: 1; 
+    color: black;
+    font-size: 2.4vh;
 }

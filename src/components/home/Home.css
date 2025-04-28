@@ -13,12 +13,18 @@
     border:0;
     cursor: pointer;
     transition: all 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.pulsanti :hover{
+    transform: scale(1.02);
 }
 
 .griglia {
     width: 80%;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Colonne che si adattano */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /*grid-template-columns: repeat(4, 1fr);  Colonne che si adattano */
     margin-top: 4vh;
     gap: 3vh;
     margin-bottom: 4vh;
@@ -35,6 +41,18 @@
     text-align: center;
 
 }
+
+@media (max-width: 900px) {
+    .griglia {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .griglia {
+      grid-template-columns: 1fr;
+    }
+  }
 
 .centro {
     display: flex;

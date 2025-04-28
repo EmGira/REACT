@@ -13,6 +13,10 @@ import Profilo from './components/user/profilo/Profilo';
 import Registro from './components/user/registro/Registro';
 import Piano from './components/user/piano/Piano';
 
+/* ICON */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
+
 
 
 
