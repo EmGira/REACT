@@ -62,18 +62,20 @@ function User() {
     
     const image = ["/src/assets/user/manIcon.svg", "/src/assets/user/girlIcon.svg"];
 
-    const icon = (genere : string) => {
-        return user.genere === "M" ? image[0] : image[1];
-    }   
+    const icon = image[0];
+
+    // const icon = (genere : string) => {
+    //     return user.genere === "M" ? image[0] : image[1];
+    // }   
 
     // const[editColorButton, setEditColorButton] = useState(0);
 
 
     return(
         <div className="body_user">
-            <div className="box_user">
+            {currentUser != null && <div className="box_user">
                 <div className="cerchio_icon">
-                    <img src={icon(currentUser.genere)} className="icon"/>
+                    <img src={icon} className="icon"/>
                 </div>
                 <h1 className="h1_name_user">{currentUser.nome} {currentUser.cognome}</h1>
     
@@ -82,7 +84,7 @@ function User() {
                     <button className="menu_button" onClick={() =>  navigate(`/user/registro/` + currentSlug)}>registro</button>
                     <button className="menu_button" onClick={() =>  navigate(`/user/piano/` + currentSlug)}>piano</button>
                 </div>
-            </div>
+            </div>}
             {currentView == 'registro' && <Registro></Registro>}
             {currentView == 'profilo' && <Profilo></Profilo>}
             {currentView == 'piano' && <Piano></Piano>}

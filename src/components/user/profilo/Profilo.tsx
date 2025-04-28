@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "../User.css"
 import "../User"
-import { User } from "firebase/auth";
 import { user } from "../User";
 
 function Profilo() {
