@@ -14,7 +14,7 @@ interface userData {
   nome: string;
   cognome: string;
   sesso: string;
-  birthDate: String;
+  birthDate: string;
   comune: string;
   codiceFiscale: string;
   paziente: boolean;

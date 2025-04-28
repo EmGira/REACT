@@ -5,6 +5,7 @@ import CardFarmaco from '../../sub_components/card_farmaco/CardFarmaco';
 import CardAggiungi from '../../sub_components/card_aggiungi/CardAggiungi';
 import { FirebaseService } from '../../services/FirebaseService';
 
+
 function caricaArray(){
     
 }

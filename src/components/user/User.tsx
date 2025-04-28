@@ -8,19 +8,19 @@ import Piano from "./piano/piano";
 
 
 
-  export const user:any = {
-    nome: "Mario",
-    cognome: "Rossi",
-    data: "23/03/1997",
-    genere: "F",
-    comune_di_nascita: "Verona",
-    codice_fiscale: "RSSMRI05HB296T",
-    indirizzo_residenza: "via Verona, 5b",
-    comune_residenza: "Verona",
-    stato: "Italia",
-    numero_telefono: 3759950478,
-    email: "mario.rossi@gmail.com",
-}; 
+//   export const user:any = {
+//     nome: "Mario",
+//     cognome: "Rossi",
+//     data: "23/03/1997",
+//     genere: "F",
+//     comune_di_nascita: "Verona",
+//     codice_fiscale: "RSSMRI05HB296T",
+//     indirizzo_residenza: "via Verona, 5b",
+//     comune_residenza: "Verona",
+//     stato: "Italia",
+//     numero_telefono: 3759950478,
+//     email: "mario.rossi@gmail.com",
+// }; 
 
 
 function User() {
@@ -96,7 +96,7 @@ function User() {
                 </div>
             </div>}
             {currentView == 'registro' && <Registro></Registro>}
-            {currentView == 'profilo' && <Profilo></Profilo>}
+            {currentView == 'profilo' && <Profilo user={currentUser}></Profilo>}
             {currentView == 'piano' && <Piano></Piano>}
         </div>
     )
