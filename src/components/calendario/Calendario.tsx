@@ -1,5 +1,5 @@
 
-import CalendarEx from 'react-calendar'
+import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { useState, useEffect } from 'react';
 import { Input } from '../ui/input';
@@ -24,6 +24,7 @@ function CalendarComponent(){
 
     const [selectedDates, setSelectedDates] = useState<Date[]>([]);
     const [activeDate, setActiveDate] = useState<Date | null>(null)
+    const [showForm, setShowForm] = useState<boolean | null>(null)
 
     const [appointment, setAppointment] = useState<Appointments>({
       id: authUser?.email || "",
@@ -65,7 +66,7 @@ function CalendarComponent(){
         return null;
     }
     
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (
           activeDate &&
           !selectedDates.some((d) => d.toDateString() === activeDate.toDateString())        //una voltafatto il submit se ho selezionato una data non nulla, enon e presente nella lista di date selezioate, la agigungo
@@ -75,7 +76,12 @@ function CalendarComponent(){
 
         console.log(authUser.email)
 
-        FirebaseService.addData("Appuntamenti",appointment); // Aggiungi questa riga per salvare i dati su Firebase
+        const userData = await FirebaseService.findMedicByEmail(authUser.email)
+        if(userData){
+        FirebaseService.addData(`users/${userData.id}/appuntamenti`,appointment); // Aggiungi questa riga per salvare i dati su Firebase
+        }else{
+          console.error("medic not found")
+        }
         setAppointment(emptyAppointment)
         setActiveDate(null);
       };
@@ -103,11 +109,16 @@ function CalendarComponent(){
         <>
         <div className = "all">
 
-            <CalendarEx onClickDay={handleClick} tileContent={tileContent} className = "calendar"/>
+            <Calendar onClickDay={handleClick} tileContent={tileContent} className = "calendar"/>
               
-             
+                {activeDate && (
+                    <div>
+                      <Button onClick={() => setShowForm(true)}>crea nuovo appuntamento</Button>
+                      <Button onClick={() => setActiveDate(null)}>esci</Button>
+                    </div>
+                )}
 
-                {activeDate && (                    //se activeDate e' truthy (non null o undefined) allora renderizza
+                {showForm && activeDate && (                    //se activeDate e' truthy (non null o undefined) allora renderizza
                  <div className="modal-overlay">
                   <div className="modal-content">
                     
@@ -123,7 +134,7 @@ function CalendarComponent(){
 
                     <div className="buttons">
                       <Button onClick={handleSubmit}>Submit</Button>
-                      <Button onClick={() => {setActiveDate(null); setAppointment(emptyAppointment)}}>Annulla</Button>
+                      <Button onClick={() => {setActiveDate(null); setAppointment(emptyAppointment); setShowForm(false)}}>Annulla</Button>
                      </div>
                  </div>
                </div>
@@ -146,3 +157,6 @@ export default CalendarComponent
 
 
 //Invece di una collezione in root, crea una sottocollezione appuntaenti per ogni utente medico???
+
+
+//mostra lista appuntamenti se premi sul giorno
