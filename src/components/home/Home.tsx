@@ -1,52 +1,61 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Home.css'
 import CardPaziente from '../../sub_components/card_utente/CardPaziente';
 import CardFarmaco from '../../sub_components/card_farmaco/CardFarmaco';
 import CardAggiungi from '../../sub_components/card_aggiungi/CardAggiungi';
+import { FirebaseService } from '../../services/FirebaseService';
+
+function caricaArray(){
+    
+}
 
 function Home(){
 
-    const isAdmin = true; // variabile se sono admin
-    
+    // array
+
+    const [farmaci, setFarmaci] = useState<any[]>([]);
+    const [pazienti, setUsers] = useState<any[]>([]);
+
+    // flags
+    const isAdmin = true;
     const [selectedButton, setSelectedButton] = useState((isAdmin?1:2));
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const farmaci = [
-        {
-          id: 1,
-          nome: "Paracetamolo",
-          descrizione: "Antidolorifico e antipiretico, utilizzato per alleviare il dolore e ridurre la febbre."
-        },
-        {
-          id: 2,
-          nome: "Ibuprofene",
-          descrizione: "Antinfiammatorio non steroideo (FANS), usato per ridurre l'infiammazione, il dolore e la febbre."
-        },
-        {
-          id: 3,
-          nome: "Amoxicillina",
-          descrizione: "Antibiotico appartenente alla classe delle penicilline, usato per trattare le infezioni batteriche."
-        },
-        {
-          id: 4,
-          nome: "Loratadina",
-          descrizione: "Antistaminico utilizzato per trattare i sintomi di allergie come naso che cola e occhi che lacrimano."
-        },
-        {
-          id: 5,
-          nome: "Aspirina",
-          descrizione: "Farmaco antinfiammatorio, analgesico e antipiretico, usato per alleviare il dolore e ridurre la febbre."
-        },
-        {
-            id: 6,
-            nome: "Aspirina",
-            descrizione: "Farmaco antinfiammatorio, analgesico e antipiretico, usato per alleviare il dolore e ridurre la febbre."
+    const fetchFarmaci = async () => {
+        try {
+          const result = await FirebaseService.getFarmaci();
+          setFarmaci(result); // Assegna direttamente i valori agli array
+        } catch (err) {
+          setError("Errore nel recupero dei farmaci");
         }
-    ];
+    };
+    
+      const fetchUsers = async () => {
+        try {
+          const result = await FirebaseService.getAllUsers();
+          setUsers(result); // Assegna direttamente i valori agli array
+        } catch (err) {
+          setError("Errore nel recupero degli utenti");
+        }
+    };
+    
+    useEffect(() => {
+        // Esegui entrambe le chiamate di fetch
+        fetchUsers();
+        fetchFarmaci();
+    }, []);
 
-    const pazienti = [
-        {id:1,nome:'edoardo',cognome:'poltronieri',sesso:'M'},
-        {id:2,nome:'gaia',cognome:'poltronieri',sesso:'F'}
-    ];
+    useEffect(() => {
+        if (farmaci.length > 0 && pazienti.length > 0) {
+          setLoading(false);
+        }
+    }, [farmaci, pazienti]);
+
+    if (loading) return <p>Caricamento...</p>;
+    if (error) return <p>{error}</p>;
+
+    console.log(farmaci)
 
     function selectButton(bottone: number) {
             setSelectedButton(bottone);
@@ -82,7 +91,6 @@ function Home(){
                     ))}
                     </div>
                 )}
-
                 
             </div>
         </>

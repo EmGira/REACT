@@ -20,7 +20,7 @@ interface userData {
   paziente: boolean;
 }
 // 🔥 Oggetto per gestire Firebase in modo centralizzato
-const FirebaseService = {
+export const FirebaseService = {
   
   // 🔹 Recupera l'utente attuale
   getCurrentUser: (): Promise<User | null> => {
@@ -85,6 +85,11 @@ const FirebaseService = {
     await setDoc(newDocRef, docData);
     return { id: newDocRef.id, ...docData };
   },
+
+  getFarmaci: async () => {
+    const querySnapshot = await getDocs(collection(db, 'farmaci'));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+  }
 
   
 
