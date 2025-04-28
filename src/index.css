@@ -20,7 +20,11 @@ div{
 }
 
 .testo{
-    font-size: 2vh;
+    font-size: 3vh;
+}
+
+.testo-button{
+    font-size:2vh;
 }
 
 .cardContainer{
@@ -30,6 +34,7 @@ div{
     transition: transform 0.3s ease;
     cursor: pointer;
     position: relative;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 }
 
 .cardContainer:hover{
@@ -49,9 +54,31 @@ div{
     width: 100%;
     box-sizing: border-box;
     padding: 0 2vh;
+    margin-top: 5vh;
+    font-size: 4vh;
+
 }
 
-
+.card-button{
+    font-family: 'Montserrat', sans-serif; /* Usa Montserrat per il bottone */
+    font-size: 16px; /* Dimensione del testo per il bottone */
+    font-weight: 400; /* Peso bold per il bottone */
+    padding: 10px 20px; /* Spaziatura interna al bottone */
+    background-color: white; /* Colore di sfondo del bottone */
+    color: black; /* Colore del testo */
+    border: 0.1px solid gray; /* Nessun bordo */
+    border-radius: 5px; /* Angoli arrotondati */
+    cursor: pointer; /* Mostra la mano quando il mouse passa sopra */
+    margin-top: 10vh;
+    max-width: 20vh;
+    margin-bottom: 2vh;
+}
+      
+.card-button:hover {
+    background-color: #9ebfbd; /* Colore di sfondo quando si passa sopra */
+    color: white;
+    border: 0.1px solid white;
+}
 
 
 @theme inline {

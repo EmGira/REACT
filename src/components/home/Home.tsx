@@ -65,9 +65,9 @@ function Home(){
         <>
             <div className='container' style={{paddingTop:'4vh'}}>
                 <div className='pulsanti'>
-                    {isAdmin && (<button onClick={() => selectButton(1)} className={selectedButton==1?'selezionato':'non-selezionato'}><p className='testo'>Pazienti</p></button>)}
-                    <button onClick={() => selectButton(2)} className={selectedButton==2?'selezionato':'non-selezionato'}><p className='testo'>Farmaci</p></button>
-                    <button onClick={() => selectButton(3)} className={selectedButton==3?'selezionato':'non-selezionato'}><p className='testo'>Appuntamenti</p></button>
+                    {isAdmin && (<button onClick={() => selectButton(1)} className={selectedButton==1?'selezionato':'non-selezionato'}><p className='testo-button'>Pazienti</p></button>)}
+                    <button onClick={() => selectButton(2)} className={selectedButton==2?'selezionato':'non-selezionato'}><p className='testo-button'>Farmaci</p></button>
+                    <button onClick={() => selectButton(3)} className={selectedButton==3?'selezionato':'non-selezionato'}><p className='testo-button'>Appuntamenti</p></button>
                 </div>
                 
                 {(selectedButton == 1) &&(
