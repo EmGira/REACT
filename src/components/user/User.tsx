@@ -72,12 +72,12 @@ function User() {
     // const[editColorButton, setEditColorButton] = useState(0);
 
 
-    const isAdmin = true;
-    const [selectedButton, setSelectedButton] = useState((isAdmin?1:2));
+//     const isAdmin = true;
+//     const [selectedButton, setSelectedButton] = useState((isAdmin?1:2));
     
-    function selectButton(bottone: number) {
-        setSelectedButton(bottone);
-}
+//     function selectButton(bottone: number) {
+//         setSelectedButton(bottone);
+// }
 
 
 
