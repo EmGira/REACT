@@ -6,7 +6,7 @@ import {
   onAuthStateChanged, 
   User 
 } from "firebase/auth";
-import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc, query, where } from "firebase/firestore";
 
 interface userData {
   email: string;
@@ -89,10 +89,38 @@ export const FirebaseService = {
   getFarmaci: async () => {
     const querySnapshot = await getDocs(collection(db, 'farmaci'));
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-  }
+  },
+
+  findMedicByEmail: async (email: string) => {
+
+    try {
+      const usersRef = collection(db, "users");
+      const q = query(
+        usersRef,
+        where("email", "==", email),
+        where("paziente", "==", false)  // cerchiamo solo i medici
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        console.log("No medic found with the given email.");
+        return null;
+      }
+
+      const medicDoc = querySnapshot.docs[0];
+      return { id: medicDoc.id, ...medicDoc.data() };
+    } catch (error) {
+      console.error("Error fetching medic by email:", error);
+      throw error;
+    }
+  },
+
 
   
 
+
+//ckjaifjawe
   
 
 
