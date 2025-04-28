@@ -13,17 +13,46 @@
     border:0;
     cursor: pointer;
     transition: all 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.pulsanti :hover{
+    transform: scale(1.02);
 }
 
 .griglia {
-    width: 100%;
+    width: 80%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Colonne che si adattano */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /*grid-template-columns: repeat(4, 1fr);  Colonne che si adattano */
     margin-top: 4vh;
     gap: 3vh;
     margin-bottom: 4vh;
+    margin-top: 15vh;
     box-sizing: border-box;
+
+    /* FONT  */
+    font-family: 'Montserrat', sans-serif;  /* Usa Montserrat per il titolo */
+    font-weight: 700; /* Peso bold per un impatto maggiore */
+    line-height: 1.2; /* Spaziatura tra le righe */
+    
+
+    font-size: 3vh;
+    text-align: center;
+
 }
+
+@media (max-width: 900px) {
+    .griglia {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .griglia {
+      grid-template-columns: 1fr;
+    }
+  }
 
 .centro {
     display: flex;
@@ -34,9 +63,20 @@
 }
 
 .selezionato{
-    background-color: blue;
+    background-color: #2F4858;
+    color: white;
 }
 
 .non-selezionato{
-    background-color: gray;
+    background-color: white;
+    color: #2F4858;
+    box-shadow: 0 0 30px rgba(47, 72, 88, 0.1);
+
+}
+
+.container{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: '4vh';
 }

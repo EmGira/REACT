@@ -11,14 +11,13 @@ function CardPaziente({paziente}){
 
     return (
         <>
-            <div onClick={()=>naviga()} className={`cardContainer ${paziente.sesso === "M" ? 'maschio' : 'femmina'}`}>
-                <img src={paziente.imgSrc} className='card-immagine'/>
+            <div onClick={()=>naviga()} className='cardContainer'>
+                <img src={paziente.imgSrc} className={`card-immagine ${paziente.sesso === "M" ? 'maschio' : 'femmina'}`}/>
                 <div className={'card-data'}>
-                    <p className='testo'><strong>Nome:</strong> {paziente.nome}</p>
-                    <p className='testo'><strong>Cognome:</strong> {paziente.cognome}</p>
-                    <p className='testo'><strong>Sesso:</strong> {paziente.sesso}</p> 
+                    <p className='testo'> {paziente.nome.toUpperCase()}</p>
+                    <p className='testo'>{paziente.cognome.toUpperCase()}</p>
                 </div>
-                <p style={{position:'absolute',bottom:'2vh',right:'2vh',margin:'0'}}>{paziente.id}</p>
+                <button className='card-button'>Vedi</button>
             </div>
         </>
     )

@@ -7,6 +7,7 @@ import Registro from "./registro/Registro";
 import Piano from "./piano/piano";
 
 
+
   export const user:any = {
     nome: "Mario",
     cognome: "Rossi",
@@ -69,6 +70,15 @@ function User() {
     // }   
 
     // const[editColorButton, setEditColorButton] = useState(0);
+
+
+    const isAdmin = true;
+    const [selectedButton, setSelectedButton] = useState((isAdmin?1:2));
+    
+    function selectButton(bottone: number) {
+        setSelectedButton(bottone);
+}
+
 
 
     return(

@@ -2,7 +2,8 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    background-color: gray;
+    background-color: white;
+
 }
 
 .plusWrapper {
@@ -17,8 +18,8 @@
   }
   
   .plus {
-    color: white;
-    font-size: 3rem;
+    color:  #2F4858;
+    font-size: 6rem;
     line-height: 1;
     user-select: none;
   }
