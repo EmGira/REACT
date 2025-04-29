@@ -131,14 +131,40 @@ export const FirebaseService = {
     } catch (e) {
       console.error("Errore nell'aggiungere il documento: ", e);
     }
+  },
+
+  addPaziente: async (paziente: any) => {
+    try {
+      // Estrai l'anno da birthDate
+      const birthYear = new Date(paziente.birthDate).getFullYear();
+      
+      // Crea la password: nome + cognome + anno
+      const password = `${paziente.nome}${paziente.cognome}${birthYear}`;
+  
+      // Crea l'utente su Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, paziente.email, password);
+      const user = userCredential.user;
+  
+      // Salva i dati utente su Firestore con UID
+      await setDoc(doc(db, "users", user.uid), {
+        nome: paziente.nome,
+        cognome: paziente.cognome,
+        email: user.email,
+        sesso: paziente.sesso,
+        comune: paziente.comune,
+        codiceFiscale: paziente.codiceFiscale,
+        birthDate: paziente.birthDate,
+        paziente: true,
+      });
+  
+      console.log("Utente creato con ID:", user.uid, "e password:", password);
+      return user;
+  
+    } catch (e) {
+      console.error("Errore nell'aggiungere l'utente:", e);
+      throw e;
+    }
   }
-  
-
-
-//ckjaifjawe
-  
-
-
 
 };
 

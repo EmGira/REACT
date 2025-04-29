@@ -70,7 +70,7 @@ function Home(){
                 
                 {(selectedButton == 1) &&(
                     <div className='griglia'>
-                    <CardAggiungi/>
+                    <div onClick={() => { navigate('/crea-paziente'); }}><CardAggiungi/></div>
                     {pazienti.map((paziente)=>(
                         <div className='centro' key={paziente.id}>
                             <CardPaziente paziente={paziente}/>

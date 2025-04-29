@@ -13,6 +13,7 @@ body{
     padding: 0 4vh;
     min-height: 85vh;
     box-sizing: border-box;
+    height: auto;
 }
 
 div{

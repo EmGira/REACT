@@ -77,3 +77,20 @@
 .submit-btn:hover {
     background-color: #0056b3;
 }
+
+.form-group select {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background-color: white;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+}
