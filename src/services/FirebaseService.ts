@@ -116,6 +116,25 @@ export const FirebaseService = {
     }
   },
 
+  getMedicAppointments: async (MedicDocumentId: string) => {
+    const medicAppRef = collection(db, "users", MedicDocumentId, "appuntamenti");
+    const q = query(medicAppRef);
+
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      console.log("No appointments found, for this Id: ", MedicDocumentId);
+      return null;
+    }
+
+    const appointments = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+
+    return appointments
+  }
+
 
   
 

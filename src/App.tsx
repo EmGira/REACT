@@ -5,7 +5,7 @@ import Home from './components/home/Home';
 import SignIn from './components/signup_login/SignIn';
 import SignUp from './components/signup_login/SignUp';
 import CalendarComponent from './components/calendario/Calendario';
-import {ProtectedRoutePatients, ProtectedRoute} from './components/contexts/ProtectedRoute';
+import {ProtectedRoute} from './components/contexts/ProtectedRoute';
 import {useAuth} from './components/contexts/AuthContext'
 import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import User from './components/user/User';
