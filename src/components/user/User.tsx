@@ -97,7 +97,7 @@ function User() {
             </div>}
             {currentView == 'registro' && <Registro></Registro>}
             {currentView == 'profilo' && <Profilo user={currentUser}></Profilo>}
-            {currentView == 'piano' && <Piano></Piano>}
+            {currentView == 'piano' && <Piano user={currentUser}></Piano>}
         </div>
     )
 

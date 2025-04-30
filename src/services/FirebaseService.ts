@@ -73,12 +73,6 @@ export const FirebaseService = {
     return docSnap.exists() ? docSnap.data() : null;
   },
 
-  // 🔹 Recupera tutti gli utenti
-  getAllUsers: async () => {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    },
-
   // 🔹 Aggiunge dati a una collezione specificata
   addData: async (collectionName: string, docData: Record<string, any>) => {
     const newDocRef = doc(collection(db, collectionName));
@@ -86,10 +80,7 @@ export const FirebaseService = {
     return { id: newDocRef.id, ...docData };
   },
 
-  getFarmaci: async () => {
-    const querySnapshot = await getDocs(collection(db, 'farmaci'));
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-  },
+
 
   findMedicByEmail: async (email: string) => {
 
@@ -122,9 +113,24 @@ export const FirebaseService = {
       const docRef = await addDoc(collection(db, "farmaci"), {
         descrizione: farmaco.descrizione,
         nome: farmaco.nome,
-        quantità: farmaco.quantità,
-        scadenza: farmaco.scadenza,
+        avvertenze: farmaco.avvertenze,
         srcImg: farmaco.srcImg
+      });
+  
+      console.log("Documento scritto con ID: ", docRef.id);
+    } catch (e) {
+      console.error("Errore nell'aggiungere il documento: ", e);
+    }
+  },
+
+  addPiano: async (piano: any) => {
+    try {
+      // Aggiungi il documento nella collezione "farmaci"
+      const docRef = await addDoc(collection(db, "piani"), {
+        farmaci: piano.farmaci,
+        id_paziente: piano.id_paziente,
+        data_inizio: piano.data_inizio,
+        data_fine: piano.data_fine
       });
   
       console.log("Documento scritto con ID: ", docRef.id);
@@ -164,6 +170,21 @@ export const FirebaseService = {
       console.error("Errore nell'aggiungere l'utente:", e);
       throw e;
     }
+  },
+
+  getAllUsers: async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  },
+
+  getFarmaci: async () => {
+    const querySnapshot = await getDocs(collection(db, 'farmaci'));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+  },
+
+  getPiani: async () => {
+    const querySnapshot = await getDocs(collection(db, 'piani'));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
   }
 
 };

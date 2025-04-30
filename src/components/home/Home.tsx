@@ -29,9 +29,9 @@ function Home(){
         }
     };
     
-      const fetchUsers = async () => {
+    const fetchUsers = async () => {
         try {
-          const result = await FirebaseService.getAllUsers();
+          const result = (await FirebaseService.getAllUsers()).filter((utente: any) => utente.paziente == true);
           setUsers(result); // Assegna direttamente i valori agli array
         } catch (err) {
           setError("Errore nel recupero degli utenti");

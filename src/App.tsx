@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import CreaFarmaci from './components/crea-farmaci/CreaFarmaci';
 import CreaPazienti from './components/crea-pazienti/CreaPazienti';
+import CreaPiani from './components/crea-piani/CreaPiani';
  './components/crea-pazienti/CreaPazienti.tsx';
 
 
@@ -66,6 +67,7 @@ function App(){
 
                     <Route path="/crea-paziente" element={<Impaginazione><CreaPazienti></CreaPazienti></Impaginazione>} />
                     <Route path="/crea-farmaco" element={<Impaginazione><CreaFarmaci /></Impaginazione>} />
+                    <Route path="/user/crea-piano/:slug" element={<Impaginazione><CreaPiani /></Impaginazione>} />
                     
 
                     <Route path = "*" element={<Navigate to="/" replace />}/>   
