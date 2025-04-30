@@ -51,7 +51,6 @@ function CreaPiani(){
     // on init
     useEffect(() => {
         fetchFarmaci();
-        fetch
     }, []);
 
     useEffect(() => {
