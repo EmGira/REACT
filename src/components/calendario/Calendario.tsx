@@ -10,7 +10,7 @@ import {useAuth} from '../contexts/AuthContext'
 import {AppointmentsList, fetchAppointments} from './appointments';
 
 interface Appointments{
-  id: string,
+  id: number,
   data: string,
   orario: string,
   paziente: string,
@@ -18,38 +18,19 @@ interface Appointments{
   descrizione: string
 }
 
-function CalendarComponent(){
+function Calendario(){
 
+    //estrai contesto
     const {
-      authUser
-      } = useAuth();
+        authUser,
+        loading
+    } = useAuth();
 
     
 
-    const [selectedDates, setSelectedDates] = useState<Date[]>([]);
-    const [activeDate, setActiveDate] = useState<Date | null>(null)
-    const [showForm, setShowForm] = useState<boolean | null>(null)
-   
-
-
-    const [appointment, setAppointment] = useState<Appointments>({
-      id: authUser?.email || "",
-      data: "",
-      orario: "",
-      paziente: "",
-      mailPaziente: "",
-      descrizione: "" 
-    })
-
-    const [appointments, setAppointments] = useState<any[] | null>(null);
-    const [loading, setLoading] = useState<boolean>(true)
-
-    const [userId, setUserId] = useState<string>("");
-
-
-
+    
     const emptyAppointment: Appointments = {
-      id: authUser?.email || "",
+      id: 0,
       data: "",
       orario: "",
       paziente: "",
@@ -57,28 +38,65 @@ function CalendarComponent(){
       descrizione: "" 
     };
 
-    //aggiorna la data ogni volta che premi una casella
+ 
+    
+    //HOOKS
+    
+    const [activeDate, setActiveDate] = useState<Date | null>(null)
+    const [showForm, setShowForm] = useState<boolean | null>(null)
+   
+    
+
+    const [appointment, setAppointment] = useState<Appointments>(emptyAppointment)
+    const [appointments, setAppointments] = useState<any[] | null>(null);
+
+    
+    const [userId, setUserId] = useState<string| null>(null);
+
+    //EFFECTS
+
+
+    //aggiorna la data del appuntamento - ogni volta che premi una casella nuova 
     useEffect(() => {
-      setAppointment(prev => ({
-        ...prev,
+      setAppointment(appointment => ({
+        ...appointment,
         data: activeDate?.toDateString() || "",
       }));
     }, [activeDate]);
 
-    //estrae l'id del documento dello User 
+    //estrae l'id del documento dello User - ogni volta che cambia authUser
     useEffect(() => {
+      if (!authUser?.email) return;
 
       const fetchUserDocId = async () => {
+        
         const userData = await FirebaseService.findMedicByEmail(authUser.email)
         if(userData){
          setUserId(userData.id);
         }
       }
-
       fetchUserDocId();
 
+    }, [authUser])
 
-    }, [authUser.email])
+    //aggiorna la lista degli appuntamenti presenti nel Db - ogni volta che cambia userId
+    useEffect(() => {
+      
+      if(!userId) {return}   //se non e ancora definito userId nonesegue 
+      //altrimenti:
+   
+      
+        const fetch = async () => {
+            
+            const userApp = await fetchAppointments(userId);
+            setAppointments(userApp); // or do something with it
+        };
+    
+        fetch();
+
+     
+    }, [userId])
+    
 
  
  
@@ -87,39 +105,55 @@ function CalendarComponent(){
     
   
     
+    //EVENTI
 
-
-    
+    //aggiorna lappuntamneot corrente quando variano gli input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-
       setAppointment({
           ...appointment,
-          [e.target.name]: e.target.value
+          [e.target.name]: e.target.value,
+         
       })
+    }
 
-  }
-
-    const handleClick = (date: Date) => {   //salva la data selezionata
+    //aggiorna la data selezionata
+    const handleClick = (date: Date) => {   
         setActiveDate(date);
         return null;
     }
     
+    //assegna ID al appuntamento, salva apuntamento su firestore
     const handleSubmit = async () => {
-        if (
-          activeDate &&
-          !selectedDates.some((d) => d.toDateString() === activeDate.toDateString())        //una voltafatto il submit se ho selezionato una data non nulla, enon e presente nella lista di date selezioate, la agigungo
-        ) {
-          setSelectedDates([...selectedDates, activeDate]);
-        }
 
-        console.log(authUser.email)
+     
+        if(userId){
 
-        const userData = await FirebaseService.findMedicByEmail(authUser.email)   //DA FARE, RIFORMATTARE attenzione, ora ho uno stato globale userId, dunque non serve estrarre lid in questo modo
-        if(userData){
-        FirebaseService.addData(`users/${userData.id}/appuntamenti`,appointment); // Aggiungi questa riga per salvare i dati su Firebase
+          //trovo id massimo
+          const maxId = appointments && appointments.length > 0   //se esiste appointments, e ce almeno un appuntamento
+          ? Math.max(...appointments.map((a) => a.id))     //trova il massimo tra un array di tutti gli id, se non ha id, mette 0
+          : 0;                                                    //se e il primo appuntamenot mette 0
+
+          //creo nuovo appuntamento con l'id trovato, non uso setAppointment perche asincrono
+          const newAppointment = {          
+            ...appointment,
+            id: maxId + 1
+          };
+        
+        await FirebaseService.addData(`users/${userId}/appuntamenti`,newAppointment); // salva dati su firestore
+        //ricerco paziente con newApp.mailPaziente e metto app anche nella sua subcollection
+        
+        const patient = await FirebaseService.findPatientByEmail(newAppointment.mailPaziente)
+        if(patient)
+          await FirebaseService.addData(`users/${patient?.id}/appuntamenti`,newAppointment); // salva dati su firestore
+        else console.log(patient)
+
+        const updatedAppointments = await fetchAppointments(userId);
+        setAppointments(updatedAppointments);
+
         }else{
           console.error("medic not found")
         }
+
         setAppointment(emptyAppointment)
         setActiveDate(null);
         setShowForm(false)
@@ -127,36 +161,34 @@ function CalendarComponent(){
 
   
 
-
-    const tileContent = ({date, view}: { date: Date; view: string }) => {     //modifica contenuto della tile
-        // Mostra il punto rosso solo se la data combacia con quella selezionata
+    //modifica contenuto della tile - mostrap untino rosso su le tile che hanno appuntamenti
+    const tileContent = ({date, view}: { date: Date; view: string }) => {     
     
-
-        if (
-            view === 'month' && activeDate &&
-            selectedDates.some((apt) => apt.toDateString() === date.toDateString())        //some: controlla se almeno un elemento soddisfa la condizione, se Si termina
-          ) 
-            {
-                return (
-                <div>
-                    <span style={{ color: 'yellow' }}>•</span>
-                </div>
-                );
-            }
-          
-       
+        if (view === 'month' && appointments && appointments.some((apt) => apt.data === date.toDateString()))        //some: controlla se almeno un elemento soddisfa la condizione, se Si termina
+                return ( 
+                        <div>
+                            <span style={{ color: 'red' }}>•</span>
+                        </div>
+                )
     }
 
 
-  
-
+    //RENDER
     return(
         <>
         <div className = "all">
 
-            <Calendar onClickDay={handleClick} tileContent={tileContent} className = "calendar"/>
-              
-                {activeDate && !showForm && (
+                {(loading || !authUser || !userId) && (   //se authUser e userId non sono inizializzati, mostra caricamento, DA FARE        
+                    <div>loading users</div>
+                )}
+            
+            
+                <Calendar onClickDay={handleClick} tileContent={tileContent} className = "calendar"/>
+            
+
+                
+
+                {activeDate && !showForm && userId && (             //se premi una tile (activeDate) mostra lista appuntamenti
                     <div className = "appList">
                       <div>
                         <Button onClick={() => setShowForm(true)}>crea nuovo appuntamento</Button>
@@ -167,7 +199,7 @@ function CalendarComponent(){
                     </div>
                 )}
 
-                {showForm && activeDate && (                    //se activeDate e' truthy (non null o undefined) allora renderizza
+                {showForm && activeDate && (                    //se activeDate e' truthy (non null o undefined) e showform e true allora renderizza (inserzione appuntamento)
                  <div className="modulo-overlay">
                   <div className="modulo-content">
                     
@@ -196,21 +228,14 @@ function CalendarComponent(){
 }
 
 
-export default CalendarComponent
+export default Calendario
 
 //https://www.npmjs.com/package/react-calendar
 
 
-//appare form quado selezioni data
-//on Submit, data viene segnata in rosso
-//se premo data salvata, vedo i form e posso aggiungerne un altro
+//modifica appuntamenti
+
+//inserisci appuntamenti anche nel paziente: ogni app ha mail paziente  
 
 
-//Invece di una collezione in root, crea una sottocollezione appuntaenti per ogni utente medico???
-
-
-//mostra lista appuntamenti se premi sul giorno
-
-//resta pallino se ci sono appuntamenti
-
-//aggiungere identificativoo univoco per ogni appuntamento
+//!contenuto tile non cambia quando fai remove
