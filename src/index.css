@@ -20,7 +20,9 @@ div{
 }
 
 .testo{
-    font-size: 3vh;
+    /*font-size: 3vh;*/
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+
 }
 
 .testo-button{
@@ -28,7 +30,7 @@ div{
 }
 
 .cardContainer{
-    aspect-ratio: 2/3;
+    /*aspect-ratio: 2/3;*/
     width: 100%;
     border-radius: 15px;
     transition: transform 0.3s ease;
@@ -61,7 +63,7 @@ div{
 
 .card-button{
     font-family: 'Montserrat', sans-serif; /* Usa Montserrat per il bottone */
-    font-size: 16px; /* Dimensione del testo per il bottone */
+    font-size: clamp(1rem, 2vw, 1rem);    
     font-weight: 400; /* Peso bold per il bottone */
     padding: 10px 20px; /* Spaziatura interna al bottone */
     background-color: white; /* Colore di sfondo del bottone */
@@ -107,6 +109,13 @@ div{
 
 }
 
+
+
+.body{
+    display: flex;
+    margin: 0;
+    justify-content: center;
+}
 
 
 

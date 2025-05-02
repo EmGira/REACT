@@ -1,0 +1,22 @@
+.body_login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.card_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: clamp(300px, 40vw, 500px); /* da 300px minimo a 500px massimo, 40vw preferita */
+    padding: 30px;
+    margin: auto;
+    border-radius: 3vh;
+    box-shadow: 0 0 2vh rgba(47, 72, 88, 0.3);
+    background-color: rgb(255, 255, 255);
+}
+

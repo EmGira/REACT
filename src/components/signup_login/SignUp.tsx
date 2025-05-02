@@ -2,8 +2,9 @@
 import { useState } from "react";
 import FirebaseService from "../../services/FirebaseService"
 import './SignUp.css'
-import { Input } from '../ui/input';
+/*import { Input } from '../ui/input';*/
 import { Button } from '../ui/button';
+import "./login.css"
 
   
 
@@ -44,15 +45,22 @@ function SignUp(){
 
     //RENDER
     return(
-        <div className = "SignUpCard">
-
+        <div className="body_login">
+        <div className = "card_container">
+            
             <h1 className="SignUp">SIGN UP</h1>
         
-            <Input type = "email" name = "email" placeholder="email" onChange = {handleChange} value={data.email}  />
-
             <div className="Anagrafica">
 
-                <Input 
+                <input 
+                    type = "email" 
+                    name = "email" 
+                    placeholder="email" 
+                    onChange = {handleChange} 
+                    value={data.email}  
+                />
+
+                <input 
                     type = "text" 
                     name = "nome" 
                     placeholder="Nome" 
@@ -60,7 +68,7 @@ function SignUp(){
                     value={data.nome} 
                 /> 
 
-                <Input 
+                <input 
                     type = "text" 
                     name = "cognome" 
                     placeholder="Cognome" 
@@ -78,9 +86,7 @@ function SignUp(){
                     <option value="female">Female</option>
                 </select> 
       
-
-
-                <Input 
+                <input 
                     className="birthdate"
                     type = "date" 
                     name = "birthDate" 
@@ -89,7 +95,7 @@ function SignUp(){
                     value={data.birthDate}
                 /> 
 
-                <Input 
+                <input 
                     type = "text" 
                     name = "comune" 
                     placeholder="Comune" 
@@ -97,7 +103,7 @@ function SignUp(){
                     value={data.comune}
                 /> 
 
-                <Input 
+                <input 
                     type = "text" 
                     name = "codiceFiscale" 
                     placeholder="Codice fiscale"
@@ -105,12 +111,19 @@ function SignUp(){
                     value={data.codiceFiscale}
                 /> 
 
+                <input 
+                    type = "password" 
+                    name = "password" 
+                    placeholder="password" 
+                    onChange = {handleChange} 
+                    value={data.password}
+                /> 
+
+
             </div>  
 
-            <Input type = "password" name = "password" placeholder="password" onChange = {handleChange} value={data.password}/> 
-
             <Button onClick = {handleSignup}>Submit</Button>
-
+        </div>
         </div>
     )
     

@@ -1,13 +1,21 @@
+.body_login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
 .SignInCard {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 350px;
+    width: clamp(300px, 40vw, 500px); /* da 300px minimo a 500px massimo, 40vw preferita */
     padding: 30px;
     margin: auto;
-    margin-top: 30vh;
     border-radius: 3vh;
     box-shadow: 0 0 2vh rgba(47, 72, 88, 0.3);
     background-color: rgb(255, 255, 255);
@@ -29,9 +37,6 @@
     border-radius: 1vh;
     border-width: 2vh;
     border: 0.2vh solid black;
-
-
-    
 }
 
 .SignInCard button:hover{
@@ -41,21 +46,51 @@
     
 }
 .inputs{
+    width: 70%;
     display: flex;
     flex-direction: column;
+    margin-top: 3vh;
     gap: 2vh;
     color: rgb(60, 60, 60);
-    
-
-
 }
 
+.inputs input{
+    border-radius: 0px;
+    width: 100%;
+}
 
-.Login{
-    margin-bottom: 5vh;
+.h1_login{
+    margin-top: 5vh;
+    margin-bottom: 3vh;
     font-family: 'Montserrat', sans-serif; 
     font-weight: 700; 
     line-height: 1; 
     color: black;
     font-size: 2.4vh;
 }
+
+.logoLogin{
+    width: 100px;
+    max-width: 50%;
+}
+
+.button_input{
+    margin-top: 4vh;
+}
+
+.p_login{
+    margin-top: 3vh;
+    font-family: 'Montserrat', sans-serif;  /* Usa Montserrat per il titolo */
+    font-weight: 400; /* Peso bold per un impatto maggiore */
+    font-size: 17px;
+}
+
+.a_login{
+    font-weight: 500; /* Peso bold per un impatto maggiore */
+}
+
+
+
+
+
+

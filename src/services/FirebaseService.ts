@@ -48,7 +48,7 @@ export const FirebaseService = {
       codiceFiscale: otherData.codiceFiscale,
       paziente: otherData.paziente,
       email: user.email,
-    
+  
       createdAt: new Date()
     });
 
@@ -89,14 +89,13 @@ export const FirebaseService = {
   getFarmaci: async () => {
     const querySnapshot = await getDocs(collection(db, 'farmaci'));
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+  },
+
+  getPiani: async () => {
+    const querySnapshot = await getDocs(collection(db, "piani"));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) 
   }
-
   
-
-  
-
-
-
 };
 
 

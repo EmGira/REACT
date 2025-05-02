@@ -62,7 +62,7 @@ function Home(){
     }
 
     return (
-        <>
+        <div className='body'>
             <div className='container' style={{paddingTop:'4vh'}}>
                 <div className='pulsanti'>
                     {isAdmin && (<button onClick={() => selectButton(1)} className={selectedButton==1?'selezionato':'non-selezionato'}><p className='testo-button'>Pazienti</p></button>)}
@@ -93,7 +93,7 @@ function Home(){
                 )}
                 
             </div>
-        </>
+        </div>
     )
 }
 
