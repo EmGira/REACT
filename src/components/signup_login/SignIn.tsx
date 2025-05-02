@@ -3,8 +3,9 @@ import { useState } from "react";
 import FirebaseService from "../../services/FirebaseService"
 import { useNavigate } from "react-router-dom";
 import {useAuth} from '../contexts/AuthContext'
+import './login.css'
 import './SignIn.css'
-import { Input } from '../ui/input';
+/*import { Input } from '../ui/input';*/
 import { Button } from '../ui/button';
 import { Scale } from "lucide-react";
 
@@ -76,13 +77,13 @@ function SignIn(){
     //RENDER
     return(
         <div className="body_login">
-        <div className = "card_container">
+        <div className = "card_container_in">
             <img src="/src/assets/logo_pharmaCare.svg" alt="logoLogin" className='logoLogin'/>
-            <p className="testo">Sign into your account</p>
-            {/*<h1 className="h1_login">SIGN IN</h1>*/}
+            <b><h1 className="testo">Accedi!</h1></b>
+            
             <div className="inputs">
-                <Input type = "email" placeholder="email" onChange = {(e) => setEmail(e.target.value)} />
-                <Input type = "password" placeholder="password" onChange = {(e) => setPassword(e.target.value)}/> 
+                <input type = "email" placeholder="Email" onChange = {(e) => setEmail(e.target.value)} />
+                <input type = "password" placeholder="Password" onChange = {(e) => setPassword(e.target.value)}/> 
             </div>
 
             <Button className="button_input" onClick = {handleSubmit}>Sign In</Button>

@@ -70,7 +70,7 @@ function Home(){
                 
                 {(selectedButton == 1) &&(
                     <div className='griglia'>
-                    <div onClick={() => { navigate('/crea-paziente'); }}><CardAggiungi/></div>
+                    <div className='add_box' onClick={() => { navigate('/crea-paziente'); }}><CardAggiungi/></div>
                     {pazienti.map((paziente)=>(
                         <div className='centro' key={paziente.id}>
                             <CardPaziente paziente={paziente}/>
@@ -81,7 +81,7 @@ function Home(){
 
                 {selectedButton == 2 &&(
                     <div className='griglia'>
-                    <div onClick={() => { navigate('/crea-farmaco'); }}><CardAggiungi/></div>
+                    <div className='add_box' onClick={() => { navigate('/crea-farmaco'); }}><CardAggiungi/></div>
                     {farmaci.map((farmaco)=>(
                         <div className='centro' key={farmaco.id}>
                             <CardFarmaco farmaco={farmaco}/>

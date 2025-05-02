@@ -12,6 +12,22 @@
     background-color: rgb(255, 255, 255);
 }
 
+.card_container_Up {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    margin: auto;
+    border-radius: 3vh;
+    box-shadow: 0 0 2vh rgba(47, 72, 88, 0.3);
+    background-color: rgb(255, 255, 255);
+
+    width: clamp(500px, 60vw, 700px);    /* da 300px minimo a 500px massimo, 40vw preferita */
+}
+
+
 .buttons{
     margin: 2vh;
     display: flex;
@@ -56,20 +72,38 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    margin-top: 2vh;
+    width: 85%;
 }
 
 .Anagrafica input{
     width: 100%;
-    height: 3vh;
+    height: 5vh;
     border: 1px solid gray;
+    padding: 2%;
+    font-size: 20x;
 }
 
 .Anagrafica select{
     width: 100%;
     height: 3vh;
     border: 1px solid gray;
+    height: 5vh;
+    font-size: 17px;
+    color: gray
+}
+
+.Anagrafica select option{
+    font-size: 17px;
 }
 
 .birthdate {
     color: gray; /* gray-500 */
-  }
+}
+
+.p_signUp{
+    margin-top: 1vh;
+}
+
+
+
