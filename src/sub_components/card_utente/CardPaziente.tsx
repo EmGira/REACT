@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import './CardPaziente.css'
+import './CardPaziente.css';
+import { slugifyService } from '@/services/SlugifyService';
 
 function CardPaziente({paziente}){
 
     const navigate = useNavigate();
 
     function naviga() {
-        navigate(`/user/${paziente.id}`);
+        navigate(`/user/profilo/${slugifyService.slugify(paziente.id,paziente.nome,paziente.cognome)}`);
     };
 
     return (

@@ -5,13 +5,10 @@ import Home from './components/home/Home';
 import SignIn from './components/signup_login/SignIn';
 import SignUp from './components/signup_login/SignUp';
 import CalendarComponent from './components/calendario/Calendario';
-import ProtectedRoute from './components/signup_login/ProtectedRoute';
+import {ProtectedRoutePatients, ProtectedRoute} from './components/contexts/ProtectedRoute';
 import {useAuth} from './components/contexts/AuthContext'
 import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import User from './components/user/User';
-import Profilo from './components/user/profilo/Profilo';
-import Registro from './components/user/registro/Registro';
-import Piano from './components/user/piano/Piano';
 
 /* ICON */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -20,7 +17,8 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 
 
 
-function Impaginazione({ children } ){
+
+function Impaginazione({ children }: any){
     return (
         <>  
             <Header></Header>
@@ -34,6 +32,8 @@ function App(){
 
     const {
         isLoggedIn,
+        isPatient,
+        isMedic
         } = useAuth();          //tira fuori i valori Context del utente con useContext e li assegna alla struttura
         
     return(
@@ -41,24 +41,28 @@ function App(){
             <Router>
                 <Routes>
                    
-                    <Route path = "/" element = {<SignIn/>}/>  
-                    
+                    <Route path = "/" element = {<SignIn/>}/> 
+
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
-                    <Route path = "/calendar" element = {<CalendarComponent/>}/> 
-
-                    //route protette
-                    <Route element={<ProtectedRoute isAuthenticated = {isLoggedIn} />}>
-                        <Route path = "/home" element = {<Impaginazione><Home/></Impaginazione>} />
-
+                    //route protette condivise
+                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} />}>
+                        <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />
                     </Route>
+                    
+                    //route protette per i Pazienti
+                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='patient' />}>
+                        <Route path="/user/:view/:slug" element={<Impaginazione><User /></Impaginazione>}/>
+                    </Route>
+
+                    //route protette per i Medici
+                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='medic' />}>
+                        <Route path="/calendar" element={<Impaginazione><CalendarComponent /></Impaginazione>} />
+                    </Route>
+                    
 
                     <Route path = "*" element={<Navigate to="/" replace />}/>   
-                    <Route path="/user" element={<Impaginazione><User /></Impaginazione>}>
-                        <Route path="profilo" element={<Profilo />} />
-                        <Route path="registro" element={<Registro />} />
-                        <Route path="piano" element={<Piano />} />
-                    </Route>
+
                 </Routes>
             </Router>
         </>

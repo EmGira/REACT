@@ -6,7 +6,7 @@ import {
   onAuthStateChanged, 
   User 
 } from "firebase/auth";
-import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc, query, where } from "firebase/firestore";
 
 interface userData {
   email: string;
@@ -14,7 +14,7 @@ interface userData {
   nome: string;
   cognome: string;
   sesso: string;
-  birthDate: String;
+  birthDate: string;
   comune: string;
   codiceFiscale: string;
   paziente: boolean;
@@ -91,11 +91,6 @@ export const FirebaseService = {
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
   },
 
-  getPiani: async () => {
-    const querySnapshot = await getDocs(collection(db, "piani"));
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) 
-  }
-  
 };
 
 
