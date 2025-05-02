@@ -1,0 +1,95 @@
+.form-container{
+    width: 60%;
+    min-height: 85vh;
+    padding: 5vh 0;
+    height: auto;
+}
+
+.form-card{
+    width: 100%;
+    min-height: 75vh;
+    height: auto;
+}
+
+.form-card h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.8rem; /* Aggiunto margine più stretto tra i gruppi */
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    margin-bottom: 0.3rem; /* Ridotto il margine per ridurre la distanza tra label e input */
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.submit-btn.disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+
+.form-separatore{
+    display: flex;
+    padding: 2vh;
+    gap: 15vh;
+    width: 85%;
+}
+
+.farmaci-aggiunti{
+    min-height: 5.3rem;
+}
+
+.form-dimensione{
+    min-height: 50vh;
+}
