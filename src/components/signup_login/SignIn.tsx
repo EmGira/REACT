@@ -37,7 +37,7 @@ function SignIn(){
             if(userData.paziente == true){
                 //Aggiorno contesto
                 setIsLoggedIn(true);
-                setAuthUser(userData.email)
+                setAuthUser(userData)
                 setIsPatient(true)
                 
                  // Salvo in localStorage
@@ -50,7 +50,7 @@ function SignIn(){
             }
             else if(userData.paziente ==false){
                 setIsLoggedIn(true);
-                setAuthUser(userData.email);
+                setAuthUser(userData);
                 setIsMedic(true);
 
                 localStorage.setItem('authUser', JSON.stringify(userData));

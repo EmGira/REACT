@@ -18,24 +18,11 @@ interface Appointments{
   descrizione: string
 }
 
-interface User{
-  email: string,
-  password: string,
-  nome: string,
-  cognome: string,
-  sesso: string,
-  birthDate: string,
-  comune: string,
-  codiceFiscale: string,
-  paziente: boolean,
-  telefono: number | undefined,
-  nazione: string,
-  provincia: string,
-  indirizzo: string
+interface Users{
 
 }
 
-function Calendario(){
+function CalendarioPazienti(){
 
     //estrai contesto
     const {
@@ -66,9 +53,12 @@ function Calendario(){
 
     const [appointment, setAppointment] = useState<Appointments>(emptyAppointment)
     const [appointments, setAppointments] = useState<any[] | null>(null);
-
-    const [users, setUsers] = useState<User[] | null>(null)
+    
+    
     const [userId, setUserId] = useState<string| null>(null);
+    const [users, setUsers] = useState<Users>({
+      
+    });
 
     //EFFECTS
 
@@ -94,6 +84,8 @@ function Calendario(){
       }
       fetchUserDocId();
 
+
+
     }, [authUser])
 
     //aggiorna la lista degli appuntamenti presenti nel Db - ogni volta che cambia userId
@@ -110,12 +102,6 @@ function Calendario(){
         };
     
         fetch();
-
-        const fetchUsers = async () => {
-          const allUsers = await FirebaseService.getAllUsers();
-          const soloPazienti = allUsers.filter(user => user.paziente === true);
-          setUsers(soloPazienti);
-        }
 
      
     }, [userId])
@@ -233,6 +219,7 @@ function Calendario(){
                       <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {appointment.orario}/>
                       <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {appointment.paziente}/>
                       <Input name = "mailPaziente" type="string" placeholder="e-mail" onChange={handleChange} value = {appointment.mailPaziente}/>
+
                       <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {appointment.descrizione} />
 
                     </div>
@@ -251,7 +238,7 @@ function Calendario(){
 }
 
 
-export default Calendario
+export default CalendarioPazienti
 
 //https://www.npmjs.com/package/react-calendar
 
@@ -262,3 +249,8 @@ export default Calendario
 
 
 //!contenuto tile non cambia quando fai remove
+
+
+//il paziente
+
+//vede i suoi appuntamenti
