@@ -198,7 +198,6 @@ export const FirebaseService = {
     }
   },
   
-};
   addFarmaco: async (farmaco: any) => {
     try {
       // Aggiungi il documento nella collezione "farmaci"
@@ -279,7 +278,7 @@ export const FirebaseService = {
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
   }
 
-
+};
 
 
 export default FirebaseService;
