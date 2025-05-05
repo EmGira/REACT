@@ -2,15 +2,33 @@
 import { useState } from "react";
 import FirebaseService from "../../services/FirebaseService"
 /*import { Input } from '../ui/input';*/
+import { useNavigate } from "react-router-dom";
 import { Button } from '../ui/button';
 import "./login.css"
 import './SignUp.css'
 
+interface User{
+    email: string,
+    password: string,
+    nome: string,
+    cognome: string,
+    sesso: string,
+    birthDate: string,
+    comune: string,
+    codiceFiscale: string,
+    paziente: boolean,
+    telefono: number | undefined,
+    nazione: string,
+    provincia: string,
+    indirizzo: string
 
+}
 
 function SignUp() {
 
-    const [data, setData] = useState({
+    const navigate = useNavigate();
+  
+    const [data, setData] = useState<User>({
         email: '',
         password: '',
         nome: '',
@@ -19,20 +37,43 @@ function SignUp() {
         birthDate: '',
         comune: '',
         codiceFiscale: '',
-        paziente: true
+        paziente: true,
+        telefono: undefined,
+        nazione: '',
+        provincia: '',
+        indirizzo: ''
     })
 
     const handleSignup = () => {
+
+        for (const [key, value] of Object.entries(data)) {
+            if (value === '' || value === null || value === undefined) {
+                alert(`Il campo "${key}" è obbligatorio.`);
+                return;
+            }
+        }
+
+        if (data.telefono && data.telefono <= 0) {
+            alert('Inserisci un numero di telefono valido.');
+            return;
+        }
+
         FirebaseService.signUp(data);
+        
         console.log("Form data:", data);  // Add a log here for debugging
+        navigate('/')
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        
+        
         setData({
             ...data,
             [e.target.name]: e.target.value
         })
 
+        
+        
     }
 
 
@@ -77,7 +118,7 @@ function SignUp() {
                         type="date"
                         name="birthDate"
                         onChange={handleChange}
-                        value={data.birthDate}
+                        value={data.birthDate.toString()}
                     />
                     </div>
 
@@ -112,6 +153,9 @@ function SignUp() {
                         id="tel"
                         type="tel"
                         name="telefono"
+                        onChange={handleChange}
+                        defaultValue={undefined}
+                        value={data.telefono}
                     /*onChange = 
                     value=*/
                     />
@@ -148,7 +192,9 @@ function SignUp() {
                     <input
                         id="nazione"
                         type="text"
-                        name="Nazione"
+                        name="nazione"
+                        onChange={handleChange}
+                        value={data.nazione}
                     /*onChange = 
                     value=*/
                     />
@@ -160,6 +206,8 @@ function SignUp() {
                         id="provincia"
                         type="text"
                         name="provincia"
+                        onChange={handleChange}
+                        value={data.provincia}
                     /*onChange = 
                     value=*/
                     />
@@ -182,6 +230,8 @@ function SignUp() {
                         id="indirizzo"
                         type="text"
                         name="indirizzo"
+                        onChange={handleChange}
+                        value={data.indirizzo}
                     /*onChange = 
                     value=*/
                     />

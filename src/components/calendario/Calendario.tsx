@@ -18,6 +18,23 @@ interface Appointments{
   descrizione: string
 }
 
+interface User{
+  email: string,
+  password: string,
+  nome: string,
+  cognome: string,
+  sesso: string,
+  birthDate: string,
+  comune: string,
+  codiceFiscale: string,
+  paziente: boolean,
+  telefono: number | undefined,
+  nazione: string,
+  provincia: string,
+  indirizzo: string
+
+}
+
 function Calendario(){
 
     //estrai contesto
@@ -50,7 +67,7 @@ function Calendario(){
     const [appointment, setAppointment] = useState<Appointments>(emptyAppointment)
     const [appointments, setAppointments] = useState<any[] | null>(null);
 
-    
+    const [users, setUsers] = useState<User[] | null>(null)
     const [userId, setUserId] = useState<string| null>(null);
 
     //EFFECTS
@@ -93,6 +110,12 @@ function Calendario(){
         };
     
         fetch();
+
+        const fetchUsers = async () => {
+          const allUsers = await FirebaseService.getAllUsers();
+          const soloPazienti = allUsers.filter(user => user.paziente === true);
+          setUsers(soloPazienti);
+        }
 
      
     }, [userId])

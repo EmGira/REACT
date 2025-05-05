@@ -18,6 +18,10 @@ interface Appointments{
   descrizione: string
 }
 
+interface Users{
+
+}
+
 function CalendarioPazienti(){
 
     //estrai contesto
@@ -49,9 +53,12 @@ function CalendarioPazienti(){
 
     const [appointment, setAppointment] = useState<Appointments>(emptyAppointment)
     const [appointments, setAppointments] = useState<any[] | null>(null);
-
+    
     
     const [userId, setUserId] = useState<string| null>(null);
+    const [users, setUsers] = useState<Users>({
+      
+    });
 
     //EFFECTS
 
@@ -76,6 +83,8 @@ function CalendarioPazienti(){
         }
       }
       fetchUserDocId();
+
+
 
     }, [authUser])
 
@@ -210,6 +219,7 @@ function CalendarioPazienti(){
                       <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {appointment.orario}/>
                       <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {appointment.paziente}/>
                       <Input name = "mailPaziente" type="string" placeholder="e-mail" onChange={handleChange} value = {appointment.mailPaziente}/>
+
                       <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {appointment.descrizione} />
 
                     </div>
