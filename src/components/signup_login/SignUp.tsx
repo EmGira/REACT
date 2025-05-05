@@ -29,8 +29,6 @@ function SignUp() {
     const navigate = useNavigate();
   
     const [data, setData] = useState<User>({
-        email: '',
-        password: '',
         nome: '',
         cognome: '',
         birthDate: '',
@@ -133,8 +131,8 @@ function SignUp() {
                         value={data.sesso}
                     >
                         <option value="" disabled>Scegli un opzione</option>
-                        <option value="male">Maschio</option>
-                        <option value="female">Femmina</option>
+                        <option value="male">m</option>
+                        <option value="female">f</option>
                     </select>
                     </div>
 
@@ -158,8 +156,6 @@ function SignUp() {
                         onChange={handleChange}
                         defaultValue={undefined}
                         value={data.telefono}
-                    /*onChange = 
-                    value=*/
                     />
                     </div>
 
@@ -190,28 +186,13 @@ function SignUp() {
 
                 <div className="Anagrafica">
                     <div>
-                    <label htmlFor="nazione">Nazione</label>
-                    <input
-                        id="nazione"
-                        type="text"
-                        name="nazione"
-                        onChange={handleChange}
-                        value={data.nazione}
-                    /*onChange = 
-                    value=*/
-                    />
-                    </div>
-
-                    <div>
                     <label htmlFor="indirizzo">Indirizzo</label>
                     <input
                         id="indirizzo"
                         type="text"
-                        name="provincia"
+                        name="indirizzo"
                         onChange={handleChange}
-                        value={data.provincia}
-                    /*onChange = 
-                    value=*/
+                        value={data.indirizzo}
                     />
                     </div>
 
@@ -233,8 +214,8 @@ function SignUp() {
                         id="provincia"
                         type="text"
                         name="provincia"
-                    /*onChange = 
-                    value=*/
+                        onChange={handleChange}
+                        value={data.provincia}
                     />
                     </div>
 
@@ -243,11 +224,9 @@ function SignUp() {
                     <input
                         id="nazione"
                         type="text"
-                        name="indirizzo"
+                        name="nazione"
                         onChange={handleChange}
                         value={data.indirizzo}
-                    /*onChange = 
-                    value=*/
                     />
                     </div>
 
