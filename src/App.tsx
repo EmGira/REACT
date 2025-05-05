@@ -4,8 +4,8 @@ import Header from './components/header/Header';
 import Home from './components/home/Home';
 import SignIn from './components/signup_login/SignIn';
 import SignUp from './components/signup_login/SignUp';
-import CalendarComponent from './components/calendario/Calendario';
-import {ProtectedRoutePatients, ProtectedRoute} from './components/contexts/ProtectedRoute';
+import Calendario from './components/calendario/Calendario';
+import {ProtectedRoute} from './components/contexts/ProtectedRoute';
 import {useAuth} from './components/contexts/AuthContext'
 import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import User from './components/user/User';
@@ -50,7 +50,7 @@ function App(){
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
                     //route protette condivise
-                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} />}>
+                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='all'/>}>
                         <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />
                     </Route>
                     
@@ -61,8 +61,7 @@ function App(){
 
                     //route protette per i Medici
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='medic' />}>
-                        <Route path="/calendar" element={<Impaginazione><CalendarComponent /></Impaginazione>} />
-                        
+                        <Route path="/calendar" element={<Impaginazione><Calendario /></Impaginazione>} />
                     </Route>
 
                     <Route path="/crea-paziente" element={<Impaginazione><CreaPazienti></CreaPazienti></Impaginazione>} />

@@ -18,7 +18,7 @@ interface Appointments{
   descrizione: string
 }
 
-function Calendario(){
+function CalendarioPazienti(){
 
     //estrai contesto
     const {
@@ -228,7 +228,7 @@ function Calendario(){
 }
 
 
-export default Calendario
+export default CalendarioPazienti
 
 //https://www.npmjs.com/package/react-calendar
 
@@ -239,3 +239,8 @@ export default Calendario
 
 
 //!contenuto tile non cambia quando fai remove
+
+
+//il paziente
+
+//vede i suoi appuntamenti

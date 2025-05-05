@@ -7,7 +7,7 @@ import {
   onAuthStateChanged, 
   User 
 } from "firebase/auth";
-import { collection, getDocs, doc, setDoc, getDoc, query, where, addDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc, query, where, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 
 interface userData {
   email: string;
@@ -108,6 +108,97 @@ export const FirebaseService = {
     }
   },
 
+  getMedicAppointments: async (MedicDocumentId: string) => {
+    const medicAppRef = collection(db, "users", MedicDocumentId, "appuntamenti");
+    const q = query(medicAppRef);
+
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      console.log("No appointments found, for this Id: ", MedicDocumentId);
+      return null;
+    }
+
+    const appointments = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+
+    return appointments
+  },
+
+  deleteData: async (collectionName: string, docId: string): Promise<void> => {
+    const docRef = doc(db, collectionName, docId);
+    await deleteDoc(docRef);
+  },
+
+
+  DeleteApptByFieldId: async (MedicDocumentId: string, wantedId: number) => {
+
+    const q = query(collection(db, "users", MedicDocumentId, "appuntamenti"), where("id", "==", wantedId))
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      console.log("Nessun documento trovato con id:", wantedId);
+      return;
+    }
+
+    for (const docSnap of snapshot.docs) {
+      await deleteDoc(docSnap.ref);
+    }
+  },
+
+  updateApptByFieldId: async (
+    medicDocumentId: string,
+    wantedId: number,
+    updatedApp: Record<string, any>
+  ): Promise<void> => {
+    // Riferimento alla sottocollezione "appuntamenti"
+    const appointmentsRef = collection(db, "users", medicDocumentId, "appuntamenti");
+  
+    // Query per trovare il documento con campo `id` uguale a `wantedId`
+    const q = query(appointmentsRef, where("id", "==", wantedId));
+    const querySnapshot = await getDocs(q);
+  
+    if (querySnapshot.empty) {
+      console.warn(`Nessun documento trovato con id = ${wantedId}`);
+      return;
+    }
+  
+    // Prendiamo il primo documento corrispondente
+    const docSnapshot = querySnapshot.docs[0];
+    const docRef = doc(db, "users", medicDocumentId, "appuntamenti", docSnapshot.id);
+  
+    // Aggiorna solo i campi passati in `updatedApp` (non sostituisce il documento intero)
+    await updateDoc(docRef, updatedApp);
+  },
+
+  findPatientByEmail: async (email: string) => {
+
+    try {
+      const usersRef = collection(db, "users");
+      const q = query(
+        usersRef,
+        where("email", "==", email),
+        where("paziente", "==", true)  // cerchiamo solo i medici
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        console.log("No Patient found with the given email.");
+        return null;
+      }
+
+      const medicDoc = querySnapshot.docs[0];
+      return { id: medicDoc.id, ...medicDoc.data() };
+    } catch (error) {
+      console.error("Error fetching patient by email:", error);
+      throw error;
+    }
+  },
+  
+};
   addFarmaco: async (farmaco: any) => {
     try {
       // Aggiungi il documento nella collezione "farmaci"
@@ -188,7 +279,7 @@ export const FirebaseService = {
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
   }
 
-};
+
 
 
 export default FirebaseService;

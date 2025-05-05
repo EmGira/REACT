@@ -3,6 +3,16 @@
     background-color: red;
 }
 
+.calendar{
+  left: 0vh;
+
+  height: 50%;
+}
+
+.all{
+
+}
+
 .react-calendar{
     background-color: rgb(255, 255, 255);
 }
@@ -21,7 +31,7 @@
     background-color: rgb(243, 113, 113);
   }
 
-  .modal-overlay {
+  .modulo-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -34,7 +44,7 @@
     z-index: 1000;
   }
   
-  .modal-content {
+  .modulo-content {
     background-color: white;
    
     padding: 2rem;
@@ -46,4 +56,14 @@
 
   .buttons{
     color: black;
+  }
+
+  .appList{
+    position: fixed;
+    top: 20%;
+    left: 70vh;
+
+    display: flex;
+    width: 400px;
+    margin: 10vh;
   }
