@@ -35,7 +35,9 @@ return(
                 <button onClick={handleModifica} className="button_modifica">Modifica</button>
             )}
            {user != null && <div className="profilo_user">
-                {Object.entries(user).map(([key, value]) => (
+                {Object.entries(user)
+                .filter(([key]) => key !== 'id') 
+                .map(([key, value]) => (
                 <div key={key} className="input-box">
                     <label className="label_anagrafica">{key}</label>
                     <input type="text" value={String(value)} readOnly className="input_anagrafica"/>

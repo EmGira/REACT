@@ -11,14 +11,18 @@ import './SignUp.css'
 function SignUp() {
 
     const [data, setData] = useState({
-        email: '',
-        password: '',
         nome: '',
         cognome: '',
-        sesso: '',
         birthDate: '',
-        comune: '',
+        sesso: '',
         codiceFiscale: '',
+        telefono: undefined,
+        email: '',
+        password: '',
+        indirizzo:'',
+        comune:'',
+        provincia: '',
+        nazione: '',
         paziente: true
     })
 
@@ -143,23 +147,13 @@ function SignUp() {
                 <p className="p_signUp">Dati di residenza</p>
 
                 <div className="Anagrafica">
+                    
                     <div>
-                    <label htmlFor="nazione">Nazione</label>
+                    <label htmlFor="indirizzo">Indirizzo</label>
                     <input
-                        id="nazione"
+                        id="indirizzo"
                         type="text"
-                        name="Nazione"
-                    /*onChange = 
-                    value=*/
-                    />
-                    </div>
-
-                    <div>
-                    <label htmlFor="provincia">Provincia</label>
-                    <input
-                        id="provincia"
-                        type="text"
-                        name="provincia"
+                        name="indirizzo"
                     /*onChange = 
                     value=*/
                     />
@@ -176,16 +170,29 @@ function SignUp() {
                     />
                     </div>
 
+
                     <div>
-                    <label htmlFor="indirizzo">Indirizzo</label>
+                    <label htmlFor="provincia">Provincia</label>
                     <input
-                        id="indirizzo"
+                        id="provincia"
                         type="text"
-                        name="indirizzo"
+                        name="provincia"
                     /*onChange = 
                     value=*/
                     />
                     </div>
+
+                    <div>
+                    <label htmlFor="nazione">Nazione</label>
+                    <input
+                        id="nazione"
+                        type="text"
+                        name="nazione"
+                    /*onChange = 
+                    value=*/
+                    />
+                    </div>
+
 
                 </div>
 

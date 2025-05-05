@@ -1,5 +1,8 @@
 
 import { auth, db } from "../configurations/FirebaseConfig.ts";
+import {Utente} from "../models/utente.model.ts"
+
+
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
@@ -9,17 +12,7 @@ import {
 } from "firebase/auth";
 import { collection, getDocs, doc, setDoc, getDoc, query, where, addDoc } from "firebase/firestore";
 
-interface userData {
-  email: string;
-  password: string;
-  nome: string;
-  cognome: string;
-  sesso: string;
-  birthDate: string;
-  comune: string;
-  codiceFiscale: string;
-  paziente: boolean;
-}
+
 // 🔥 Oggetto per gestire Firebase in modo centralizzato
 export const FirebaseService = {
   
@@ -33,7 +26,7 @@ export const FirebaseService = {
   },
 
   // 🔹 Registra un nuovo utente e salva nel database
-  signUp: async (userData: userData) => {
+  signUp: async (userData: Omit<Utente, "id" | "createdAt"> & { password: string }) => {
     const {email, password, ...otherData} = userData;
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -156,12 +149,17 @@ export const FirebaseService = {
       await setDoc(doc(db, "users", user.uid), {
         nome: paziente.nome,
         cognome: paziente.cognome,
-        email: user.email,
-        sesso: paziente.sesso,
-        comune: paziente.comune,
-        codiceFiscale: paziente.codiceFiscale,
         birthDate: paziente.birthDate,
+        sesso: paziente.sesso,
+        codiceFiscale: paziente.codiceFiscale,
+        telefono: paziente.telefono,
+        email: user.email,
+        indirizzo: paziente.indirizzo,
+        comune: paziente.comune,
+        provincia: paziente.provincia,
+        nazione: paziente.nazione,
         paziente: true,
+        createdAt: new Date(),
       });
   
       console.log("Utente creato con ID:", user.uid, "e password:", password);
