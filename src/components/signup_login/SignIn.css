@@ -1,4 +1,4 @@
-.body_login{
+.body_signIn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,7 +50,6 @@
     display: flex;
     flex-direction: column;
     margin-top: 3vh;
-    gap: 2vh;
     color: rgb(60, 60, 60);
 }
 
@@ -60,6 +59,11 @@
     border: 1px solid gray;
     padding: 2%;
     font-size: 20x;
+    margin-bottom: 2vh;
+}
+
+.inputs label{
+    text-align: left;
 }
 
 .p_login{

@@ -76,14 +76,16 @@ function SignIn(){
 
     //RENDER
     return(
-        <div className="body_login">
+        <div className="body_signIn">
         <div className = "card_container_in">
             <img src="/src/assets/logo_pharmaCare.svg" alt="logoLogin" className='logoLogin'/>
             <b><h1 className="testo">Accedi!</h1></b>
             
             <div className="inputs">
-                <input type = "email" placeholder="Email" onChange = {(e) => setEmail(e.target.value)} />
-                <input type = "password" placeholder="Password" onChange = {(e) => setPassword(e.target.value)}/> 
+                <label htmlFor="email">Email</label>
+                <input id= "email" type = "email" onChange = {(e) => setEmail(e.target.value)} />
+                <label htmlFor="password">Password</label>
+                <input id="password" type = "password" onChange = {(e) => setPassword(e.target.value)}/> 
             </div>
 
             <Button className="button_input" onClick = {handleSubmit}>Sign In</Button>

@@ -1,3 +1,12 @@
+.body_signUp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*height: 100vh;*/
+    margin: 0;
+}
+
+
 .SignUpCard {
     display: flex;
     flex-direction: column;
@@ -23,6 +32,8 @@
     border-radius: 3vh;
     box-shadow: 0 0 2vh rgba(47, 72, 88, 0.3);
     background-color: rgb(255, 255, 255);
+    margin-top: 15vh;
+    margin-bottom: 15vh;
 
     width: clamp(500px, 60vw, 700px);    /* da 300px minimo a 500px massimo, 40vw preferita */
 }
@@ -55,7 +66,7 @@
 .inputs{
     display: flex;
     flex-direction: column;
-    gap: 2vh;
+    /*gap: 2vh;*/
     color: rgb(60, 60, 60);
 }
 
@@ -95,6 +106,15 @@
 
 .Anagrafica select option{
     font-size: 17px;
+}
+
+.Anagrafica div label{
+    text-align: left;
+    font-size: 15px;
+}
+
+.Anagrafica div{
+    text-align: left;
 }
 
 .birthdate {

@@ -3,15 +3,6 @@
     max-width: 50%;
 }
 
-
-.body_login{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
 .button_input{
     margin-top: 4vh;
 }
