@@ -46,7 +46,7 @@ function App(){
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
                     //route protette condivise
-                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} />}>
+                    <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='all'/>}>
                         <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />
                     </Route>
                     
