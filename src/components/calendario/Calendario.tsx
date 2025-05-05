@@ -8,6 +8,7 @@ import './Calendario.css'
 import FirebaseService from '@/services/FirebaseService';
 import {useAuth} from '../contexts/AuthContext'
 import {AppointmentsList, fetchAppointments} from './appointments';
+import { Users } from 'lucide-react';
 
 interface Appointments{
   id: number,
@@ -117,6 +118,8 @@ function Calendario(){
           setUsers(soloPazienti);
         }
 
+        fetchUsers();
+
      
     }, [userId])
     
@@ -132,12 +135,22 @@ function Calendario(){
 
     //aggiorna lappuntamneot corrente quando variano gli input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      setAppointment({
-          ...appointment,
-          [e.target.name]: e.target.value,
-         
-      })
-    }
+      const { name, value } = e.target;
+
+      if (name === "paziente" && users) {
+        const selectedUser = users.find((u) => u.codiceFiscale === value);
+        setAppointment((prev) => ({
+          ...prev,
+          paziente: value,
+          mailPaziente: selectedUser?.email || "", // imposta anche l'email
+        }));
+      } else {
+        setAppointment((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
+    };
 
     //aggiorna la data selezionata
     const handleClick = (date: Date) => {   
@@ -231,7 +244,19 @@ function Calendario(){
                     <div className="inputs">
                       <Input name = "data" type="data" placeholder="Data" defaultValue={activeDate.toDateString()}/>
                       <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {appointment.orario}/>
-                      <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {appointment.paziente}/>
+                      <select
+                        name="paziente"
+                        value={appointment.paziente}
+                        onChange={handleChange}
+                        className="select" // optional: style as needed
+                      >
+                        <option value="">Seleziona un paziente</option>
+                        {users?.map((p) => (
+                          <option key={p.codiceFiscale} value={p.codiceFiscale}>
+                            {p.nome} {p.cognome}
+                          </option>
+                        ))}
+                      </select>
                       <Input name = "mailPaziente" type="string" placeholder="e-mail" onChange={handleChange} value = {appointment.mailPaziente}/>
                       <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {appointment.descrizione} />
 

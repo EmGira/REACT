@@ -18,8 +18,20 @@ interface Appointments{
   descrizione: string
 }
 
-interface Users{
-
+interface User{
+  email: string,
+  password: string,
+  nome: string,
+  cognome: string,
+  sesso: string,
+  birthDate: string,
+  comune: string,
+  codiceFiscale: string,
+  paziente: boolean,
+  telefono: number | undefined,
+  nazione: string,
+  provincia: string,
+  indirizzo: string
 }
 
 function CalendarioPazienti(){
@@ -33,43 +45,26 @@ function CalendarioPazienti(){
     
 
     
-    const emptyAppointment: Appointments = {
-      id: 0,
-      data: "",
-      orario: "",
-      paziente: "",
-      mailPaziente: "",
-      descrizione: "" 
-    };
 
  
     
     //HOOKS
     
     const [activeDate, setActiveDate] = useState<Date | null>(null)
-    const [showForm, setShowForm] = useState<boolean | null>(null)
    
     
 
-    const [appointment, setAppointment] = useState<Appointments>(emptyAppointment)
+   
     const [appointments, setAppointments] = useState<any[] | null>(null);
     
     
     const [userId, setUserId] = useState<string| null>(null);
-    const [users, setUsers] = useState<Users>({
-      
-    });
+    const [users, setUsers] = useState<User | null>(null);
 
     //EFFECTS
 
 
-    //aggiorna la data del appuntamento - ogni volta che premi una casella nuova 
-    useEffect(() => {
-      setAppointment(appointment => ({
-        ...appointment,
-        data: activeDate?.toDateString() || "",
-      }));
-    }, [activeDate]);
+   
 
     //estrae l'id del documento dello User - ogni volta che cambia authUser
     useEffect(() => {
@@ -77,16 +72,15 @@ function CalendarioPazienti(){
 
       const fetchUserDocId = async () => {
         
-        const userData = await FirebaseService.findMedicByEmail(authUser.email)
+        const userData = await FirebaseService.findPatientByEmail(authUser.email)
         if(userData){
          setUserId(userData.id);
         }
       }
       fetchUserDocId();
 
-
-
     }, [authUser])
+
 
     //aggiorna la lista degli appuntamenti presenti nel Db - ogni volta che cambia userId
     useEffect(() => {
@@ -99,6 +93,7 @@ function CalendarioPazienti(){
             
             const userApp = await fetchAppointments(userId);
             setAppointments(userApp); // or do something with it
+
         };
     
         fetch();
@@ -117,56 +112,18 @@ function CalendarioPazienti(){
     //EVENTI
 
     //aggiorna lappuntamneot corrente quando variano gli input
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      setAppointment({
-          ...appointment,
-          [e.target.name]: e.target.value,
-         
-      })
-    }
+ 
 
     //aggiorna la data selezionata
     const handleClick = (date: Date) => {   
         setActiveDate(date);
+
+        console.log(userId, activeDate, appointments)
         return null;
     }
     
     //assegna ID al appuntamento, salva apuntamento su firestore
-    const handleSubmit = async () => {
-
-     
-        if(userId){
-
-          //trovo id massimo
-          const maxId = appointments && appointments.length > 0   //se esiste appointments, e ce almeno un appuntamento
-          ? Math.max(...appointments.map((a) => a.id))     //trova il massimo tra un array di tutti gli id, se non ha id, mette 0
-          : 0;                                                    //se e il primo appuntamenot mette 0
-
-          //creo nuovo appuntamento con l'id trovato, non uso setAppointment perche asincrono
-          const newAppointment = {          
-            ...appointment,
-            id: maxId + 1
-          };
-        
-        await FirebaseService.addData(`users/${userId}/appuntamenti`,newAppointment); // salva dati su firestore
-        //ricerco paziente con newApp.mailPaziente e metto app anche nella sua subcollection
-        
-        const patient = await FirebaseService.findPatientByEmail(newAppointment.mailPaziente)
-        if(patient)
-          await FirebaseService.addData(`users/${patient?.id}/appuntamenti`,newAppointment); // salva dati su firestore
-        else console.log(patient)
-
-        const updatedAppointments = await fetchAppointments(userId);
-        setAppointments(updatedAppointments);
-
-        }else{
-          console.error("medic not found")
-        }
-
-        setAppointment(emptyAppointment)
-        setActiveDate(null);
-        setShowForm(false)
-      };
+   
 
   
 
@@ -197,40 +154,24 @@ function CalendarioPazienti(){
 
                 
 
-                {activeDate && !showForm && userId && (             //se premi una tile (activeDate) mostra lista appuntamenti
-                    <div className = "appList">
-                      <div>
-                        <Button onClick={() => setShowForm(true)}>crea nuovo appuntamento</Button>
-                        <AppointmentsList medicDocumentId= {userId} activeDate = {activeDate.toDateString()}></AppointmentsList>
-                        <Button onClick={() => setActiveDate(null)}>esci</Button>
-                      </div>
+                {activeDate && userId && appointments &&(             //se premi una tile (activeDate) mostra lista appuntamenti
+                    <div>
+                          <ul className="listaAppuntamenti">
+                              {appointments
+                              .filter((apt) => apt.data === activeDate.toDateString())
+                              .map((apt) => (
+                                  <li key = {apt.mailPaziente}>
+                                      {apt.id} - {apt.data} - {apt.orario} - {apt.paziente} - {apt.mailPaziente} - {apt.descrizione}
+                                     
+                                  </li>
+                                
+                              ))} 
+                          </ul>
 
                     </div>
                 )}
 
-                {showForm && activeDate && (                    //se activeDate e' truthy (non null o undefined) e showform e true allora renderizza (inserzione appuntamento)
-                 <div className="modulo-overlay">
-                  <div className="modulo-content">
-                    
-                    <h1 className="title">Crea Appuntamento</h1>
-
-                    <div className="inputs">
-                      <Input name = "data" type="data" placeholder="Data" defaultValue={activeDate.toDateString()}/>
-                      <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {appointment.orario}/>
-                      <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {appointment.paziente}/>
-                      <Input name = "mailPaziente" type="string" placeholder="e-mail" onChange={handleChange} value = {appointment.mailPaziente}/>
-
-                      <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {appointment.descrizione} />
-
-                    </div>
-
-                    <div className="buttons">
-                      <Button onClick={handleSubmit}>Submit</Button>
-                      <Button onClick={() => {setActiveDate(null); setAppointment(emptyAppointment); setShowForm(false)}}>Annulla</Button>
-                     </div>
-                 </div>
-               </div>
-                )}
+  
 
         </div>
         </>

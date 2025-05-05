@@ -16,10 +16,8 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import CreaFarmaci from './components/crea-farmaci/CreaFarmaci';
 import CreaPazienti from './components/crea-pazienti/CreaPazienti';
 import CreaPiani from './components/crea-piani/CreaPiani';
+import CalendarioPazienti from './components/calendario/CalendarioPazienti';
  './components/crea-pazienti/CreaPazienti.tsx';
-
-
-
 
 
 function Impaginazione({ children }: any){
@@ -49,6 +47,8 @@ function App(){
 
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
+
+                    <Route path = "/calendarPazienti" element = {<CalendarioPazienti/>}/>
                     //route protette condivise
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='all'/>}>
                         <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />

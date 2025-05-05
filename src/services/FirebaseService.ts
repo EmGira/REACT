@@ -9,17 +9,23 @@ import {
 } from "firebase/auth";
 import { collection, getDocs, doc, setDoc, getDoc, query, where, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 
-interface userData {
-  email: string;
-  password: string;
-  nome: string;
-  cognome: string;
-  sesso: string;
-  birthDate: string;
-  comune: string;
-  codiceFiscale: string;
-  paziente: boolean;
+
+interface userData{
+  email: string,
+  password: string,
+  nome: string,
+  cognome: string,
+  sesso: string,
+  birthDate: string,
+  comune: string,
+  codiceFiscale: string,
+  paziente: boolean,
+  telefono: number | undefined,
+  nazione: string,
+  provincia: string,
+  indirizzo: string
 }
+
 // 🔥 Oggetto per gestire Firebase in modo centralizzato
 export const FirebaseService = {
   
@@ -107,6 +113,7 @@ export const FirebaseService = {
       throw error;
     }
   },
+  
 
   getMedicAppointments: async (MedicDocumentId: string) => {
     const medicAppRef = collection(db, "users", MedicDocumentId, "appuntamenti");
@@ -263,9 +270,9 @@ export const FirebaseService = {
     }
   },
 
-  getAllUsers: async () => {
+  getAllUsers: async (): Promise<(userData & { id: string })[]> => {
     const querySnapshot = await getDocs(collection(db, "users"));
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as userData) }));
   },
 
   getFarmaci: async () => {
