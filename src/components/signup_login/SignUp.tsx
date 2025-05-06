@@ -226,7 +226,7 @@ function SignUp() {
                         type="text"
                         name="nazione"
                         onChange={handleChange}
-                        value={data.indirizzo}
+                        value={data.nazione}
                     />
                     </div>
 
