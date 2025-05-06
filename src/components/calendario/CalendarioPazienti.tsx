@@ -4,7 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import { useState, useEffect } from 'react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import './Calendario.css'
+import './CalendarioPazienti.css'
 import FirebaseService from '@/services/FirebaseService';
 import {useAuth} from '../contexts/AuthContext'
 import {AppointmentsList, fetchAppointments} from './appointments';
@@ -155,8 +155,9 @@ function CalendarioPazienti(){
                 
 
                 {activeDate && userId && appointments &&(             //se premi una tile (activeDate) mostra lista appuntamenti
-                    <div>
+                    <div className = "boxAppuntamenti">
                           <ul className="listaAppuntamenti">
+                                <p>Appuntamenti  {activeDate.toDateString()}:</p>
                               {appointments
                               .filter((apt) => apt.data === activeDate.toDateString())
                               .map((apt) => (

@@ -1,0 +1,25 @@
+
+body {
+    display: flex;
+    justify-content: center; /* centers horizontally */
+    align-items: center;     /* centers vertically */
+    height: 100vh;           /* make body take full viewport height */
+    margin: 0;               /* remove default margin */
+}
+
+.calendar{
+    margin: 15vh;
+    padding: 3vh;
+    transform: scale(1.3); /* increase overall size */
+    
+}
+.boxAppuntamenti{
+    display: flex;
+    flex-direction: column;
+  
+    
+    border-width: 0.2vh;
+    border-radius: 1vh;
+    padding: 2vh;
+    border-color: black;
+}

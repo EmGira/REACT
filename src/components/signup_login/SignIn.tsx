@@ -9,6 +9,8 @@ import './SignIn.css'
 import { Button } from '../ui/button';
 import { Scale } from "lucide-react";
 
+import { requestPermissionAndGetToken, saveTokenToBackend} from "../../services/Notification.ts"
+
 
 function SignIn(){
 
@@ -35,7 +37,9 @@ function SignIn(){
 
         if (userData) {
             if(userData.paziente == true){
-                //Aggiorno contesto
+                //Aggiorno contesto 
+    
+
                 setIsLoggedIn(true);
                 setAuthUser(userData)
                 setIsPatient(true)
@@ -68,7 +72,7 @@ function SignIn(){
     }
 
     const handleSignup = () => {
-
+      
         navigate('/signup')
       
     }
