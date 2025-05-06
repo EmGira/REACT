@@ -6,8 +6,9 @@ export interface Utente {
     birthDate: string; // formato ISO (es. "1990-01-01")
     sesso: "m" | "f";
     codiceFiscale: string;
-    telefono: number;
+    telefono: string;
     email: string;
+    password: string;
     indirizzo: string;
     comune: string;
     provincia: string;
@@ -15,3 +16,4 @@ export interface Utente {
     paziente: boolean;
     createdAt?: Date; // opzionale, gestito dal server
 }
+

@@ -1,0 +1,106 @@
+.anagrafica {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 30px;
+    margin-left: 40px;
+}
+
+.linea_h2 {
+    width: 50px;
+    height: 4px;
+    background-color: #007BFF;
+    margin: 5px 0 20px 0;
+    border-radius: 2px;
+}
+
+.profilo_user {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-box{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.label_anagrafica {
+    font-size: 14px;
+    color: #555;
+}
+
+.label_anagrafica{
+    font-size: 14px;
+}
+
+
+.input_anagrafica {
+    border: none;
+    background-color: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.input_anagrafica{
+    width: 90%;
+    font-size:medium;
+    background-color: none;
+    border: none;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.tasti_modifica {
+    display: flex;
+    gap: 15px;
+}
+
+.tasti_modifica button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #2F4858;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tasti_modifica button:hover {
+    background-color: #007BFF;
+}
+
+.testo_e_button {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* opzionale, se vuoi allinearli verticalmente */
+    margin-bottom: 20px; /* se serve spazio sotto */
+  }
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .body_user {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .box_user {
+        width: 80%;
+    }
+
+    .contenuto_user {
+        width: 90%;
+        padding: 20px;
+    }
+}

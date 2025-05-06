@@ -1,0 +1,10 @@
+.menu_piani{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.piu_icon{
+    color: #2F4858;
+}

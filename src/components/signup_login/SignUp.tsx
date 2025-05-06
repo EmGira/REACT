@@ -6,35 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { Button } from '../ui/button';
 import "./login.css"
 import './SignUp.css'
-
-interface User{
-    email: string,
-    password: string,
-    nome: string,
-    cognome: string,
-    sesso: string,
-    birthDate: string,
-    comune: string,
-    codiceFiscale: string,
-    paziente: boolean,
-    telefono: number | undefined,
-    nazione: string,
-    provincia: string,
-    indirizzo: string
-
-}
+import { Utente } from "../../models/Utente.model"
 
 function SignUp() {
 
     const navigate = useNavigate();
   
-    const [data, setData] = useState<User>({
+    const [data, setData] = useState<Utente>({
         nome: '',
         cognome: '',
         birthDate: '',
-        sesso: '',
+        sesso: 'm',
         codiceFiscale: '',
-        telefono: undefined,
+        telefono: '',
         email: '',
         password: '',
         indirizzo:'',
@@ -53,8 +37,20 @@ function SignUp() {
             }
         }
 
-        if (data.telefono && data.telefono <= 0) {
+        /*if (data.telefono && data.telefono <= 0) {
             alert('Inserisci un numero di telefono valido.');
+            return;
+        }*/
+
+        const isValidEmail = (email: string) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+
+        if (!isValidEmail(data.email)) {
+            alert("L'email inserita non è valida.");
+            return;
+        }
+    
+        if (data.password.length < 6) {
+            alert("La password deve essere lunga almeno 6 caratteri.");
             return;
         }
 
@@ -62,20 +58,34 @@ function SignUp() {
         
         console.log("Form data:", data);  // Add a log here for debugging
         navigate('/')
+    
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        
         
         setData({
             ...data,
             [e.target.name]: e.target.value
         })
 
-        
-        
     }
 
+    const [formattedBirthDate, setFormattedBirthDate] = useState<string>('');
+
+
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedDate = e.target.value;
+        setData({
+          ...data,
+          birthDate: selectedDate // Aggiorniamo direttamente la data nel formato yyyy-mm-dd
+        });
+        
+        // Formattiamo la data solo per la visualizzazione
+        const date = new Date(selectedDate);
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('it-IT', options);
+        setFormattedBirthDate(formattedDate);
+      };
 
     //RENDER
     return (
@@ -113,11 +123,11 @@ function SignUp() {
                     <div>
                     <label htmlFor="birthdate">Data di nascita</label>
                     <input
-                        id="birthdare"
+                        id="birthDate"
                         className="birthdate"
                         type="date"
                         name="birthDate"
-                        onChange={handleChange}
+                        onChange={handleDateChange}
                         value={data.birthDate.toString()}
                     />
                     </div>
@@ -131,8 +141,8 @@ function SignUp() {
                         value={data.sesso}
                     >
                         <option value="" disabled>Scegli un opzione</option>
-                        <option value="male">m</option>
-                        <option value="female">f</option>
+                        <option value="m">m</option>
+                        <option value="f">f</option>
                     </select>
                     </div>
 

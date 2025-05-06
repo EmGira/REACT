@@ -1,10 +1,14 @@
 import { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { FirebaseService } from '../../../services/FirebaseService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+
 import "../User.css"
+import "./piano.css"
 
 
-function Piano({user}: any) {
+function Piano({ user }: any) {
   const navigate = useNavigate();
 
   const [pianiPaziente, setPianiPaziente] = useState<any[]>([]);
@@ -23,25 +27,25 @@ function Piano({user}: any) {
 
   useEffect(() => {
     fetchFarmaci();
-  },[]);
+  }, []);
 
   const fetchFarmaci = async () => {
-      try {
-        const result = await FirebaseService.getFarmaci();
-        setFarmaci(result); // Assegna direttamente i valori agli array
-      } catch (err) {
-        setError("Errore nel recupero dei farmaci");
-      }
+    try {
+      const result = await FirebaseService.getFarmaci();
+      setFarmaci(result); // Assegna direttamente i valori agli array
+    } catch (err) {
+      setError("Errore nel recupero dei farmaci");
+    }
   };
 
   useEffect(() => {
-    if(slug == null){
+    if (slug == null) {
       navigate('/');
       return;
     }
 
     setCurrentSlug(slug);
-  },[slug, navigate]);
+  }, [slug, navigate]);
 
   useEffect(() => {
     console.log(user)
@@ -50,12 +54,12 @@ function Piano({user}: any) {
       setPianiPaziente(pianiFiltrati);
       console.log(pianiFiltrati)
     });
-    
-  },[currentSlug]);
 
-  const icon = (genere : string) => {
-      return user.genere === "M" ? image[0] : image[1];
-  }   
+  }, [currentSlug]);
+
+  const icon = (genere: string) => {
+    return user.genere === "M" ? image[0] : image[1];
+  }
 
   const [editMode, setEditMode] = useState(false);
 
@@ -73,62 +77,48 @@ function Piano({user}: any) {
   };
 
   const getFrequenza = (frequenza: number) => {
-    if(frequenza == 1)
-        return frequenze[0].label;
-    else if(frequenza == 2)
-        return frequenze[1].label;
-    else if(frequenza == 3)
-        return frequenze[2].label;
-}
-
-  const getFarmaco = (id: string) => {
-      const farmaco = farmaci.find((farmaco: any) => farmaco.id == id) || null;
-      if(farmaco != null)
-          return farmaco.nome.charAt(0).toUpperCase() + farmaco.nome.slice(1);
+    if (frequenza == 1)
+      return frequenze[0].label;
+    else if (frequenza == 2)
+      return frequenze[1].label;
+    else if (frequenza == 3)
+      return frequenze[2].label;
   }
 
-  return(
+  const getFarmaco = (id: string) => {
+    const farmaco = farmaci.find((farmaco: any) => farmaco.id == id) || null;
+    if (farmaco != null)
+      return farmaco.nome.charAt(0).toUpperCase() + farmaco.nome.slice(1);
+  }
+
+  return (
     <div className="anagrafica">
 
-      <h1>Lista dei piani</h1>
+      <h2 className="h2_user">Lista dei piani</h2>
 
-      {pianiPaziente.length != 0 && 
-        pianiPaziente.map((piano: any) => (
-          <div key={piano.id}>
-            {piano.data_inizio} - {piano.data_fine}
-            {
-              piano.farmaci.map((farmaco: any) => (
-                <div key={farmaco.id_farmaco}>
-                  {getFarmaco(farmaco.id_farmaco)} - {farmaco.dose}mg - {getFrequenza(farmaco.frequenza)} - {farmaco.periodo}
-                </div>
-              ))
-            }
-          </div>
-        ))  
-      }
-      <br />
-      <div onClick={() => {navigate("/user/crea-piano/"+currentSlug)}}>Aggiungi un nuovo piano</div>
-
-        {/* <h2>Informazioni personali</h2>
-        <hr className="linea_h2"/>
-        {!editMode && (
-            <button onClick={handleModifica} className="button_modifica">Modifica</button>
-        )}
-        <div className="profilo_user">
-            {Object.entries(user).map(([key, value]) => (
-            <div key={key} className="input-box">
-                <label className="label_anagrafica">{key}</label>
-                <input type="text" value={value} readOnly className="input_anagrafica"/>
-            </div>
-            ))}
+      <div className="menu_piani">
+          <FontAwesomeIcon icon={faCirclePlus} className='piu_icon' />
+          <div onClick={() => { navigate("/user/crea-piano/" + currentSlug) }}>Aggiungi un nuovo piano</div>
         </div>
-        {editMode && (
-        <div className="tasti_modifica">
-          <button  onClick={handleAnnulla}>Annulla</button>
-          <button onClick={handleInvia}>Invia</button>
-        </div>
-        )} */}
 
+      <div className="sezione_dati">
+        <div className="piani_utente">
+          {pianiPaziente.length != 0 &&
+            pianiPaziente.map((piano: any) => (
+              <div key={piano.id}>
+                {piano.data_inizio} - {piano.data_fine}
+                {
+                  piano.farmaci.map((farmaco: any) => (
+                    <div key={farmaco.id_farmaco}>
+                      {getFarmaco(farmaco.id_farmaco)} - {farmaco.dose}mg - {getFrequenza(farmaco.frequenza)} - {farmaco.periodo}
+                    </div>
+                  ))
+                }
+              </div>
+            ))
+          }
+        </div>
+      </div>
     </div>
 
 

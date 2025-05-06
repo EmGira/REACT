@@ -93,6 +93,7 @@
     border: 1px solid gray;
     padding: 2%;
     font-size: 20x;
+    border-radius: 8px;
 }
 
 .Anagrafica select{
@@ -101,7 +102,8 @@
     border: 1px solid gray;
     height: 5vh;
     font-size: 17px;
-    color: gray
+    color: gray;
+    border-radius: 8px;
 }
 
 .Anagrafica select option{

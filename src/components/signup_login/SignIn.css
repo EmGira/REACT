@@ -60,6 +60,7 @@
     padding: 2%;
     font-size: 20x;
     margin-bottom: 2vh;
+    border-radius: 8px;
 }
 
 .inputs label{

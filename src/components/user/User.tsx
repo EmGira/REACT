@@ -12,12 +12,13 @@ function User() {
     const [currentSlug, setCurrentSlug] = useState('');
     const [currentView, setCurrentView] = useState('');
 
+    const [selectedButton, setSelectedButton]= useState(0);
+
     const { view, slug } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        
-
+    
         if(view == null || slug == null){
             navigate('/');
             return;
@@ -46,42 +47,46 @@ function User() {
     
     const image = ["/src/assets/user/manIcon.svg", "/src/assets/user/girlIcon.svg"];
 
-    const icon = image[0];
+    let icon=image[0];
 
-    // const icon = (genere : string) => {
-    //     return user.genere === "M" ? image[0] : image[1];
-    // }   
+    function cambiaImmagine (genere : String){
+        if(genere === 'm'){
+            icon = image[0];
+        } else if (genere === 'f') {
+            icon = image[1];
+        }
+        console.log(genere);
 
-    // const[editColorButton, setEditColorButton] = useState(0);
+        return icon;
+    }
 
 
-//     const isAdmin = true;
-//     const [selectedButton, setSelectedButton] = useState((isAdmin?1:2));
-    
-//     function selectButton(bottone: number) {
-//         setSelectedButton(bottone);
-// }
-
+    function classNameButton (button: number){
+        setSelectedButton(button);
+    }
 
 
     return(
         <div className="body_user">
-            {currentUser != null && <div className="box_user">
-                <div className="cerchio_icon">
-                    <img src={icon} className="icon"/>
+                {currentUser != null && <div className="box_user">
+                    <div className="cerchio_icon">
+                        <img src={cambiaImmagine(currentUser.sesso)} className="icon"/>
+                    </div>
+                    <h1 className="h1_name_user">{currentUser.nome} {currentUser.cognome}</h1>
+        
+                    <div className="pulsanti_user">
+                        <button className={selectedButton==0?'selected':'no-selected'} onClick={() =>  {navigate(`/user/profilo/` + currentSlug); classNameButton(0)}} > profilo </button>
+                        <button className={selectedButton==1?'selected':'no-selected'} onClick={() =>  {navigate(`/user/registro/` + currentSlug) ; classNameButton(1)}} > registro </button>
+                        <button className={selectedButton==2?'selected':'no-selected'} onClick={() =>  {navigate(`/user/piano/` + currentSlug); classNameButton(2)}} > piano </button>
+                    </div>
+                </div>}
+
+                <div className="contenuto_user">
+                {currentView == 'registro' && <Registro></Registro>}
+                {currentView == 'profilo' && <Profilo user={currentUser}></Profilo>}
+                {currentView == 'piano' && <Piano user={currentUser}></Piano>}
                 </div>
-                <h1 className="h1_name_user">{currentUser.nome} {currentUser.cognome}</h1>
-    
-                <div className="div_button_nav">
-                    <button className="menu_button" onClick={() =>  navigate(`/user/profilo/` + currentSlug)}>profilo</button>
-                    <button className="menu_button" onClick={() =>  navigate(`/user/registro/` + currentSlug)}>registro</button>
-                    <button className="menu_button" onClick={() =>  navigate(`/user/piano/` + currentSlug)}>piano</button>
-                </div>
-            </div>}
-            {currentView == 'registro' && <Registro></Registro>}
-            {currentView == 'profilo' && <Profilo user={currentUser}></Profilo>}
-            {currentView == 'piano' && <Piano user={currentUser}></Piano>}
-        </div>
+            </div>
     )
 
 }

@@ -1,64 +1,153 @@
-.hidden { display: none; }
+.hidden {
+    display: none;
+}
 
 
 .body_user {
     display: flex;
-    align-items: center;
-    margin-top: 150px;
-    min-height: 100vh;
+    margin: 80px auto 15vh auto;
     font-family: Optimistic Text, -apple-system, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     font-size: 19px;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    margin-bottom: 15vh;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); 
-    border-radius: 30px;
-    padding: 30px; 
-    width: 60%;
-}
-
-.h1_name_user{
-    margin-top:-20px;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-between;
+    gap: clamp(10px, 2.5vw, 30px);
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .box_user {
-    width: 100%;
-    height: auto; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
-    text-align: center;
+    background-color: #2F4858;
+    box-shadow: 0 0 30px rgba(47, 72, 88, 0.1);
+    border-radius: 30px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 1 280px;
+}
+
+.contenuto_user {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .cerchio_icon {
-    border: 8px solid black;
     background-color: white;
     border-radius: 100%;
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px; 
-    margin-top: -100px;
+    margin-bottom: 20px;
 }
 
 .icon {
-    z-index: 1; /* Porta l'icona sopra il cerchio */
+    width: 100px;
 }
 
-.Outlet{
-    margin: 0 auto; /* Centra la box orizzontalmente */
+
+.h1_name_user {
+    color: white;
+    margin: 10px 0;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1rem, 2vw, 1rem);
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.pulsanti_user {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.pulsanti_user button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.Outlet {
+    margin: 0 auto;
+    /* Centra la box orizzontalmente */
 
 }
 
-.anagrafica{
-    margin: 0 auto; /* Centra la box orizzontalmente */
 
+.div_button_nav {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 70%;
+    height: 80px;
+    margin-top: 5vh;
 }
 
-.profilo_user{
+
+.menu_button {
+    background-color: blue;
+    color: white;
+    border-radius: 30px;
+    height: 30px;
+    border: none;
+}
+
+.registro_button {
+    border-radius: 30px;
+    height: 30px;
+    border: none;
+}
+
+.piano_button {
+    border-radius: 30px;
+    height: 30px;
+    border: none;
+}
+
+.tasti_modifica {
+    display: flex;
+}
+
+.linea_h2 {
+    width: 6vh;
+    height: 1vh;
+    background-color: #007BFF;
+    margin: 5px 0 20px 0;
+}
+
+.h2 {
+    text-align: left;
+}
+
+.selected {
+    background-color: white;
+    color: #2F4858;
+    font-weight: bold;
+}
+
+.no-selected {
+    background-color: transparent;
+    color: #c0c0c0;
+    border: 1px solid #c0c0c0;
+}
+
+.no-selected:hover {
+    background-color: #fff;
+    color: #2F4858;
+}
+
+
+.sezione_dati{
     border: 2px solid rgba(0, 0, 0, 0.138);
     border-radius: 30px;
     flex-wrap: wrap;
@@ -68,71 +157,44 @@
     padding: 5vh;
 }
 
-.input-box{
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-}
 
-.label_anagrafica{
-    font-size: 14px;
-}
 
-.input_anagrafica{
-    width: 90%;
-    font-size:medium;
-    background-color: none;
+
+.button_modifica {
+    padding: 5px 15px;
     border: none;
+    background-color: #2F4858;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    align-self: flex-start;
     font-size: 17px;
-    font-weight: bold;
 }
 
-.div_button_nav{
-    display: grid;
-    grid-template-columns: auto auto auto;
-    width: 70%;
-    height: 80px;
-    margin-top: 5vh;
-}
-
-.menu_button{
-    background-color: blue;
-    color: white;
-    border-radius: 30px;
-    height: 30px;
-    border: none;
-}
-
-.profilo_button{
-    background-color: blue;
-    color: white;
-    border-radius: 30px;
-    height: 30px;
-    border: none;
-}
-
-.registro_button{
-    border-radius: 30px;
-    height: 30px;
-    border: none;
-}
-
-.piano_button{
-    border-radius: 30px;
-    height: 30px;
-    border: none;
-}
-.tasti_modifica{
-    display: flex;
-}
-
-.linea_h2{
-    width: 6vh;
-    height: 1vh;
+.button_modifica:hover {
     background-color: #007BFF;
-    margin: 5px 0 20px 0;
+    transform: scale(1.05);
 }
 
-.h2{
-    text-align: left;
+.h2_user{
+    font-family: 'Montserrat', sans-serif; 
+    font-size: clamp(1rem, 2vw, 1rem);    
+    font-weight: 800;
+    font-size: 20px;
+    color: #2F4858;
+}
+
+
+@media (max-width: 900px) {
+    .body_user {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .box_user,
+    .contenuto_user {
+        width: 100%;
+    }
 }

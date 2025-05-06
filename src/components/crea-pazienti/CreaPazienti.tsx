@@ -8,11 +8,15 @@ function CreaPazienti(){
     const [paziente, setFarmaco] = useState({
         nome: "",
         cognome: "",
-        email: "",
-        sesso: "",
-        comune: "",
-        codiceFiscale: "",
         birthDate: "",    // timestamp
+        sesso: "",
+        codiceFiscale: "",
+        telefono: "",
+        email: "",
+        indirizzo: "",
+        comune: "",
+        provincia: "",
+        nazione:"",
         paziente: true
     });
 
@@ -49,11 +53,15 @@ function CreaPazienti(){
             setFarmaco({
                 nome: "",
                 cognome: "",
-                email: "",
+                birthDate: "",    // timestamp
                 sesso: "",
-                comune: "",
                 codiceFiscale: "",
-                birthDate: "",
+                telefono: "",
+                email: "",
+                indirizzo: "",
+                comune: "",
+                provincia: "",
+                nazione:"",
                 paziente: true
             });
         } catch (error) {
@@ -81,18 +89,37 @@ function CreaPazienti(){
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <input id="email" type="email" value={paziente.email} onChange={handleChange} required />
+                                    <label htmlFor="birthDate">Data di nascita</label>
+                                    <input id="birthDate" type="date" value={paziente.birthDate} onChange={handleChange} required />
                                 </div>
 
                                 <div className="form-group">
                                     <label htmlFor="sesso">Sesso</label>
                                     <select id="sesso" value={paziente.sesso} onChange={handleChange} required>
                                         <option value="">Seleziona</option>
-                                        <option value="male">Maschio</option>
-                                        <option value="female">Femmina</option>
-                                        <option value="other">Altro</option>
+                                        <option value="male">m</option>
+                                        <option value="female">f</option>
                                     </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="codFiscale">Codice fiscale</label>
+                                    <input id="codFiscale" type="text" value={paziente.codiceFiscale} onChange={handleChange} required />
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="telefono">Telefono</label>
+                                    <input id="telefono" type="tel" value={paziente.telefono} onChange={handleChange} required />
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label>
+                                    <input id="email" type="email" value={paziente.email} onChange={handleChange} required />
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="indirizzo">Indirizzo</label>
+                                    <input id="indirizzo" type="text" value={paziente.indirizzo} onChange={handleChange} required />
                                 </div>
 
                                 <div className="form-group">
@@ -101,13 +128,13 @@ function CreaPazienti(){
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="codiceFiscale">Codice Fiscale</label>
-                                    <input id="codiceFiscale" type="text" value={paziente.codiceFiscale} onChange={handleChange} required />
+                                    <label htmlFor="provincia">Provincia</label>
+                                    <input id="provincia" type="text" value={paziente.provincia} onChange={handleChange} required />
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="birthDate">Data di Nascita</label>
-                                    <input id="birthDate" type="date" value={paziente.birthDate} onChange={handleChange} required />
+                                    <label htmlFor="nazione">Nazione</label>
+                                    <input id="nazione" type="text" value={paziente.nazione} onChange={handleChange} required />
                                 </div>
                             </div>
 
