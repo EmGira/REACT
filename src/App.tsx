@@ -56,8 +56,9 @@ function App(){
                     
                     //route protette per i Pazienti
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='patient' />}>
-                        <Route path="/user/:view/:slug" element={<Impaginazione><User /></Impaginazione>}/>
+                        
                     </Route>
+                    <Route path="/user/:view/:slug" element={<Impaginazione><User /></Impaginazione>}/>
 
                     //route protette per i Medici
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='medic' />}>

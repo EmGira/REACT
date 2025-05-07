@@ -1,4 +1,5 @@
 
+import { Farmaco } from "@/models/farmaco.model.ts";
 import { auth, db } from "../configurations/FirebaseConfig.ts";
 import { 
   createUserWithEmailAndPassword, 
@@ -198,14 +199,14 @@ export const FirebaseService = {
     }
   },
   
-  addFarmaco: async (farmaco: any) => {
+  addFarmaco: async (farmaco: Farmaco) => {
     try {
       // Aggiungi il documento nella collezione "farmaci"
       const docRef = await addDoc(collection(db, "farmaci"), {
-        descrizione: farmaco.descrizione,
         nome: farmaco.nome,
+        descrizione: farmaco.descrizione,
         avvertenze: farmaco.avvertenze,
-        srcImg: farmaco.srcImg
+        barcode: farmaco.barcode
       });
   
       console.log("Documento scritto con ID: ", docRef.id);

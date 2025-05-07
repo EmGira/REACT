@@ -2,36 +2,17 @@ import './CreaPiani.css'
 import { FirebaseService } from '../../services/FirebaseService';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Farmaco } from '@/models/farmaco.model';
 
 
 function CreaPiani(){
 
-    const { slug } = useParams();
     const navigate = useNavigate();
+
+    const { slug } = useParams();
     const [currentSlug, setCurrentSlug] = useState('');
-    // validators
-    const [isFormValid, setIsFormValid] = useState(false);
-    const [isFarmacoValid, setIsFarmacoValid] = useState(false);
 
-    // array
-    const [farmaci, setFarmaci] = useState<any[]>([]);
-    const [farmaciAggiunti, setFarmaciAggiunti] = useState<any[]>([]);
-
-    // piano
-    const [piano, setPiano] = useState<any>({
-        farmaci: [],
-        id_paziente: 'qfikoLwL8lTNitXVSbbngLccwsF3', // da cambiare 
-        data_inizio: '',
-        data_fine: ''
-    });
-    
-    // farmaco aggiunto
-    const [farmaco, setFarmaco] = useState({
-        id_farmaco: '',
-        periodo: '',
-        dose: 1,
-        frequenza: 0
-    });
+    // array x select
     const periodi = [
         "Prima di colazione",
         "Dopo colazione",
@@ -47,7 +28,27 @@ function CreaPiani(){
         { value: 2, label: 'Ogni 2 giorni' },
         { value: 3, label: 'Ogni 3 giorni' }
     ];
-        
+    const [farmaci, setFarmaci] = useState<Farmaco[]>([]);
+
+    // form farmaco 
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [farmaco, setFarmaco] = useState({
+        id_farmaco: '',
+        periodo: '',
+        dose: 1,
+        frequenza: 0
+    });
+
+    // form piano
+    const [isFarmacoValid, setIsFarmacoValid] = useState(false);
+    const [farmaciAggiunti, setFarmaciAggiunti] = useState<any[]>([]);
+    const [piano, setPiano] = useState<any>({
+        farmaci: [],
+        id_paziente: currentSlug.split('-')[0], 
+        data_inizio: '',
+        data_fine: ''
+    });
+       
     // on init
     useEffect(() => {
         fetchFarmaci();
@@ -69,16 +70,6 @@ function CreaPiani(){
         setCurrentSlug(slug);
         
     },[slug, navigate]);
-
-    // ottengo tutti i farmaci disponibili
-    const fetchFarmaci = async () => {
-        try {
-          const result = await FirebaseService.getFarmaci();
-          setFarmaci(result); // Assegna direttamente i valori agli array
-        } catch (err) {
-          setError("Errore nel recupero dei farmaci");
-        }
-    };
 
     // validatore per farmaco
     useEffect(() => {
@@ -119,6 +110,16 @@ function CreaPiani(){
     
         setIsFormValid(isValid);
     }, [piano.data_inizio, farmaciAggiunti]);
+
+    // ottengo tutti i farmaci disponibili
+    const fetchFarmaci = async () => {
+        try {
+            const result: any = await FirebaseService.getFarmaci();
+            setFarmaci(result); // Assegna direttamente i valori agli array
+        } catch (err) {
+            setError("Errore nel recupero dei farmaci");
+        }
+    };
 
     const addFarmacoToList = (e: any) => {
         e.preventDefault();
