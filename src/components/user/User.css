@@ -9,6 +9,7 @@
     font-family: Optimistic Text, -apple-system, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     font-size: 19px;
     width: 100%;
+    min-height: 63vh;
     max-width: 1200px;
     justify-content: space-between;
     gap: clamp(10px, 2.5vw, 30px);

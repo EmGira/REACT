@@ -73,7 +73,7 @@ function User() {
 
 
     return(
-        <div className="container">
+        <div className="">
             <div className="body_user">
                 {currentUser != null && <div className="box_user">
                     <div className="cerchio_icon">
