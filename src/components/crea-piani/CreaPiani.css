@@ -70,12 +70,12 @@
 }
 
 .submit-btn.disabled {
-    background-color: #cccccc;
+    background-color: #2F4858;
     cursor: not-allowed;
 }
 
 .submit-btn:hover {
-    background-color: #0056b3;
+    background-color:  #2f4858ba;
 }
 
 

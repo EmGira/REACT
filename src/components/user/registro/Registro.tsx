@@ -82,12 +82,15 @@ function Registro() {
   return (
     <div className="anagrafica">
 
-      <h2>Registro farmaci</h2>
-      <hr className="linea_h2" />
+    <div className="testo_e_button">
+      <h2 className="h2_user">Registro farmaci</h2>
       {!editMode && (
         <button onClick={handleModifica} className="button_modifica">Modifica</button>
       )}
-      <div className="profilo_user">
+     </div> 
+
+
+      <div className="sezione_dati">
 
         {piani.map((i) => (
           <li key={i}>{i.data_fine}, {i.data_inizio}, {i.id_paziente}</li>

@@ -2,32 +2,67 @@
 import { useState } from "react";
 import FirebaseService from "../../services/FirebaseService"
 /*import { Input } from '../ui/input';*/
+import { useNavigate } from "react-router-dom";
 import { Button } from '../ui/button';
 import "./login.css"
 import './SignUp.css'
-
-
+import { Utente } from "../../models/Utente.model"
 
 function SignUp() {
 
-    const [data, setData] = useState({
-        email: '',
-        password: '',
+    const navigate = useNavigate();
+  
+    const [data, setData] = useState<Utente>({
         nome: '',
         cognome: '',
-        sesso: '',
         birthDate: '',
-        comune: '',
+        sesso: 'm',
         codiceFiscale: '',
+        telefono: '',
+        email: '',
+        password: '',
+        indirizzo:'',
+        comune:'',
+        provincia: '',
+        nazione: '',
         paziente: true
     })
 
     const handleSignup = () => {
+
+        for (const [key, value] of Object.entries(data)) {
+            if (value === '' || value === null || value === undefined) {
+                alert(`Il campo "${key}" è obbligatorio.`);
+                return;
+            }
+        }
+
+        /*if (data.telefono && data.telefono <= 0) {
+            alert('Inserisci un numero di telefono valido.');
+            return;
+        }*/
+
+        const isValidEmail = (email: string) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+
+        if (!isValidEmail(data.email)) {
+            alert("L'email inserita non è valida.");
+            return;
+        }
+    
+        if (data.password.length < 6) {
+            alert("La password deve essere lunga almeno 6 caratteri.");
+            return;
+        }
+
         FirebaseService.signUp(data);
+        
         console.log("Form data:", data);  // Add a log here for debugging
+        navigate('/')
+    
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        
         setData({
             ...data,
             [e.target.name]: e.target.value
@@ -35,6 +70,22 @@ function SignUp() {
 
     }
 
+    const [formattedBirthDate, setFormattedBirthDate] = useState<string>('');
+
+
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedDate = e.target.value;
+        setData({
+          ...data,
+          birthDate: selectedDate // Aggiorniamo direttamente la data nel formato yyyy-mm-dd
+        });
+        
+        // Formattiamo la data solo per la visualizzazione
+        const date = new Date(selectedDate);
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('it-IT', options);
+        setFormattedBirthDate(formattedDate);
+      };
 
     //RENDER
     return (
@@ -72,12 +123,12 @@ function SignUp() {
                     <div>
                     <label htmlFor="birthdate">Data di nascita</label>
                     <input
-                        id="birthdare"
+                        id="birthDate"
                         className="birthdate"
                         type="date"
                         name="birthDate"
-                        onChange={handleChange}
-                        value={data.birthDate}
+                        onChange={handleDateChange}
+                        value={data.birthDate.toString()}
                     />
                     </div>
 
@@ -90,8 +141,8 @@ function SignUp() {
                         value={data.sesso}
                     >
                         <option value="" disabled>Scegli un opzione</option>
-                        <option value="male">Maschio</option>
-                        <option value="female">Femmina</option>
+                        <option value="m">m</option>
+                        <option value="f">f</option>
                     </select>
                     </div>
 
@@ -112,8 +163,9 @@ function SignUp() {
                         id="tel"
                         type="tel"
                         name="telefono"
-                    /*onChange = 
-                    value=*/
+                        onChange={handleChange}
+                        defaultValue={undefined}
+                        value={data.telefono}
                     />
                     </div>
 
@@ -144,24 +196,13 @@ function SignUp() {
 
                 <div className="Anagrafica">
                     <div>
-                    <label htmlFor="nazione">Nazione</label>
+                    <label htmlFor="indirizzo">Indirizzo</label>
                     <input
-                        id="nazione"
+                        id="indirizzo"
                         type="text"
-                        name="Nazione"
-                    /*onChange = 
-                    value=*/
-                    />
-                    </div>
-
-                    <div>
-                    <label htmlFor="provincia">Provincia</label>
-                    <input
-                        id="provincia"
-                        type="text"
-                        name="provincia"
-                    /*onChange = 
-                    value=*/
+                        name="indirizzo"
+                        onChange={handleChange}
+                        value={data.indirizzo}
                     />
                     </div>
 
@@ -176,16 +217,29 @@ function SignUp() {
                     />
                     </div>
 
+
                     <div>
-                    <label htmlFor="indirizzo">Indirizzo</label>
+                    <label htmlFor="provincia">Provincia</label>
                     <input
-                        id="indirizzo"
+                        id="provincia"
                         type="text"
-                        name="indirizzo"
-                    /*onChange = 
-                    value=*/
+                        name="provincia"
+                        onChange={handleChange}
+                        value={data.provincia}
                     />
                     </div>
+
+                    <div>
+                    <label htmlFor="nazione">Nazione</label>
+                    <input
+                        id="nazione"
+                        type="text"
+                        name="nazione"
+                        onChange={handleChange}
+                        value={data.nazione}
+                    />
+                    </div>
+
 
                 </div>
 
