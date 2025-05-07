@@ -35,7 +35,7 @@ function CreaPiani(){
     const [farmaco, setFarmaco] = useState({
         id_farmaco: '',
         periodo: '',
-        dose: 1,
+        dose: 0,
         frequenza: 0
     });
 
@@ -129,7 +129,7 @@ function CreaPiani(){
         setFarmaco({
             id_farmaco: '',
             periodo: '',
-            dose: 1,
+            dose: 0,
             frequenza: 1
         });
     };
@@ -139,11 +139,10 @@ function CreaPiani(){
     
         try {
             await FirebaseService.addPiano(piano);
-            alert("Farmaco aggiunto con successo!");
             setFarmaco({
                 id_farmaco: '',
                 periodo: '',
-                dose: 1,
+                dose: 0,
                 frequenza: 1
             });
     
@@ -153,6 +152,9 @@ function CreaPiani(){
                 data_inizio: '',
                 data_fine: ''
             });
+
+            navigate('./../../piano/' + currentSlug);
+
         } catch (error) {
             console.error("Errore nell'aggiunta del farmaco:", error);
         }  

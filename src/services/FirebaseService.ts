@@ -1,7 +1,7 @@
 
 import { Farmaco } from "@/models/farmaco.model.ts";
 import { auth, db } from "../configurations/FirebaseConfig.ts";
-import { Utente } from "../models/utente.model.ts"
+
 
 
 import {
@@ -12,6 +12,8 @@ import {
   User
 } from "firebase/auth";
 import { collection, getDocs, doc, setDoc, getDoc, query, where, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { Piano } from "@/models/piano.model.ts";
+import { Utente } from "@/models/Utente.model.ts";
 
 
 // 🔥 Oggetto per gestire Firebase in modo centralizzato
@@ -301,6 +303,36 @@ export const FirebaseService = {
       }
     } catch (error) {
       throw error;
+    }
+  },
+
+  deletePiano: async (id: string) => {
+    try {
+        // Ottieni il riferimento al documento che vuoi eliminare
+        const pianoRef = doc(db, "piani", id);
+        
+        // Elimina il documento da Firestore
+        await deleteDoc(pianoRef);
+        console.log("Piano eliminato con successo");
+    } catch (error) {
+        console.error("Errore nell'eliminare il piano: ", error);
+    }
+  },
+
+  updatePiano: async (piano: Piano) => {
+    try {
+
+        const pianoRef = doc(db, "piani", piano.id);
+        
+        await updateDoc(pianoRef, {
+          farmaci: piano.farmaci,
+          data_inizio: piano.data_inizio,
+          data_fine: piano.data_fine
+        });
+
+        console.log("Piano aggiornato con successo");
+    } catch (error) {
+        console.error("Errore nell'aggiornare il piano: ", error);
     }
   },
 
