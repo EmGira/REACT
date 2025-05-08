@@ -13,7 +13,8 @@ import { Users } from 'lucide-react';
 interface Appointments{
   id: number,
   data: string,
-  orario: string,
+  orarioInizio: string,
+  orarioFine: string,
   paziente: string,
   mailPaziente: string,
   descrizione: string
@@ -50,7 +51,8 @@ function Calendario(){
     const emptyAppointment: Appointments = {
       id: 0,
       data: "",
-      orario: "",
+      orarioInizio: "",
+      orarioFine: "",
       paziente: "",
       mailPaziente: "",
       descrizione: "" 
@@ -244,7 +246,9 @@ function Calendario(){
 
                     <div className="inputs">
                       <Input name = "data" type="data" placeholder="Data" defaultValue={activeDate.toDateString()}/>
-                      <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {appointment.orario}/>
+                      <Input name = "orarioInizio" type="string" placeholder="Orario Inizio" onChange={handleChange} value = {appointment.orarioInizio}/>
+                      <Input name = "orarioFine" type="string" placeholder="Orario Fine" onChange={handleChange} value = {appointment.orarioFine}/>
+                      
                       <select
                         name="paziente"
                         value={appointment.paziente}

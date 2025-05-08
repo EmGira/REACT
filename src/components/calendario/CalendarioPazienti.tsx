@@ -13,7 +13,8 @@ import app from '@/configurations/FirebaseConfig';
 interface Appointments{
   id: number,
   data: string,
-  orario: string,
+  orarioInizio: string,
+  orarioFine: string,
   paziente: string,
   mailPaziente: string,
   descrizione: string
@@ -147,30 +148,29 @@ function CalendarioPazienti(){
         tomorrow.setDate(tomorrow.getDate() + 1);  
         tomorrow.setHours(0, 0, 0, 0);  
 
-        const approachingAppointment = futureAppointments.find((a) => { const futureApp = new Date(a.data)
-                                            futureApp.setHours(0, 0, 0, 0)
-                                            if(futureApp.getTime() === tomorrow.getTime())
-                                                return a;
-                                        })
-        if(approachingAppointment){
+        const approachingAppointments = futureAppointments.filter((a) => {
+          const futureApp = new Date(a.data);
+          futureApp.setHours(0, 0, 0, 0);
+          return futureApp.getTime() === tomorrow.getTime();
+        });
 
-                const maxId = notifications && notifications.length > 0   //se esiste appointments, e ce almeno un appuntamento
-                ? Math.max(...notifications.map((n) => n.id))     //trova il massimo tra un array di tutti gli id, se non ha id, mette 0
-                : 0;      
+        approachingAppointments.forEach((a) => {
+          
+      
+          const notification = {
+              appointmentId: a.id,
+              time: a.orarioInizio,
+              title: `Appuntamento ${a.data}`,
+              payload: `Il seguente appuntamento è stato programmato per domani:\n ${a.descrizione}`,
+            
+          };
+      
+          if (!notifications?.find(n => n.appointmentId === a.id)) {
+              FirebaseService.addData(`/users/${userId}/notifiche`, notification);
+          }
+      });
 
-                const notification = {
-                    id: maxId + 1,
-                    title: `Appuntamento ${approachingAppointment?.data}`,
-                    payload: `Il seguente appuntamento è stato programmato per domani:\n ${approachingAppointment.descrizione}`,
-                    data: approachingAppointment.data
-                    
-                }
-                console.log(notifications)
-                if(!notifications?.find(n => {return n.data == approachingAppointment.data})){
-                    FirebaseService.addData( `/users/${userId}/notifiche`, notification)
-                }
-            }
-    }
+    } 
   
 
 
@@ -209,7 +209,7 @@ function CalendarioPazienti(){
                               .filter((apt) => apt.data === activeDate.toDateString())
                               .map((apt) => (
                                   <li key = {apt.mailPaziente}>
-                                      {apt.id} - {apt.data} - {apt.orario} - {apt.paziente} - {apt.mailPaziente} - {apt.descrizione}
+                                      {apt.id} - {apt.data} - {apt.orarioInizio} - {apt.orarioFine} - {apt.paziente} - {apt.mailPaziente} - {apt.descrizione}
                                      
                                   </li>
                                 

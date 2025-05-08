@@ -15,7 +15,8 @@ import './appointments.css'
     interface Appointments{
   id?: number,
   data?: string,
-  orario?: string,
+  orarioInizio?: string,
+  orarioFine?: string,
   paziente?: string,
   mailPaziente?: string,
   descrizione?: string
@@ -26,7 +27,8 @@ import './appointments.css'
         const emptyAppointment: Appointments = {
             id: 0,
             data: "",
-            orario: "",
+            orarioInizio: "",
+            orarioFine: "",
             paziente: "",
             mailPaziente: "",
             descrizione: "" 
@@ -115,7 +117,9 @@ import './appointments.css'
                     <div className="inputs">
                     
                       <Input name = "data" type="data" placeholder="Data" defaultValue={activeDate}/>
-                      <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {chosenAppt.orario}/>
+                      <Input name = "orarioInizio" type="string" placeholder="Orario inizio" onChange={handleChange} value = {chosenAppt.orarioInizio}/>
+                      <Input name = "orarioFine" type="string" placeholder="Orario fine" onChange={handleChange} value = {chosenAppt.orarioFine}/>
+        
                       <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {chosenAppt.paziente}/>
                       <Input name = "mailPaziente" type="string" placeholder="e-mail" onChange={handleChange} value = {chosenAppt.mailPaziente}/>
                       <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {chosenAppt.descrizione} />
