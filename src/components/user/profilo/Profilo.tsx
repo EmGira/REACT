@@ -65,6 +65,7 @@ function Profilo() {
         try {
           // Ottieni i dati dell'utente usando lo slug (che è l'ID)
           const userId = slug.split('-')[0];
+          
           const userData = await FirebaseService.getUserData(userId);
           setUser(userData);
           setFormData(userData);  
@@ -175,8 +176,8 @@ function Profilo() {
 
       {editMode && (
         <div className="tasti_modifica">
-          <button onClick={handleAnnulla}>Annulla</button>
-          <button onClick={handleInvia}>Invia</button>
+          <button className="annulla" onClick={handleAnnulla}>Annulla</button>
+          <button className="invia" onClick={handleInvia}>Invia</button>
         </div>
       )}
     </div>

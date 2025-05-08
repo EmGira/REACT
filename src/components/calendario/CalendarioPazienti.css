@@ -1,12 +1,4 @@
 
-body {
-    display: flex;
-    justify-content: center; /* centers horizontally */
-    align-items: center;     /* centers vertically */
-    height: 100vh;           /* make body take full viewport height */
-    margin: 0;               /* remove default margin */
-}
-
 .calendar{
     margin: 15vh;
     padding: 3vh;
