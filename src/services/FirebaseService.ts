@@ -283,6 +283,11 @@ export const FirebaseService = {
   getPiani: async () => {
     const querySnapshot = await getDocs(collection(db, 'piani'));
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+  },
+
+  getNotifications: async (userId: string) => {
+    const querySnapshot = await getDocs(collection(db, 'users', userId, 'notifiche'))
+    return querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
   }
 
 };

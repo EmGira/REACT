@@ -197,16 +197,17 @@ function Calendario(){
 
   
 
-    //modifica contenuto della tile - mostrap untino rosso su le tile che hanno appuntamenti
-    const tileContent = ({date, view}: { date: Date; view: string }) => {     
-    
-        if (view === 'month' && appointments && appointments.some((apt) => apt.data === date.toDateString()))        //some: controlla se almeno un elemento soddisfa la condizione, se Si termina
-                return ( 
-                        <div>
-                            <span style={{ color: 'red' }}>•</span>
-                        </div>
-                )
-    }
+    //modifica contenuto della tile 
+
+    const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+      if (
+        view === 'month' &&
+        appointments?.some((apt) => apt.data === date.toDateString())
+      ) {
+        return 'tile-with-appointment';
+      }
+      return null;
+    };
 
 
     //RENDER
@@ -219,14 +220,14 @@ function Calendario(){
                 )}
             
             
-                <Calendar onClickDay={handleClick} tileContent={tileContent} className = "calendar"/>
+                <Calendar onClickDay={handleClick} tileClassName = {tileClassName} className = "calendar"/>
             
 
                 
 
                 {activeDate && !showForm && userId && (             //se premi una tile (activeDate) mostra lista appuntamenti
                     <div className = "appList">
-                      <div>
+                      <div className = "appListElement">
                         <Button onClick={() => setShowForm(true)}>crea nuovo appuntamento</Button>
                         <AppointmentsList medicDocumentId= {userId} activeDate = {activeDate.toDateString()}></AppointmentsList>
                         <Button onClick={() => setActiveDate(null)}>esci</Button>

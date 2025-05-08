@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import FirebaseService from '@/services/FirebaseService';
 import { Button } from "../ui/button";
 import { Input } from '../ui/input';
-
+import './appointments.css'
     export const fetchAppointments = async (medicDocumentId: string) => {
        
         const appointments = await FirebaseService.getMedicAppointments(medicDocumentId)

@@ -8,6 +8,7 @@ import './CalendarioPazienti.css'
 import FirebaseService from '@/services/FirebaseService';
 import {useAuth} from '../contexts/AuthContext'
 import {AppointmentsList, fetchAppointments} from './appointments';
+import app from '@/configurations/FirebaseConfig';
 
 interface Appointments{
   id: number,
@@ -56,7 +57,7 @@ function CalendarioPazienti(){
 
    
     const [appointments, setAppointments] = useState<any[] | null>(null);
-    
+    const [notifications, setNotifications] = useState<any[] | null>(null);
     
     const [userId, setUserId] = useState<string| null>(null);
     const [users, setUsers] = useState<User | null>(null);
@@ -95,15 +96,31 @@ function CalendarioPazienti(){
             setAppointments(userApp); // or do something with it
 
         };
+
+        const fetchNotif = async () => {
+
+            const userNotifs = await FirebaseService.getNotifications(userId)
+            setNotifications(userNotifs)
+        }
     
         fetch();
+        fetchNotif();
 
      
     }, [userId])
+
+    useEffect(() => {
+        
+        console.log("AOOOOOAOO")
+        if(appointments)
+        notif(appointments)
+  
+       
+      }, [appointments])
     
 
  
- 
+    
 
    
     
@@ -111,8 +128,6 @@ function CalendarioPazienti(){
     
     //EVENTI
 
-    //aggiorna lappuntamneot corrente quando variano gli input
- 
 
     //aggiorna la data selezionata
     const handleClick = (date: Date) => {   
@@ -122,21 +137,52 @@ function CalendarioPazienti(){
         return null;
     }
     
-    //assegna ID al appuntamento, salva apuntamento su firestore
-   
 
+    //quando un appuntamento futuro dista 1 giorno dalla data corrente, allora invia notifica al database
+    const notif = (appointments: Appointments[]) => {
+        const futureAppointments = appointments
+                                        .filter((a: Appointments ) => new Date(a.data) > new Date())
+        
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);  
+        tomorrow.setHours(0, 0, 0, 0);  
+
+        const approachingAppointment = futureAppointments.find((a) => { const futureApp = new Date(a.data)
+                                            futureApp.setHours(0, 0, 0, 0)
+                                            if(futureApp.getTime() === tomorrow.getTime())
+                                                return a;
+                                        })
+        if(approachingAppointment){
+
+                const maxId = notifications && notifications.length > 0   //se esiste appointments, e ce almeno un appuntamento
+                ? Math.max(...notifications.map((n) => n.id))     //trova il massimo tra un array di tutti gli id, se non ha id, mette 0
+                : 0;      
+
+                const notification = {
+                    id: maxId + 1,
+                    title: `Appuntamento ${approachingAppointment?.data}`,
+                    payload: `Lappuntamento e' stato programmato per domani`,
+                    data: approachingAppointment.data
+                }
+                console.log(notifications)
+                if(!notifications?.find(n => {return n.data == approachingAppointment.data})){
+                    FirebaseService.addData( `/users/${userId}/notifiche`, notification)
+                }
+            }
+    }
   
 
-    //modifica contenuto della tile - mostrap untino rosso su le tile che hanno appuntamenti
-    const tileContent = ({date, view}: { date: Date; view: string }) => {     
-    
-        if (view === 'month' && appointments && appointments.some((apt) => apt.data === date.toDateString()))        //some: controlla se almeno un elemento soddisfa la condizione, se Si termina
-                return ( 
-                        <div>
-                            <span style={{ color: 'red' }}>•</span>
-                        </div>
-                )
-    }
+
+
+    const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+        if (
+          view === 'month' &&
+          appointments?.some((apt) => apt.data === date.toDateString())
+        ) {
+          return 'tile-with-appointment';
+        }
+        return null;
+      };
 
 
     //RENDER
@@ -149,7 +195,7 @@ function CalendarioPazienti(){
                 )}
             
             
-                <Calendar onClickDay={handleClick} tileContent={tileContent} className = "calendar"/>
+                <Calendar onClickDay={handleClick} tileClassName={tileClassName} className = "calendar"/>
             
 
                 
@@ -180,7 +226,7 @@ function CalendarioPazienti(){
 }
 
 
-export default CalendarioPazienti
+export default CalendarioPazienti 
 
 //https://www.npmjs.com/package/react-calendar
 
