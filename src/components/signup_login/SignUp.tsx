@@ -70,6 +70,10 @@ function SignUp() {
 
     }
 
+    const handleSignIn = () => {
+        navigate("/signIn");
+    }
+
     const [formattedBirthDate, setFormattedBirthDate] = useState<string>('');
 
 
@@ -245,6 +249,9 @@ function SignUp() {
 
 
                 <Button className="button_input" onClick={handleSignup}>Registrati</Button>
+
+                <p className="p_login">Hai già un account? <a className="a_login" onClick={handleSignIn}>Accedi qui</a></p>
+
             </div>
         </div>
     )

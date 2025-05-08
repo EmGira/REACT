@@ -2,6 +2,7 @@ import './Header.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import FirebaseService from '@/services/FirebaseService';
 
@@ -28,8 +29,9 @@ function Header(){
 
             <div className='dati'>
                 <p className='header-text' onClick={() => {handleLogout; navigate("/login")} }>Log out</p>
-                <FontAwesomeIcon icon={faBell} className='header-icon'/>
-                <FontAwesomeIcon icon={faCircleUser} className='header-icon'/>
+                <FontAwesomeIcon icon={faCalendar} onClick = {() => navigate("")} className='header-icon'/>
+                <FontAwesomeIcon icon={faBell}  onClick = {() => navigate("")} className='header-icon'/>
+                <FontAwesomeIcon icon={faCircleUser}  onClick = {() => navigate("")} className='header-icon'/>
             </div>
         </nav>
     )

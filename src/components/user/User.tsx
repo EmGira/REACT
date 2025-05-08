@@ -72,7 +72,7 @@ function User() {
                     <div className="cerchio_icon">
                         <img src={cambiaImmagine(currentUser.sesso)} className="icon"/>
                     </div>
-                    <h1 className="h1_name_user">{currentUser.nome} {currentUser.cognome}</h1>
+                    <h1 className="h1_name_user">{currentUser.nome.toUpperCase()} {currentUser.cognome.toUpperCase()}</h1>
         
                     <div className="pulsanti_user">
                         <button className={selectedButton==0?'selected':'no-selected'} onClick={() =>  {navigate(`/user/profilo/` + currentSlug); classNameButton(0)}} > profilo </button>
