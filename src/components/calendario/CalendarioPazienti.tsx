@@ -141,7 +141,7 @@ function CalendarioPazienti(){
     //quando un appuntamento futuro dista 1 giorno dalla data corrente, allora invia notifica al database
     const notif = (appointments: Appointments[]) => {
         const futureAppointments = appointments
-                                        .filter((a: Appointments ) => new Date(a.data) > new Date())
+                                        .filter((a: Appointments ) => new Date(a.data) >= new Date())
         
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);  
@@ -161,8 +161,9 @@ function CalendarioPazienti(){
                 const notification = {
                     id: maxId + 1,
                     title: `Appuntamento ${approachingAppointment?.data}`,
-                    payload: `Lappuntamento e' stato programmato per domani`,
+                    payload: `Il seguente appuntamento è stato programmato per domani:\n ${approachingAppointment.descrizione}`,
                     data: approachingAppointment.data
+                    
                 }
                 console.log(notifications)
                 if(!notifications?.find(n => {return n.data == approachingAppointment.data})){
