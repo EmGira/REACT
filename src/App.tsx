@@ -9,6 +9,8 @@ import {ProtectedRoute} from './components/contexts/ProtectedRoute';
 import {useAuth} from './components/contexts/AuthContext'
 import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import User from './components/user/User';
+import { messaging } from "./configurations/FirebaseConfig.ts";
+import { getToken } from 'firebase/messaging';
 
 /* ICON */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,10 +18,10 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import CreaFarmaci from './components/crea-farmaci/CreaFarmaci';
 import CreaPazienti from './components/crea-pazienti/CreaPazienti';
 import CreaPiani from './components/crea-piani/CreaPiani';
+import CalendarioPazienti from './components/calendario/CalendarioPazienti';
+import { useEffect } from 'react';
+
  './components/crea-pazienti/CreaPazienti.tsx';
-
-
-
 
 
 function Impaginazione({ children }: any){
@@ -40,6 +42,8 @@ function App(){
         isMedic
         } = useAuth();          //tira fuori i valori Context del utente con useContext e li assegna alla struttura
         
+
+    
     return(
         <>
             <Router>
@@ -49,6 +53,8 @@ function App(){
 
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
+
+                    <Route path = "/calendarPazienti" element = {<CalendarioPazienti/>}/>
                     //route protette condivise
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='all'/>}>
                         <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />

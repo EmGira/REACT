@@ -8,11 +8,13 @@ import './Calendario.css'
 import FirebaseService from '@/services/FirebaseService';
 import {useAuth} from '../contexts/AuthContext'
 import {AppointmentsList, fetchAppointments} from './appointments';
+import { Users } from 'lucide-react';
 
 interface Appointments{
   id: number,
   data: string,
-  orario: string,
+  orarioInizio: string,
+  orarioFine: string,
   paziente: string,
   mailPaziente: string,
   descrizione: string
@@ -49,7 +51,8 @@ function Calendario(){
     const emptyAppointment: Appointments = {
       id: 0,
       data: "",
-      orario: "",
+      orarioInizio: "",
+      orarioFine: "",
       paziente: "",
       mailPaziente: "",
       descrizione: "" 
@@ -117,6 +120,8 @@ function Calendario(){
           setUsers(soloPazienti);
         }
 
+        fetchUsers();
+
      
     }, [userId])
     
@@ -132,12 +137,22 @@ function Calendario(){
 
     //aggiorna lappuntamneot corrente quando variano gli input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      setAppointment({
-          ...appointment,
-          [e.target.name]: e.target.value,
-         
-      })
-    }
+      const { name, value } = e.target;
+
+      if (name === "paziente" && users) {
+        const selectedUser = users.find((u) => u.codiceFiscale === value);
+        setAppointment((prev) => ({
+          ...prev,
+          paziente: value,
+          mailPaziente: selectedUser?.email || "", // imposta anche l'email
+        }));
+      } else {
+        setAppointment((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
+    };
 
     //aggiorna la data selezionata
     const handleClick = (date: Date) => {   
@@ -184,16 +199,17 @@ function Calendario(){
 
   
 
-    //modifica contenuto della tile - mostrap untino rosso su le tile che hanno appuntamenti
-    const tileContent = ({date, view}: { date: Date; view: string }) => {     
-    
-        if (view === 'month' && appointments && appointments.some((apt) => apt.data === date.toDateString()))        //some: controlla se almeno un elemento soddisfa la condizione, se Si termina
-                return ( 
-                        <div>
-                            <span style={{ color: 'red' }}>•</span>
-                        </div>
-                )
-    }
+    //modifica contenuto della tile 
+
+    const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+      if (
+        view === 'month' &&
+        appointments?.some((apt) => apt.data === date.toDateString())
+      ) {
+        return 'tile-with-appointment';
+      }
+      return null;
+    };
 
 
     //RENDER
@@ -206,14 +222,14 @@ function Calendario(){
                 )}
             
             
-                <Calendar onClickDay={handleClick} tileContent={tileContent} className = "calendar"/>
+                <Calendar onClickDay={handleClick} tileClassName = {tileClassName} className = "calendar"/>
             
 
                 
 
                 {activeDate && !showForm && userId && (             //se premi una tile (activeDate) mostra lista appuntamenti
                     <div className = "appList">
-                      <div>
+                      <div className = "appListElement">
                         <Button onClick={() => setShowForm(true)}>crea nuovo appuntamento</Button>
                         <AppointmentsList medicDocumentId= {userId} activeDate = {activeDate.toDateString()}></AppointmentsList>
                         <Button onClick={() => setActiveDate(null)}>esci</Button>
@@ -230,8 +246,22 @@ function Calendario(){
 
                     <div className="inputs">
                       <Input name = "data" type="data" placeholder="Data" defaultValue={activeDate.toDateString()}/>
-                      <Input name = "orario" type="string" placeholder="Orario" onChange={handleChange} value = {appointment.orario}/>
-                      <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {appointment.paziente}/>
+                      <Input name = "orarioInizio" type="string" placeholder="Orario Inizio" onChange={handleChange} value = {appointment.orarioInizio}/>
+                      <Input name = "orarioFine" type="string" placeholder="Orario Fine" onChange={handleChange} value = {appointment.orarioFine}/>
+                      
+                      <select
+                        name="paziente"
+                        value={appointment.paziente}
+                        onChange={handleChange}
+                        className="select" // optional: style as needed
+                      >
+                        <option value="">Seleziona un paziente</option>
+                        {users?.map((p) => (
+                          <option key={p.codiceFiscale} value={p.codiceFiscale}>
+                            {p.nome} {p.cognome}
+                          </option>
+                        ))}
+                      </select>
                       <Input name = "mailPaziente" type="string" placeholder="e-mail" onChange={handleChange} value = {appointment.mailPaziente}/>
                       <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {appointment.descrizione} />
 
