@@ -2,36 +2,17 @@ import './CreaPiani.css'
 import { FirebaseService } from '../../services/FirebaseService';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Farmaco } from '@/models/farmaco.model';
 
 
 function CreaPiani(){
 
-    const { slug } = useParams();
     const navigate = useNavigate();
+
+    const { slug } = useParams();
     const [currentSlug, setCurrentSlug] = useState('');
-    // validators
-    const [isFormValid, setIsFormValid] = useState(false);
-    const [isFarmacoValid, setIsFarmacoValid] = useState(false);
 
-    // array
-    const [farmaci, setFarmaci] = useState<any[]>([]);
-    const [farmaciAggiunti, setFarmaciAggiunti] = useState<any[]>([]);
-
-    // piano
-    const [piano, setPiano] = useState<any>({
-        farmaci: [],
-        id_paziente: 'qfikoLwL8lTNitXVSbbngLccwsF3', // da cambiare 
-        data_inizio: '',
-        data_fine: ''
-    });
-    
-    // farmaco aggiunto
-    const [farmaco, setFarmaco] = useState({
-        id_farmaco: '',
-        periodo: '',
-        dose: 1,
-        frequenza: 0
-    });
+    // array x select
     const periodi = [
         "Prima di colazione",
         "Dopo colazione",
@@ -47,7 +28,27 @@ function CreaPiani(){
         { value: 2, label: 'Ogni 2 giorni' },
         { value: 3, label: 'Ogni 3 giorni' }
     ];
-        
+    const [farmaci, setFarmaci] = useState<Farmaco[]>([]);
+
+    // form farmaco 
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [farmaco, setFarmaco] = useState({
+        id_farmaco: '',
+        periodo: '',
+        dose: 0,
+        frequenza: 0
+    });
+
+    // form piano
+    const [isFarmacoValid, setIsFarmacoValid] = useState(false);
+    const [farmaciAggiunti, setFarmaciAggiunti] = useState<any[]>([]);
+    const [piano, setPiano] = useState<any>({
+        farmaci: [],
+        id_paziente: currentSlug.split('-')[0], 
+        data_inizio: '',
+        data_fine: ''
+    });
+       
     // on init
     useEffect(() => {
         fetchFarmaci();
@@ -69,16 +70,6 @@ function CreaPiani(){
         setCurrentSlug(slug);
         
     },[slug, navigate]);
-
-    // ottengo tutti i farmaci disponibili
-    const fetchFarmaci = async () => {
-        try {
-          const result = await FirebaseService.getFarmaci();
-          setFarmaci(result); // Assegna direttamente i valori agli array
-        } catch (err) {
-          setError("Errore nel recupero dei farmaci");
-        }
-    };
 
     // validatore per farmaco
     useEffect(() => {
@@ -120,29 +111,74 @@ function CreaPiani(){
         setIsFormValid(isValid);
     }, [piano.data_inizio, farmaciAggiunti]);
 
+    // ottengo tutti i farmaci disponibili
+    const fetchFarmaci = async () => {
+        try {
+            const result: any = await FirebaseService.getFarmaci();
+            setFarmaci(result); // Assegna direttamente i valori agli array
+        } catch (err) {
+            setError("Errore nel recupero dei farmaci");
+        }
+    };
+
     const addFarmacoToList = (e: any) => {
         e.preventDefault();
-        const newFarmaco = { ...farmaco };
+        
+        const assunzioni: {data: string, stato: 'assunto' | 'pianificato' | 'dimenticato'}[] = [];
+
+        const newFarmaco = { ...farmaco, assunzioni: []};
         setFarmaciAggiunti((prevFarmaci) => [...prevFarmaci, newFarmaco]);
 
         setFarmaco({
             id_farmaco: '',
             periodo: '',
-            dose: 1,
+            dose: 0,
             frequenza: 1
         });
     };
 
     const createPiano = async (e: any) => {
         e.preventDefault();
-    
+
+        const farmaciAggiornato = [];
+
+        for (let farmaco of piano.farmaci) {
+            const data = new Date(piano.data_inizio);
+            const farmacoCopia = { ...farmaco};
+
+            for (let i = 0; i < 7; i += farmaco.frequenza) {
+                const nuovaData = new Date(data);
+                nuovaData.setDate(nuovaData.getDate() + i);
+                if (!isNaN(nuovaData.getTime())) {
+                    farmacoCopia.assunzioni.push({
+                        data: nuovaData.toISOString().split('T')[0],
+                        stato: 'pianificato'
+                    });
+                } else {
+                console.error("Data non valida: ", nuovaData);
+                }
+            }
+
+            farmaciAggiornato.push(farmacoCopia);
+        }
+        console.log('farmaciAggiornato')
+        console.log(farmaciAggiornato)
+
+        setPiano({
+        ...piano,
+        farmaci: farmaciAggiornato
+        });
+
+          
         try {
-            await FirebaseService.addPiano(piano);
-            alert("Farmaco aggiunto con successo!");
+            await FirebaseService.addPiano({
+                ...piano,
+                farmaci: farmaciAggiornato
+            });
             setFarmaco({
                 id_farmaco: '',
                 periodo: '',
-                dose: 1,
+                dose: 0,
                 frequenza: 1
             });
     
@@ -152,6 +188,9 @@ function CreaPiani(){
                 data_inizio: '',
                 data_fine: ''
             });
+
+            navigate('./../../piano/' + currentSlug);
+
         } catch (error) {
             console.error("Errore nell'aggiunta del farmaco:", error);
         }  

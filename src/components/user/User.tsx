@@ -49,6 +49,12 @@ function User() {
 
         setCurrentSlug(slug);
         setCurrentView(view);
+        if(view == 'profilo')
+            setSelectedButton(0)
+        else if(view == 'registro')
+            setSelectedButton(1);
+        else if(view == 'piano')
+            setSelectedButton(2);
 
         if(['piano','profilo','registro'].includes(view)){
             FirebaseService.getAllUsers().then((users: any) => {
@@ -91,7 +97,8 @@ function User() {
 
 
     return(
-        <div className="body_user">
+        <div className="">
+            <div className="body_user">
                 {currentUser != null && <div className="box_user">
                     <div className="cerchio_icon">
                         <img src={cambiaImmagine(currentUser.sesso)} className="icon"/>

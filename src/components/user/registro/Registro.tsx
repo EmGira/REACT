@@ -1,117 +1,139 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import "../User.css"
 import { FirebaseService } from '../../../services/FirebaseService';
+import { Farmaco } from "@/models/farmaco.model";
+import { Piano } from "@/models/piano.model";
+import { User } from "firebase/auth";
+import { Assunzione } from "@/models/assunzione.model";
+import './Registro.css'
 
 
 function Registro() {
 
-  const [farmaci, setFarmaci] = useState<any[]>([]);
-  const [pazienti, setUsers] = useState<any[]>([]);
-  const [piani, setPiani] = useState<any[]>([]);
+  const periodi = [
+    "Prima di colazione",
+    "Dopo colazione",
+    "Prima di pranzo",
+    "Dopo pranzo",
+    "Prima di cena",
+    "Dopo cena",
+    "Prima di dormire"
+  ];
 
+  const { slug } = useParams();
+  const navigate = useNavigate();
 
-  const date = () => new Date().toLocaleDateString('it-IT');
+  const [farmaci, setFarmaci] = useState<Farmaco[]>([]);
+  const [piani, setPiani] = useState<Piano[]>([]);
+  const [assunzioni, setAssunzioni] = useState<Assunzione[]>([]);
+  const [date, setDate] = useState<string[]>([]);
 
-  const [editMode, setEditMode] = useState(false);
+  useEffect(() => {
+    FirebaseService.getFarmaci().then((response: any) => {
+      setFarmaci(response);
+    });
+  },[]);
 
-  const handleModifica = () => {
-    setEditMode(true);
-  };
-
-  const handleAnnulla = () => {
-    setEditMode(false);
-  };
-
-  const handleInvia = () => {
-    console.log("Invio dati...");
-    setEditMode(false);
-  };
-
-  // flags
-  const isAdmin = true;
-  const [selectedButton, setSelectedButton] = useState((isAdmin ? 1 : 2));
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-
-  const fetchFarmaci = async () => {
-    try {
-      const result = await FirebaseService.getFarmaci();
-      setFarmaci(result); // Assegna direttamente i valori agli array
-    } catch (err) {
-      setError("Errore nel recupero dei farmaci");
+  useEffect(() => {
+    if(!slug){
+      navigate('/');
+      return;
     }
-  };
+    FirebaseService.getPianiByIdPaziente(slug.split('-')[0]).then((responsePiani: any) => {
 
-  const fetchUsers = async () => {
-    try {
-      const result = await FirebaseService.getAllUsers();
-      setUsers(result); // Assegna direttamente i valori agli array
-    } catch (err) {
-      setError("Errore nel recupero degli utenti");
-    }
-  };
+      setPiani(responsePiani);
+      
+      const assunzioniTemp: Assunzione[] = [];
+      const uniqueDates: string[] = []; // Array per le date uniche
 
-  const fetchPiani = async () => {
-    try{
-      const result = await FirebaseService.getPiani();
-      setPiani(result);
-    }catch(err){
-      setError("Errore nel recupero dei piani");
-    }
+      if (responsePiani && responsePiani.length > 0) {
+        for(let piano of responsePiani){
+          for(let farmaco of piano.farmaci){
+            for(let a of farmaco.assunzioni){
+              const assunzioneTemp: Assunzione = {
+                id_piano: piano.id,
+                id_farmaco: farmaco.id_farmaco,
+                data:a.data,
+                periodo:farmaco.periodo,
+                stato:a.stato
+              }
+              assunzioniTemp.push(assunzioneTemp);
+              if (!uniqueDates.includes(a.data)) {
+                uniqueDates.push(a.data);
+              }
+            }
+          }
+        }
+      }
+
+      assunzioniTemp.sort((a, b) => {
+        const dateA = new Date(a.data);
+        const dateB = new Date(b.data);
+
+        if (dateB.getTime() !== dateA.getTime()) {
+          return dateB.getTime() - dateA.getTime();
+        }
+    
+        const indexA = periodi.indexOf(a.periodo);
+        const indexB = periodi.indexOf(b.periodo);
+        return indexA - indexB;
+      });
+
+      console.log(assunzioniTemp);
+
+      setAssunzioni(assunzioniTemp);
+      setDate(uniqueDates);
+    });
+  },[slug, navigate]);
+
+  const updateAssunzione = (a: Assunzione) => {
+    FirebaseService.updateAssunzione(a).then((response: any) => {
+      console.log(response);
+      const assunzioniTemp = [...assunzioni];
+      
+      const updatedAssunzioni = assunzioniTemp.map((assunzione) => {
+
+        if (assunzione.id_farmaco == a.id_farmaco && assunzione.data == a.data && assunzione.periodo == a.periodo && assunzione.id_piano == a.id_piano) {
+          return { ...assunzione, stato: a.stato }; 
+         
+        }
+        return assunzione;
+      });
+
+      setAssunzioni(updatedAssunzioni);
+    });
   }
 
-  useEffect(() => {
-    // Esegui entrambe le chiamate di fetch
-    fetchUsers();
-    fetchFarmaci();
-  }, []);
-
-  useEffect(() => {
-    if (farmaci.length > 0 && pazienti.length > 0 ) {
-      setLoading(false);
-    }
-  }, [farmaci, pazienti]);
-
-  if (loading) return <p>Caricamento...</p>;
-  if (error) return <p>{error}</p>;
-
-
-
   return (
-    <div className="anagrafica">
 
-    <div className="testo_e_button">
-      <h2 className="h2_user">Registro farmaci</h2>
-      {!editMode && (
-        <button onClick={handleModifica} className="button_modifica">Modifica</button>
-      )}
-     </div> 
-
-
-      <div className="sezione_dati">
-
-        {piani.map((i) => (
-          <li key={i}>{i.data_fine}, {i.data_inizio}, {i.id_paziente}</li>
+    <div className="main-container">
+      <div className="content-right">
+        {date.map((data) => (
+          <div key={data} className="data-card">
+            <h3>{data}</h3>
+            {assunzioni
+              .filter((assunzione) => assunzione.data === data)
+              .map((assunzione,index) => (
+                <div key={index} className="assunzione-item">
+                  <p><strong>Farmaco:</strong> {assunzione.id_farmaco}</p>
+                  <p><strong>Periodo:</strong> {assunzione.periodo}</p>
+                  <p><strong>Stato:</strong> {assunzione.stato}</p>
+                  {assunzione.stato == 'pianificato' && <div className="assunzione-buttons">
+                    <button onClick={() => updateAssunzione({ ...assunzione, stato: 'assunto' })} className="btn-confirm">
+                      Conferma
+                    </button>
+                    <button onClick={() => updateAssunzione({ ...assunzione, stato: 'dimenticato' })} className="btn-delete">
+                      Elimina
+                    </button>
+                    
+                  </div>}
+                </div>
+              ))}
+          </div>
         ))}
-
-
-        <p>{date()}</p>
-        <input type="checkbox" />
-
-
       </div>
-      {editMode && (
-        <div className="tasti_modifica">
-          <button className="annulla" onClick={handleAnnulla}>Annulla</button>
-          <button className="invia" onClick={handleInvia}>Invia</button>
-        </div>
-      )}
-
     </div>
-
-
 
   )
 

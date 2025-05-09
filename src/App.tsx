@@ -18,6 +18,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import CreaFarmaci from './components/crea-farmaci/CreaFarmaci';
 import CreaPazienti from './components/crea-pazienti/CreaPazienti';
 import CreaPiani from './components/crea-piani/CreaPiani';
+import ModificaPiano from './components/modifica-piano/ModificaPiano';
 import CalendarioPazienti from './components/calendario/CalendarioPazienti';
 import { useEffect } from 'react';
 
@@ -62,8 +63,11 @@ function App(){
                     
                     //route protette per i Pazienti
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='patient' />}>
-                        <Route path="/user/:view/:slug" element={<Impaginazione><User /></Impaginazione>}/>
+                        
                     </Route>
+                    <Route path="/user/piano/:slug/:idPiano" element={<Impaginazione><ModificaPiano /></Impaginazione>} />
+                    <Route path="/user/:view/:slug" element={<Impaginazione><User /></Impaginazione>} />
+
 
                     //route protette per i Medici
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='medic' />}>
