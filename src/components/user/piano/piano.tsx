@@ -44,11 +44,9 @@ function Piano({user}: any) {
   },[slug, navigate]);
 
   useEffect(() => {
-    console.log(user)
     FirebaseService.getPiani().then((piani: any) => {
       const pianiFiltrati = piani.filter((piano: any) => piano.id_paziente == currentSlug.split('-')[0]);
       setPianiPaziente(pianiFiltrati);
-      console.log(pianiFiltrati)
     });
     
   },[currentSlug]);

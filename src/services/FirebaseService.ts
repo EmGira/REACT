@@ -14,6 +14,7 @@ import {
 import { collection, getDocs, doc, setDoc, getDoc, query, where, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { Piano } from "@/models/piano.model.ts";
 import { Utente } from "@/models/Utente.model.ts";
+import { Assunzione } from "@/models/assunzione.model.ts";
 
 
 // 🔥 Oggetto per gestire Firebase in modo centralizzato
@@ -223,7 +224,7 @@ export const FirebaseService = {
     }
   },
 
-  addPiano: async (piano: any) => {
+  addPiano: async (piano: Piano) => {
     try {
       // Aggiungi il documento nella collezione "farmaci"
       const docRef = await addDoc(collection(db, "piani"), {
@@ -292,6 +293,16 @@ export const FirebaseService = {
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
   },
 
+  getPianiByIdPaziente: async (idPaziente: string) => {
+    const q = query(
+      collection(db, 'piani'),
+      where('id_paziente', '==', idPaziente)
+    );
+  
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  },
+
   getUserById: async (id: string) => {
     try {
       const userRef = doc(db, 'users', id);  
@@ -336,6 +347,49 @@ export const FirebaseService = {
     }
   },
 
+  updateAssunzione: async (a: Assunzione) => {
+    try {
+      const pianoRef = doc(db, "piani", a.id_piano);
+      const pianoDoc = await getDoc(pianoRef);
+      const piano = pianoDoc.data() as Piano;
+  
+      if (!piano) {
+        console.error("Piano non trovato");
+        return;
+      }
+  
+      const currentDate = new Date(a.data).toISOString().split('T')[0];
+      if (currentDate < piano.data_inizio || currentDate > piano.data_fine) {
+        console.log("La data corrente non è nell'intervallo del piano");
+        return;
+      }
+  
+      const updatedFarmaci = piano.farmaci.map(farmaco => {
+        if (farmaco.id_farmaco === a.id_farmaco && farmaco.periodo === a.periodo) {
+          const updatedAssunzioni = farmaco.assunzioni.map(assunzione => {
+            if (assunzione.data === a.data) {
+              return { ...assunzione, stato: a.stato };
+            }
+            return assunzione;
+          });
+  
+          return { ...farmaco, assunzioni: updatedAssunzioni };
+        }
+        return farmaco;
+      });
+  
+      await updateDoc(pianoRef, {
+        farmaci: updatedFarmaci,
+        data_inizio: piano.data_inizio,
+        data_fine: piano.data_fine
+      });
+  
+      console.log("Assunzione aggiornata con successo");
+    } catch (error) {
+      console.error("Errore nell'aggiornare l'assunzione: ", error);
+    }
+  }
+  
 
 };
 

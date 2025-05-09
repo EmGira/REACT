@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import './ModificaPiano.css'
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import FirebaseService from '@/services/FirebaseService';
 import { Piano } from '@/models/piano.model';
 import { Farmaco } from '@/models/farmaco.model';
+import { RiferimentoFarmaco } from '@/models/riferimentoFarmaco.model';
 
 function ModificaPiano(){
 
@@ -17,11 +18,12 @@ function ModificaPiano(){
     const [pianoPaziente, setPianoPaziente] = useState<Piano | null>(null);
 
     const [isAddingFarmaco, setIsAddingFarmaco] = useState(false);
-    const [newFarmaco, setNewFarmaco] = useState<{id_farmaco: string, dose: number, frequenza: 1 | 2 | 3, periodo:string}>({
+    const [newFarmaco, setNewFarmaco] = useState<RiferimentoFarmaco>({
         id_farmaco: '',
         dose: 0,
         frequenza: 1,
         periodo: '',
+        assunzioni: []
     });
 
     const [farmaci, setFarmaci] = useState<Farmaco[]>([]);
@@ -43,6 +45,8 @@ function ModificaPiano(){
     
     const [isEditing, setIsEditing] = useState(false);
 
+    const [isValid, setIsValid] = useState(false);
+
     useEffect(() => {
             FirebaseService.getPiani().then((response: any) => {    
                 setPiani(response);
@@ -63,6 +67,10 @@ function ModificaPiano(){
         
     },[slug, idPiano, navigate, piani, isEditing]);
 
+    useEffect(() => {
+      handleValidation();
+    }, [pianoPaziente]);
+
     const toggleEdit = () => {
         setIsEditing(!isEditing);
         setIsAddingFarmaco(false);
@@ -71,8 +79,27 @@ function ModificaPiano(){
     const handleFarmacoChange = (index: number, field: string, value: any) => {
         if (!pianoPaziente) return;
     
-        const updatedFarmaci: [{id_farmaco: string, dose: number, frequenza: 1 | 2 | 3, periodo:string}] = [...pianoPaziente.farmaci];
-    
+        const updatedFarmaci: RiferimentoFarmaco[] = [...pianoPaziente.farmaci];
+        if(field == 'frequenza'){
+
+          updatedFarmaci[index].assunzioni = [];
+
+          const data = new Date(pianoPaziente.data_inizio);
+
+          for (let i = 0; i < 7; i += value) {
+            const nuovaData = new Date(data);
+            nuovaData.setDate(nuovaData.getDate() + i);
+            if (!isNaN(nuovaData.getTime())) {
+              updatedFarmaci[index].assunzioni.push({
+                    data: nuovaData.toISOString().split('T')[0],
+                    stato: 'pianificato'
+                });
+            } else {
+            console.error("Data non valida: ", nuovaData);
+            }
+          }
+        }
+
         updatedFarmaci[index] = {
             ...updatedFarmaci[index],
             [field]: value,
@@ -87,8 +114,26 @@ function ModificaPiano(){
     const handleAddFarmaco = () => {
         if (!pianoPaziente || !newFarmaco.id_farmaco) return;
 
-        const updatedFarmaci: [{id_farmaco: string, dose: number, frequenza: 1 | 2 | 3, periodo:string}] = [...pianoPaziente.farmaci];
-        updatedFarmaci.push(newFarmaco);
+        const updatedFarmaci: RiferimentoFarmaco[] = [...pianoPaziente.farmaci];
+
+        const newFarmacoCompleto: RiferimentoFarmaco = {...newFarmaco};
+
+        const data = new Date(pianoPaziente.data_inizio);
+
+        for (let i = 0; i < 7; i += newFarmacoCompleto.frequenza) {
+          const nuovaData = new Date(data);
+          nuovaData.setDate(nuovaData.getDate() + i);
+          if (!isNaN(nuovaData.getTime())) {
+            newFarmacoCompleto.assunzioni.push({
+              data: nuovaData.toISOString().split('T')[0],
+              stato: 'pianificato'
+            });
+          } else {
+          console.error("Data non valida: ", nuovaData);
+          }
+        }
+
+        updatedFarmaci.push(newFarmacoCompleto);
 
         setPianoPaziente({
             ...pianoPaziente,
@@ -97,19 +142,19 @@ function ModificaPiano(){
 
         // Resetta il form e chiudi il modal
         setNewFarmaco({
-            id_farmaco: '',
-            dose: 0,
-            frequenza: 1,
-            periodo: '',
+          id_farmaco: '',
+          dose: 0,
+          frequenza: 1,
+          periodo: '',
+          assunzioni: []
         });
         setIsAddingFarmaco(false);
     };
 
-    // Rimuovi un farmaco dal piano
     const handleRemoveFarmaco = (index: number) => {
         if (!pianoPaziente) return;
 
-        const updatedFarmaci: [{id_farmaco: string, dose: number, frequenza: 1 | 2 | 3, periodo:string}] = [...pianoPaziente.farmaci];
+        const updatedFarmaci: RiferimentoFarmaco[] = [...pianoPaziente.farmaci];
 
         updatedFarmaci.splice(index, 1);
 
@@ -125,8 +170,6 @@ function ModificaPiano(){
             [field]: value,
         });
     };
-
-    const [isValid, setIsValid] = useState(false);
 
     const handleValidation = () => {
       if (!pianoPaziente || pianoPaziente.farmaci == null || pianoPaziente.farmaci.length <= 0) {
@@ -144,23 +187,45 @@ function ModificaPiano(){
       setIsValid(true);
     }
     
-    useEffect(() => {
-      handleValidation();
-    }, [pianoPaziente]);
-    
-    const handleDataInizio = (data: string) => {
+    const handleDataInizio = (d: string) => {
+
       if (pianoPaziente == null) return;
 
-      const date = new Date(data);
+      const farmaciAggiornato = [];
+
+      for (let farmaco of pianoPaziente.farmaci) {
+          const data = new Date(d);
+          const farmacoCopia = { ...farmaco};
+          farmacoCopia.assunzioni = [];
+
+          for (let i = 0; i < 7; i += farmacoCopia.frequenza) {
+              const nuovaData = new Date(data);
+              nuovaData.setDate(nuovaData.getDate() + i);
+              if (!isNaN(nuovaData.getTime())) {
+                  farmacoCopia.assunzioni.push({
+                      data: nuovaData.toISOString().split('T')[0],
+                      stato: 'pianificato'
+                  });
+              } else {
+              console.error("Data non valida: ", nuovaData);
+              }
+          }
+
+          farmaciAggiornato.push(farmacoCopia);
+      }
+
+      console.log(farmaciAggiornato);
+
+      const date = new Date(d);
       date.setDate(date.getDate() + 7);
     
       const newDate = date.toISOString().split('T')[0];
 
       setPianoPaziente({
         id: pianoPaziente.id,
-        farmaci: pianoPaziente.farmaci,
+        farmaci: farmaciAggiornato,
         id_paziente: pianoPaziente.id_paziente,
-        data_inizio: data,
+        data_inizio: d,
         data_fine: newDate
       });
     }
@@ -300,8 +365,8 @@ function ModificaPiano(){
                             onChange={(e) => handleChangeNewFarmaco('id_farmaco', e.target.value)}
                         >
                             <option value="">Seleziona un farmaco</option>
-                            {farmaci.map(farmaco => (
-                                <option key={farmaco.id} value={farmaco.id}>{farmaco.nome}</option>
+                            {farmaci.map((farmaco, index) => (
+                                <option key={index} value={farmaco.id}>{farmaco.nome}</option>
                             ))}
                         </select>
 

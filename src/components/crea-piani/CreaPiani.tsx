@@ -123,7 +123,10 @@ function CreaPiani(){
 
     const addFarmacoToList = (e: any) => {
         e.preventDefault();
-        const newFarmaco = { ...farmaco };
+        
+        const assunzioni: {data: string, stato: 'assunto' | 'pianificato' | 'dimenticato'}[] = [];
+
+        const newFarmaco = { ...farmaco, assunzioni: []};
         setFarmaciAggiunti((prevFarmaci) => [...prevFarmaci, newFarmaco]);
 
         setFarmaco({
@@ -136,9 +139,42 @@ function CreaPiani(){
 
     const createPiano = async (e: any) => {
         e.preventDefault();
-    
+
+        const farmaciAggiornato = [];
+
+        for (let farmaco of piano.farmaci) {
+            const data = new Date(piano.data_inizio);
+            const farmacoCopia = { ...farmaco};
+
+            for (let i = 0; i < 7; i += farmaco.frequenza) {
+                const nuovaData = new Date(data);
+                nuovaData.setDate(nuovaData.getDate() + i);
+                if (!isNaN(nuovaData.getTime())) {
+                    farmacoCopia.assunzioni.push({
+                        data: nuovaData.toISOString().split('T')[0],
+                        stato: 'pianificato'
+                    });
+                } else {
+                console.error("Data non valida: ", nuovaData);
+                }
+            }
+
+            farmaciAggiornato.push(farmacoCopia);
+        }
+        console.log('farmaciAggiornato')
+        console.log(farmaciAggiornato)
+
+        setPiano({
+        ...piano,
+        farmaci: farmaciAggiornato
+        });
+
+          
         try {
-            await FirebaseService.addPiano(piano);
+            await FirebaseService.addPiano({
+                ...piano,
+                farmaci: farmaciAggiornato
+            });
             setFarmaco({
                 id_farmaco: '',
                 periodo: '',

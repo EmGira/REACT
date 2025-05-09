@@ -3,12 +3,16 @@ export interface Piano{
     id_paziente: string,
     data_inizio: string,
     data_fine: string,
-    farmaci: [
+    farmaci: 
         {
             id_farmaco: string,
             periodo: string,
             frequenza: 1 | 2 | 3,
             dose: number
-        }
-    ] 
+            assunzioni:{
+                data: string,
+                stato: 'assunto' | 'pianificato' | 'dimenticato'
+            }[]
+        }[]
+    
 }
