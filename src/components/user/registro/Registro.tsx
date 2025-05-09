@@ -104,8 +104,8 @@ function Registro() {
       </div>
       {editMode && (
         <div className="tasti_modifica">
-          <button onClick={handleAnnulla}>Annulla</button>
-          <button onClick={handleInvia}>Invia</button>
+          <button className="annulla" onClick={handleAnnulla}>Annulla</button>
+          <button className="invia" onClick={handleInvia}>Invia</button>
         </div>
       )}
 

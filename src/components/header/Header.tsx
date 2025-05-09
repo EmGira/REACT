@@ -14,6 +14,11 @@ function Header(){
 
     const handleLogout = async () => {
         try {
+
+          localStorage.removeItem('authUser');
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('isPatient');
+          localStorage.removeItem('isMedic');
           await FirebaseService.logout();
           console.log("Utente disconnesso");
           // Se usi react-router:
@@ -28,7 +33,7 @@ function Header(){
            <img src="/src/assets/pharmaCare.png" alt="logo" className='logo' onClick={() => {navigate('/home')}}/>
 
             <div className='dati'>
-                <p className='header-text' onClick={() => {handleLogout; navigate("/login")} }>Log out</p>
+                <p className='header-text' onClick={() => {handleLogout(); navigate("/login")} }>Log out</p>
                 <FontAwesomeIcon icon={faCalendar} onClick = {() => navigate("")} className='header-icon'/>
                 <FontAwesomeIcon icon={faBell}  onClick = {() => navigate("")} className='header-icon'/>
                 <FontAwesomeIcon icon={faCircleUser}  onClick = {() => navigate("")} className='header-icon'/>

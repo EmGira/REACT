@@ -6,6 +6,8 @@ import CardAggiungi from '../../sub_components/card_aggiungi/CardAggiungi';
 import { FirebaseService } from '../../services/FirebaseService';
 import { useNavigate } from 'react-router-dom';
 
+import Calendario from '../calendario/Calendario';
+
 function Home(){
 
     const navigate = useNavigate();
@@ -89,6 +91,12 @@ function Home(){
                     ))}
                     </div>
                 )}
+
+                {selectedButton == 3 &&(
+                           <div>
+                                <Calendario></Calendario>
+                           </div>         
+                                )}
                 
             </div>
         </div>

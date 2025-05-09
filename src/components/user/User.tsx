@@ -14,8 +14,31 @@ function User() {
 
     const [selectedButton, setSelectedButton]= useState(0);
 
+    const [medic, setMedic] = useState(false);
+
+
     const { view, slug } = useParams();
     const navigate = useNavigate();
+
+
+    function verificaUtente () {
+        if (slug) {
+            try {
+              // Ottieni i dati dell'utente usando lo slug (che è l'ID)
+              const userId = slug.split('-')[0];
+              FirebaseService.getUserData(userId).then((userData: any) => {
+                if(userData != null)  {
+                    if(userData.paziente==false){
+                        setMedic(true);
+                    }
+                  }
+              });
+              
+            } catch (error) {
+              console.error("Errore nel recupero dei dati dell'utente", error);
+            }
+        }
+    }
 
     useEffect(() => {
     
@@ -66,6 +89,7 @@ function User() {
     }
 
 
+
     return(
         <div className="body_user">
                 {currentUser != null && <div className="box_user">
@@ -76,17 +100,26 @@ function User() {
         
                     <div className="pulsanti_user">
                         <button className={selectedButton==0?'selected':'no-selected'} onClick={() =>  {navigate(`/user/profilo/` + currentSlug); classNameButton(0)}} > profilo </button>
-                        <button className={selectedButton==1?'selected':'no-selected'} onClick={() =>  {navigate(`/user/registro/` + currentSlug) ; classNameButton(1)}} > registro </button>
-                        <button className={selectedButton==2?'selected':'no-selected'} onClick={() =>  {navigate(`/user/piano/` + currentSlug); classNameButton(2)}} > piano </button>
-                    </div>
+                        {!medic &&
+                        <>
+                            <button className={selectedButton==1?'selected':'no-selected'} onClick={() =>  {navigate(`/user/registro/` + currentSlug) ; classNameButton(1)}} > registro </button>
+                            <button className={selectedButton==2?'selected':'no-selected'} onClick={() =>  {navigate(`/user/piano/` + currentSlug); classNameButton(2)}} > piano </button>
+                        </>
+                        }
+                        </div>
                 </div>}
 
                 <div className="contenuto_user">
-                {currentView == 'registro' && <Registro></Registro>}
-                {currentView == 'profilo' && <Profilo user={currentUser}></Profilo>}
-                {currentView == 'piano' && <Piano user={currentUser}></Piano>}
+                    {currentView == 'profilo' && <Profilo></Profilo>} 
+                    {!medic && 
+                        <>
+                        {currentView == 'registro' && <Registro></Registro>}
+                        {currentView == 'piano' && <Piano user={currentUser}></Piano>}
+                        </>
+                    }
                 </div>
             </div>
+                
     )
 
 }

@@ -1,5 +1,31 @@
 
 
 button{
-    margin: 1vh
+    margin: 0.5vh;
+    background-color: rgb(46, 139, 139);
+}
+
+
+.lista{
+   
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+    align-items: center;
+}
+
+.lista button{
+    width: 50%;
+    background-color: rgb(46, 139, 139);
+}
+
+
+.lista ul{
+    border-top-width: 0.2vh;
+    border-color:rgb(160, 160, 150)
+}
+.lista li{
+    
+    border-bottom-width: 0.2vh;
+    padding: 2vh;
+    border-color:rgb(160, 160, 150)
 }

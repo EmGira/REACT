@@ -158,8 +158,6 @@
 }
 
 
-
-
 .button_modifica {
     padding: 5px 15px;
     border: none;
@@ -173,8 +171,43 @@
 }
 
 .button_modifica:hover {
-    background-color: #007BFF;
+    background-color: #2f4858cf;
     transform: scale(1.05);
+}
+
+
+
+.tasti_modifica button {
+    padding: 5px 15px;
+    width: 15%;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    align-self: flex-start;
+    font-size: 17px;
+}
+
+.tasti_modifica button:hover {
+    transform: scale(1.05);
+}
+
+.annulla{
+    background-color: red;
+}
+
+
+.annulla:hover{
+    background-color: rgba(255, 0, 0, 0.667);
+}
+
+.invia{
+    background-color: #2F4858;
+}
+
+.invia:hover{
+    background-color: #2f4858cd ;
 }
 
 .h2_user{

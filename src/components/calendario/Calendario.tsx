@@ -214,7 +214,7 @@ function Calendario(){
 
     //RENDER
     return(
-        <>
+        
         <div className = "all">
 
                 {(loading || !authUser || !userId) && (   //se authUser e userId non sono inizializzati, mostra caricamento, DA FARE        
@@ -232,7 +232,7 @@ function Calendario(){
                       <div className = "appListElement">
                         <Button onClick={() => setShowForm(true)}>crea nuovo appuntamento</Button>
                         <AppointmentsList medicDocumentId= {userId} activeDate = {activeDate.toDateString()}></AppointmentsList>
-                        <Button onClick={() => setActiveDate(null)}>esci</Button>
+                        <Button className = "esci"onClick={() => setActiveDate(null)}>esci</Button>
                       </div>
 
                     </div>
@@ -276,7 +276,7 @@ function Calendario(){
                 )}
 
         </div>
-        </>
+        
     )
 }
 
