@@ -106,7 +106,10 @@ import './appointments.css'
                     .filter((apt) => apt.data === activeDate)
                     .map((apt) => (
                         <li  key = {apt.mailPaziente}>
-                            <b>Data:</b> {apt.data} <br/>  <b>Inizio/fine:</b>  {apt.orarioInizio} - {apt.orarioFine} <br /> {apt.paziente} - {apt.mailPaziente} <br />  {apt.descrizione} <br />
+                            <b>Data: </b> {apt.data} <br/>  
+                            <b>Inizio/fine: </b>  {apt.orarioInizio} - {apt.orarioFine} <br /> 
+                            <b>Info paziente: </b>{apt.paziente} - {apt.mailPaziente} <br />  
+                            <b>Descrizione: </b> {apt.descrizione} <br />
                             <Button onClick={() => handleClick(apt)}>modifica</Button>
                         </li>
                        
