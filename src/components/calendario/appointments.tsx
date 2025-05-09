@@ -49,7 +49,7 @@ import './appointments.css'
             }
             fetchAppointments();
         }, [medicDocumentId])
-
+      
 
         //EVENTS
         const handleClick = (apt: any) => {
@@ -99,14 +99,14 @@ import './appointments.css'
 
         return(
 
-            <div>
-                <h1>APPUNTAMENTI PROGRAMMMATI</h1>
+            <div className= "lista">
+                
                 <ul>
                     {appointments
                     .filter((apt) => apt.data === activeDate)
                     .map((apt) => (
-                        <li key = {apt.mailPaziente}>
-                            {apt.id} - {apt.data} - {apt.orario} - {apt.paziente} - {apt.mailPaziente} - {apt.descrizione}
+                        <li  key = {apt.mailPaziente}>
+                            <b>Data:</b> {apt.data} <br/>  <b>Inizio/fine:</b>  {apt.orarioInizio} - {apt.orarioFine} <br /> {apt.paziente} - {apt.mailPaziente} <br />  {apt.descrizione} <br />
                             <Button onClick={() => handleClick(apt)}>modifica</Button>
                         </li>
                        

@@ -1,16 +1,12 @@
-body {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  
-  margin: 0vh;
+
+
+.all{
+ display: flex;
+ flex-direction: row;
 }
-
-
-.calendar{
+.react-calendar{
   left: 0vh;
-
+  margin-top: 10vh;
   height: 50%;
 }
 /*colore nr tile*/
@@ -19,19 +15,19 @@ body {
 }
 /*colore tile con appuntamenti*/
 .tile-with-appointment {
-  background-color: rgb(173, 211, 241);
+  background-color: #2F4858;
   color: white;
   border-radius: 10px;
 }
 /*colore tile selezionata*/
 .react-calendar__tile--active {
-    background: rgb(82, 201, 201);
+    background: rgb(46, 139, 139);
     color: white;
     border-radius: 10px;
   }
 /*copiare clore tile selezionata*/
   .react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus{
-    background-color: rgb(82, 201, 201);
+    background-color: rgb(46, 139, 139);
   }
 
 
@@ -39,21 +35,28 @@ body {
   
 
   .appList{
-    border-width: 0.5vh;
-    border-radius: 2vh;
-    border-color: black;
+    
+    border-width: 0.2vh;
+    margin-top: 8.9vh;
+    height: 100%;
+    border-color: rgb(160, 160, 150);
     padding: 2vh;
     display: flex;
     flex-direction: column;
   }
 
-  .appListElement{
-    margin: 2vh;
-  }
+  
   .appListElement{
     margin: 2vh;
     color: rgb(0, 0, 0);
+    align-items: center;
   }
+
+  .appListElement button{
+    width: 100%;
+    background-color: #2F4858;
+  }
+
 
   .modulo-overlay {
     position: fixed;
@@ -90,3 +93,4 @@ body {
   .Buttons{
     color: black;
   }
+
