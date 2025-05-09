@@ -126,7 +126,7 @@ function User() {
                     }
                 </div>
             </div>
-                
+        </div>        
     )
 
 }
