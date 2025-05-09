@@ -43,11 +43,6 @@ function CalendarioPazienti(){
         authUser,
         loading
     } = useAuth();
-
-    
-
-    
-
  
     
     //HOOKS
@@ -61,7 +56,7 @@ function CalendarioPazienti(){
     const [notifications, setNotifications] = useState<any[] | null>(null);
     
     const [userId, setUserId] = useState<string| null>(null);
-    const [users, setUsers] = useState<User | null>(null);
+    
 
     //EFFECTS
 

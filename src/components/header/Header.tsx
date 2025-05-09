@@ -5,12 +5,41 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import FirebaseService from '@/services/FirebaseService';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
 //import {Link} from 'react-router-dom'
 
 function Header(){
 
     const navigate = useNavigate();
+    
+    const {
+            authUser
+    } = useAuth();
+        
+    // stati per notifiche
+    const [notifications, setNotifications] = useState<any[] | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const fetchNotif = async () => {
+    
+            try{
+                const userData = await FirebaseService.findPatientByEmail(authUser.email)
+                if(!userData) return;
+                console.log(userData.id)
+                const userNotifs = await FirebaseService.getNotifications(userData.id)
+                setNotifications(userNotifs)
+                console.log(userNotifs)//rimuovere
+            }catch (err) {
+                setError("Errore nel recupero delle notifiche")
+            }
+      }
+
+       useEffect(() => {
+              fetchNotif();                
+          }, []);
+      
+    
 
     const handleLogout = async () => {
         try {

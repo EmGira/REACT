@@ -7,11 +7,13 @@ import { FirebaseService } from '../../services/FirebaseService';
 import { useNavigate } from 'react-router-dom';
 
 import Calendario from '../calendario/Calendario';
+import { useAuth } from '../contexts/AuthContext';
 
 function Home(){
 
     const navigate = useNavigate();
-
+    
+ 
     // array
     const [farmaci, setFarmaci] = useState<any[]>([]);
     const [pazienti, setUsers] = useState<any[]>([]);
@@ -21,6 +23,8 @@ function Home(){
     const [selectedButton, setSelectedButton] = useState((isAdmin?1:2));
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+   
 
     const fetchFarmaci = async () => {
         try {
@@ -39,11 +43,19 @@ function Home(){
           setError("Errore nel recupero degli utenti");
         }
     };
+
+
+ 
+
+
+  
     
     useEffect(() => {
         // Esegui entrambe le chiamate di fetch
         fetchUsers();
         fetchFarmaci();
+        
+       
     }, []);
 
     useEffect(() => {
