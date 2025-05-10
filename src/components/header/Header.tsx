@@ -140,7 +140,7 @@ function Header(){
             if(!notifications)
                 return <p>loading</p>
             else
-                return <Notifiche notifications={notifications}></Notifiche>
+                return <Notifiche notifications={notifications} className=''></Notifiche>
       }
 
 
@@ -152,13 +152,13 @@ function Header(){
                 <div className='dati'>
                     <p className='header-text' onClick={() => {handleLogout(); navigate("/login")} }>Log out</p>
                     <FontAwesomeIcon icon={faCalendar} onClick = {() => navigate("")} className='header-icon'/>
-                    <FontAwesomeIcon icon={faBell}  onClick = {() => setShowNotifications(true)} className='header-icon'/>
+                    <FontAwesomeIcon icon={faBell}  onClick = {() => setShowNotifications(!showNotifications)} className='header-icon'/>
                     <FontAwesomeIcon icon={faCircleUser}  onClick = {() => navigate("")} className='header-icon'/>
                 </div>
             </nav>
 
             {showNotifications && notifications && (
-                <Notifiche notifications={notifications} />
+                <Notifiche notifications={notifications} className='show'/>
             )}
 
         </>

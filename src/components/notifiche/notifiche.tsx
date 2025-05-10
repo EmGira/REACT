@@ -4,16 +4,16 @@ import { NotifInterface } from './NotifInterface'
 
 
 
-export function Notifiche({notifications} : {notifications: NotifInterface[]}){
+export function Notifiche({notifications, className = ""} : {notifications: NotifInterface[], className: string}){
 
     
 
 
     return(
 
-        <div>
+        <div className = "tendinaNotifiche">
             <ul>
-                 <b>APPUNTAMENTI</b>
+                 <b className='title'>APPUNTAMENTI</b>
                 {notifications
                     .map((n) => (
                                                             //aggiungere attributi a notifiche
