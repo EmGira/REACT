@@ -42,7 +42,7 @@ function Header(){
                 console.log(userData.id)
                 const userNotifs = await FirebaseService.getNotifications(userData.id)
                 setNotifications(userNotifs)
-                console.log(userNotifs)//rimuovere
+                
             }catch (err) {
                 setError("Errore nel recupero delle notifiche")
             }
@@ -52,7 +52,7 @@ function Header(){
             try{
                        const userApp = await fetchAppointments(userData.id);
                         setAppointments(userApp); // or do something with it
-                        console.log(userApp)//rimuovere
+                        console.log("APPUNTAMENTI: ", userApp)//rimuovere
             }catch (err) {
                 setError("Errore nel recupero degli appuntamenti")
             }
@@ -86,10 +86,15 @@ function Header(){
                 
             if (!notifications?.find((n: NotifInterface) => n.appointmentId === a.id)) {
                         FirebaseService.addData(`/users/${userData.id}/notifiche`, notification);
+                        setNotifications((prevNotifications: NotifInterface[]) => [
+                                 ...prevNotifications,
+                                    notification
+                        ]);
+
             }
             
         });
-      
+            
           } 
 
       //Al primo render:
