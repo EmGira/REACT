@@ -53,7 +53,7 @@ function CalendarioPazienti(){
 
    
     const [appointments, setAppointments] = useState<any[] | null>(null);
-    const [notifications, setNotifications] = useState<any[] | null>(null);
+  
     
     const [userId, setUserId] = useState<string| null>(null);
     
@@ -93,26 +93,14 @@ function CalendarioPazienti(){
 
         };
 
-        const fetchNotif = async () => {
-
-            const userNotifs = await FirebaseService.getNotifications(userId)
-            setNotifications(userNotifs)
-        }
-    
+        
         fetch();
-        fetchNotif();
+       
 
      
     }, [userId])
 
-    useEffect(() => {
-        
-        console.log("AOOOOOAOO")
-        if(appointments)
-        notif(appointments)
   
-       
-      }, [appointments])
     
 
  
@@ -134,38 +122,7 @@ function CalendarioPazienti(){
     }
     
 
-    //quando un appuntamento futuro dista 1 giorno dalla data corrente, allora invia notifica al database
-    const notif = (appointments: Appointments[]) => {
-        const futureAppointments = appointments
-                                        .filter((a: Appointments ) => new Date(a.data) >= new Date())
-        
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);  
-        tomorrow.setHours(0, 0, 0, 0);  
-
-        const approachingAppointments = futureAppointments.filter((a) => {
-          const futureApp = new Date(a.data);
-          futureApp.setHours(0, 0, 0, 0);
-          return futureApp.getTime() === tomorrow.getTime();
-        });
-
-        approachingAppointments.forEach((a) => {
-          
-      
-          const notification = {
-              appointmentId: a.id,
-              time: a.orarioInizio,
-              title: `Appuntamento ${a.data}`,
-              payload: `Il seguente appuntamento è stato programmato per domani:\n ${a.descrizione}`,
-            
-          };
-      
-          if (!notifications?.find(n => n.appointmentId === a.id)) {
-              FirebaseService.addData(`/users/${userId}/notifiche`, notification);
-          }
-      });
-
-    } 
+   
   
 
 
