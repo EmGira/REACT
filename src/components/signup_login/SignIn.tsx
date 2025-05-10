@@ -63,7 +63,7 @@ function SignIn(){
                 localStorage.setItem('isPatient', 'false');
 
             
-                navigate('./home')
+                navigate('/home')
             }
                
         } else

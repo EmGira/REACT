@@ -124,7 +124,7 @@ function Registro() {
                       Conferma
                     </button>
                     <button onClick={() => updateAssunzione({ ...assunzione, stato: 'dimenticato' })} className="btn-delete">
-                      Elimina
+                      Dimenticato
                     </button>
                     
                   </div>}

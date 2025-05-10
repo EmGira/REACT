@@ -72,8 +72,7 @@ function CreaPazienti(){
 
     return(
         <>
-            <div className="container">
-                <div className='form-container'>
+            <div className="form-container-1">
                     <div className='form-card'>
                         <h1>Aggiungi un paziente</h1>
                         <form onSubmit={addPaziente}>
@@ -149,8 +148,7 @@ function CreaPazienti(){
 
                     </div>    
                 </div>
-            </div>     
-        </>
+            </>
     )
 }
 

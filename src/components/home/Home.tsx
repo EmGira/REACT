@@ -54,7 +54,7 @@ function Home() {
         }
     }, [farmaci, pazienti]);
 
-    if (loading) return <p>Caricamento...</p>;
+    if (loading) return <p><div className="container"></div></p>;
     if (error) return <p>{error}</p>;
 
     // Funzione per selezionare il bottone
@@ -105,7 +105,7 @@ function Home() {
                            <div>
                                 <Calendario></Calendario>
                            </div>         
-                                )}
+                )}
 
             </div>
         </div>
