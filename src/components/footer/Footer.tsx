@@ -9,6 +9,7 @@ function Footer(){
             <h4>Progetto Universitario</h4>
             <p>Corso di laurea in Informatica</p>
             <p>Anno accademico 2024/2025</p>
+            <p>© 2025 – Tutti i diritti riservati</p>
             </div>
 
             <div className="footer-center">
@@ -25,7 +26,6 @@ function Footer(){
             <p>edoardo.poltronieri@studenti.univr.it</p>
             <p>emanuele.girardello@studenti.univr.it</p>
             <p>matteo.tessera@studenti.univr.it</p>
-            <p>© 2025 – Tutti i diritti riservati</p>
             </div>
         </footer>
     );
