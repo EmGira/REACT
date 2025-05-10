@@ -13,7 +13,7 @@ function CardFarmaco({ farmaco }: any){
             <div className='cardContainer' onClick={() => {
                 navigate('/farmaco/' + slugifyService.slugifyFarmaco(farmaco.id,farmaco.nome));
             }}>
-                <img src={farmaco.imgSrc} className='card-immagine' style={{backgroundColor:'green'}}/>
+                <img src={farmaco.imgSrc} className='card-immagine sfondo'/>
                 <div className={'card-data'}>
                     <p className='testo'>{farmaco.nome.toUpperCase()}</p>
                     {/* <p><strong>Scadenza:</strong> {farmaco.scadenza}</p>          */}

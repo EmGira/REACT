@@ -21,6 +21,8 @@ function Piano({user}: any) {
   const { slug } = useParams();
   const [farmaci, setFarmaci] = useState<any[]>([]);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetchFarmaci();
   },[]);
@@ -47,6 +49,7 @@ function Piano({user}: any) {
     FirebaseService.getPiani().then((piani: any) => {
       const pianiFiltrati = piani.filter((piano: any) => piano.id_paziente == currentSlug.split('-')[0]);
       setPianiPaziente(pianiFiltrati);
+      setLoading(false);
     });
     
   },[currentSlug]);
@@ -84,6 +87,8 @@ function Piano({user}: any) {
       if(farmaco != null)
           return farmaco.nome.charAt(0).toUpperCase() + farmaco.nome.slice(1);
   }
+
+  if (loading) return (<div>Caricamento...</div>);
 
   return(
     <div className="anagrafica">

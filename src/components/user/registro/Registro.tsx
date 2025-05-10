@@ -29,6 +29,8 @@ function Registro() {
   const [assunzioni, setAssunzioni] = useState<Assunzione[]>([]);
   const [date, setDate] = useState<string[]>([]);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     FirebaseService.getFarmaci().then((response: any) => {
       setFarmaci(response);
@@ -84,6 +86,8 @@ function Registro() {
 
       setAssunzioni(assunzioniTemp);
       setDate(uniqueDates);
+
+      setLoading(false);
     });
   },[slug, navigate]);
 
@@ -104,6 +108,8 @@ function Registro() {
       setAssunzioni(updatedAssunzioni);
     });
   }
+
+  if (loading) return (<div>Caricamento...</div>);
 
   return (
 
