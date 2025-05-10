@@ -16,7 +16,7 @@ import CreaPazienti from './components/crea-pazienti/CreaPazienti';
 import CreaPiani from './components/crea-piani/CreaPiani';
 import ModificaPiano from './components/modifica-piano/ModificaPiano';
 import CalendarioPazienti from './components/calendario/CalendarioPazienti';
-import FarmacoPage from './components/farmaco/farmaco';
+import FarmacoPage from './components/farmaco/Farmaco';
 
  './components/crea-pazienti/CreaPazienti.tsx';
 
