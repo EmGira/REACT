@@ -109,7 +109,7 @@ function Registro() {
 
     <div className="main-container">
       <div className="content-right">
-        {date.map((data) => (
+        {assunzioni.length != 0 && date.map((data) => (
           <div key={data} className="data-card">
             <h3>{data}</h3>
             {assunzioni
@@ -132,6 +132,9 @@ function Registro() {
               ))}
           </div>
         ))}
+        {assunzioni.length == 0 && (
+          <div>Nessun piano attivo</div>
+        )}
       </div>
     </div>
 

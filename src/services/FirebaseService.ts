@@ -261,11 +261,8 @@ export const FirebaseService = {
       // Estrai l'anno da birthDate
       const birthYear = new Date(paziente.birthDate).getFullYear();
 
-      // Crea la password: nome + cognome + anno
-      const password = `${paziente.nome}${paziente.cognome}${birthYear}`;
-
       // Crea l'utente su Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, paziente.email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, paziente.email, paziente.password);
       const user = userCredential.user;
 
       // Salva i dati utente su Firestore con UID
@@ -285,7 +282,7 @@ export const FirebaseService = {
         createdAt: new Date(),
       });
 
-      console.log("Utente creato con ID:", user.uid, "e password:", password);
+      console.log("Utente creato con ID:", user.uid, "e password:", paziente.password);
       return user;
 
     } catch (e) {

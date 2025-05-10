@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import './Home.css';
-import CardPaziente from '../../sub_components/card_utente/CardPaziente';
 import CardFarmaco from '../../sub_components/card_farmaco/CardFarmaco';
 import CardAggiungi from '../../sub_components/card_aggiungi/CardAggiungi';
 import { FirebaseService } from '../../services/FirebaseService';
@@ -8,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Calendario from '../calendario/Calendario';
 import { Farmaco } from '@/models/farmaco.model'; // Importa l'interfaccia Farmaco
+import CardPaziente from '@/sub_components/card_paziente/CardPaziente';
 
 function Home() {
     const navigate = useNavigate();

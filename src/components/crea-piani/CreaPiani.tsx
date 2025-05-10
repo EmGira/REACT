@@ -20,8 +20,7 @@ function CreaPiani(){
         "Dopo pranzo",
         "Prima di cena",
         "Dopo cena",
-        "Prima di dormire",
-        "Orario personalizzato"
+        "Prima di dormire"
     ];
     const frequenze = [
         { value: 1, label: 'Ogni giorno' },
@@ -133,7 +132,7 @@ function CreaPiani(){
             id_farmaco: '',
             periodo: '',
             dose: 0,
-            frequenza: 1
+            frequenza: 0
         });
     };
 
@@ -212,7 +211,7 @@ function CreaPiani(){
     }
     
     return (
-        <div className="container">
+        <div className="c">
             <div className='form-separatore'>
                 <div className="form-container">
                     <h2>Aggiungi un Farmaco</h2>

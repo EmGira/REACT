@@ -71,7 +71,7 @@ function CreaFarmaci() {
     };
 
     return (
-        <div className="container">
+        <div className="c">
             <div className='form-container'>
                 <div className='form-card'>
                     <h1>Aggiungi un farmaco</h1>
