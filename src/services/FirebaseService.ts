@@ -406,7 +406,7 @@ export const FirebaseService = {
     } catch (error) {
       console.error("Errore nell'aggiornare l'assunzione: ", error);
     }
-  }
+  },
   
   markNotifAsRead: async (NotifId:string | undefined, UserId: string) => {
      if (!NotifId || !UserId) {
