@@ -6,12 +6,14 @@ import { FirebaseService } from '../../services/FirebaseService';
 import { useNavigate } from 'react-router-dom';
 
 import Calendario from '../calendario/Calendario';
+import { useAuth } from '../contexts/AuthContext';
 import { Farmaco } from '@/models/farmaco.model'; // Importa l'interfaccia Farmaco
 import CardPaziente from '@/sub_components/card_paziente/CardPaziente';
 
 function Home() {
     const navigate = useNavigate();
-
+    
+ 
     // array
     const [farmaci, setFarmaci] = useState<Farmaco[]>([]); // Modificato il tipo a Farmaco[]
     const [pazienti, setUsers] = useState<any[]>([]);  // Tipizza correttamente anche pazienti, se possibile
@@ -41,11 +43,13 @@ function Home() {
             setError("Errore nel recupero degli utenti");
         }
     };
-
+    
     useEffect(() => {
         // Esegui entrambe le chiamate di fetch
         fetchUsers();
         fetchFarmaci();
+        
+       
     }, []);
 
     useEffect(() => {

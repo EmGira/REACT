@@ -3,6 +3,7 @@ import FirebaseService from '@/services/FirebaseService';
 import { Button } from "../ui/button";
 import { Input } from '../ui/input';
 import './appointments.css'
+import { Appointments } from "./appointmentInterface";
     export const fetchAppointments = async (medicDocumentId: string) => {
        
         const appointments = await FirebaseService.getMedicAppointments(medicDocumentId)
@@ -12,15 +13,7 @@ import './appointments.css'
 
     
 
-    interface Appointments{
-  id?: number,
-  data?: string,
-  orarioInizio?: string,
-  orarioFine?: string,
-  paziente?: string,
-  mailPaziente?: string,
-  descrizione?: string
-}
+   
 
 
     export const AppointmentsList = ({medicDocumentId, activeDate} : {medicDocumentId: string, activeDate: string}) => {
@@ -105,7 +98,7 @@ import './appointments.css'
                     {appointments
                     .filter((apt) => apt.data === activeDate)
                     .map((apt) => (
-                        <li  key = {apt.mailPaziente}>
+                        <li  key = {apt.id}>
                             <b>Data: </b> {apt.data} <br/>  
                             <b>Inizio/fine: </b>  {apt.orarioInizio} - {apt.orarioFine} <br /> 
                             <b>Info paziente: </b>{apt.paziente} - {apt.mailPaziente} <br />  

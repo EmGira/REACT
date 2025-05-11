@@ -1,0 +1,58 @@
+.tendinaNotifiche {
+    position: absolute; 
+    top: 10vh; 
+    right: 2vh; 
+    width: 30vh; 
+    max-height: 45vh;
+    overflow-y: auto; 
+    background-color: rgb(255, 255, 255); 
+    border-radius: 1vh; 
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.26); 
+    padding: 1vh;
+    z-index: 100; /* Assicura che sia sopra gli altri elementi */
+
+
+
+}
+
+
+.tendinaNotifiche ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.tendinaNotifiche li {
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.tendinaNotifiche li:hover {
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: rgb(255, 245, 235);
+}
+
+.tendinaNotifiche li button{
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 0.5vh;
+    background-color: rgb(151, 205, 255);
+}
+.tendinaNotifiche li button:hover{
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: rgb(151, 205, 255);
+    transform: scale(1.1)
+}
+
+.tendinaNotifiche li:last-child {
+    border-bottom: none;
+}
+
+.title {           /*tutti i bold*/
+    display: flex;
+    font-size: 2vh;
+    justify-content: center; /*centra orizzontalmente*/
+    align-items: center;
+    
+}
