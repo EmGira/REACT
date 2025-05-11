@@ -1,7 +1,7 @@
-.form-container{
-    width: 60%;
+.form-container-1{
+    width: 100%;
     min-height: 85vh;
-    padding: 5vh 0;
+    padding: 5vh 15vh;
     height: auto;
 }
 

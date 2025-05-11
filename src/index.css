@@ -20,8 +20,8 @@ div{
 }
 
 .testo{
-    /*font-size: 3vh;*/
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-size: 3vh;
+    /* font-size: clamp(1rem, 2.5vw, 1.5rem); */
 
 }
 
@@ -29,16 +29,20 @@ div{
     font-size:2vh;
 }
 
-.cardContainer{
-    /*aspect-ratio: 2/3;*/
-    width: 100%;
-    border-radius: 15px;
+.cardContainer {
+    width: 100%; /* Occupa tutta la colonna */
+    aspect-ratio: 2 / 3; /* Mantiene il rapporto 2:3 */
+    max-height: 55vh; /* Scala su schermi più piccoli */
+    
+    border-radius: 3vh;
     transition: transform 0.3s ease;
     cursor: pointer;
     position: relative;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-}
 
+    /* Per evitare overflow e garantire il ridimensionamento */
+    overflow: hidden;
+}
 .cardContainer:hover{
     transform: scale(1.02);
 }
@@ -47,7 +51,7 @@ div{
     aspect-ratio: 3/2;
     width: 100%;
     margin: 0;
-    border-radius: 15px 15px 0 0;
+    border-radius: 3vh 3vh 0 0;
     background-color: gray;
     border-color: transparent;
 }
@@ -58,20 +62,21 @@ div{
     padding: 0 2vh;
     margin-top: 5vh;
     font-size: 4vh;
+    height: 8vh;
 
 }
 
 .card-button{
     font-family: 'Montserrat', sans-serif; /* Usa Montserrat per il bottone */
-    font-size: clamp(1rem, 2vw, 1rem);    
+    font-size: 3vh; 
     font-weight: 400; /* Peso bold per il bottone */
-    padding: 10px 20px; /* Spaziatura interna al bottone */
+    padding: 1vh 2vh; /* Spaziatura interna al bottone */
     background-color: white; /* Colore di sfondo del bottone */
     color: black; /* Colore del testo */
     border: 0.1px solid gray; /* Nessun bordo */
-    border-radius: 5px; /* Angoli arrotondati */
+    border-radius: 0.5vh; /* Angoli arrotondati */
     cursor: pointer; /* Mostra la mano quando il mouse passa sopra */
-    margin-top: 10vh;
+    margin-top: 7vh;
     max-width: 20vh;
     margin-bottom: 2vh;
 }

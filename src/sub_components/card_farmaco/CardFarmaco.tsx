@@ -1,10 +1,19 @@
+import { useNavigate } from 'react-router-dom';
 import './CardFarmaco.css'
+import { slugifyService } from '@/services/SlugifyService';
 
-function CardFarmaco({ farmaco }){
+function CardFarmaco({ farmaco }: any){
+
+    const navigate = useNavigate();
+
+
+
     return(
         <>
-            <div className='cardContainer'>
-                <img src={farmaco.imgSrc} className='card-immagine' style={{backgroundColor:'green'}}/>
+            <div className='cardContainer' onClick={() => {
+                navigate('/farmaco/' + slugifyService.slugifyFarmaco(farmaco.id,farmaco.nome));
+            }}>
+                <img src={farmaco.imgSrc} className='card-immagine sfondo'/>
                 <div className={'card-data'}>
                     <p className='testo'>{farmaco.nome.toUpperCase()}</p>
                     {/* <p><strong>Scadenza:</strong> {farmaco.scadenza}</p>          */}

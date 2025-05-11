@@ -16,6 +16,23 @@ export const slugifyService = {
         const formattedCognome = formatText(cognome);
 
         return `${id}-${formattedNome}-${formattedCognome}`;
+    },
+
+    slugifyFarmaco(id: string, nome: string) {
+        const formatText = (text: string) => {
+            return text
+                .toLowerCase()
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/--+/g, '-')
+                .replace(/^-+/, '')
+                .replace(/-+$/, '');
+        };
+
+        const formattedNome = formatText(nome);
+
+        return `${id}-${formattedNome}`;
     }
 
 

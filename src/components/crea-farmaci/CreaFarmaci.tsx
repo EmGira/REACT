@@ -1,47 +1,69 @@
-import './CreaFarmaci.css'
+import './CreaFarmaci.css';
 import { FirebaseService } from '../../services/FirebaseService';
 import { useEffect, useState } from 'react';
+import { Farmaco } from '@/models/farmaco.model';
 
-function CreaFarmaci(){
-
+function CreaFarmaci() {
     const [isFormValid, setIsFormValid] = useState(false);
 
-    const [farmaco, setFarmaco] = useState({
+    // Funzione per generare un barcode casuale di 13 cifre
+    const generateBarcode = (): number => {
+        return Math.floor(Math.random() * 10000000000000); // Genera un numero di 13 cifre
+    };
+
+    // Stato del farmaco, inizializzato in base all'interfaccia Farmaco
+    const [farmaco, setFarmaco] = useState<Farmaco>({
+        id: "",          // ID sarà probabilmente generato da Firestore
         nome: "",
         descrizione: "",
         avvertenze: "",
-        srcImg: ""
+        barcode: generateBarcode()  // Imposta il barcode casuale all'inizio
     });
 
+    // Effetto per la validazione del form
     useEffect(() => {
-        const { nome, descrizione, avvertenze, srcImg } = farmaco;
+        const { nome, descrizione, avvertenze, barcode } = farmaco;
         const isValid: boolean =
             nome.trim() !== '' &&
             descrizione.trim() !== '' &&
             avvertenze.trim() !== '' &&
-            srcImg.trim() !== '';
+            barcode > 0;  // La validazione per il barcode deve essere maggiore di 0
 
         setIsFormValid(isValid);
     }, [farmaco]);
 
-    const handleChange = (e: any) => {
+    // Funzione per gestire il cambiamento dei campi
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
-        setFarmaco((prev: any) => ({
-            ...prev,
-            [id]: value
-        }));
+
+        // Gestiamo solo i campi che non sono il barcode
+        if (id !== 'barcode') {
+            setFarmaco((prev: Farmaco) => ({
+                ...prev,
+                [id]: value
+            }));
+        }
     };
 
-    const addFarmaco = async (e: any) => {
-        e.preventDefault(); // evita il refresh della pagina
+    // Funzione per aggiungere un nuovo farmaco
+    const addFarmaco = async (e: React.FormEvent) => {
+        e.preventDefault(); // Evita il refresh della pagina
+        const barcode = generateBarcode(); // Genera un barcode casuale
+
+        const newFarmaco: Farmaco = {
+            ...farmaco,
+            barcode: barcode  // Aggiungi il barcode generato al farmaco
+        };
+
         try {
-            await FirebaseService.addFarmaco(farmaco);
+            await FirebaseService.addFarmaco(newFarmaco); // Utilizza Firebase per aggiungere il farmaco
             alert("Farmaco aggiunto con successo!");
             setFarmaco({
+                id: "",          // Reset dell'ID
                 nome: "",
                 descrizione: "",
                 avvertenze: "",
-                srcImg: ""
+                barcode: generateBarcode()  // Genera un nuovo barcode casuale per il prossimo farmaco
             });
         } catch (error) {
             console.error("Errore nell'aggiunta del farmaco:", error);
@@ -49,7 +71,7 @@ function CreaFarmaci(){
     };
 
     return (
-        <div className="container">
+        <div className="c">
             <div className='form-container'>
                 <div className='form-card'>
                     <h1>Aggiungi un farmaco</h1>
@@ -60,9 +82,15 @@ function CreaFarmaci(){
                                 <input id="nome" type="text" value={farmaco.nome} onChange={handleChange} required />
                             </div>
 
+                            {/* Il campo barcode non è visibile all'utente */}
                             <div className="form-group">
-                                <label htmlFor="srcImg">Immagine (URL)</label>
-                                <input id="srcImg" type="text" value={farmaco.srcImg} onChange={handleChange} required />
+                                <label htmlFor="barcode">Barcode</label>
+                                <input
+                                    id="barcode"
+                                    type="text"
+                                    value={farmaco.barcode > 0 ? farmaco.barcode : 'Generato automaticamente'}
+                                    readOnly  // Il campo è solo in lettura, non modificabile
+                                />
                             </div>
                         </div>
 
@@ -88,7 +116,6 @@ function CreaFarmaci(){
             </div>
         </div>
     );
-
 }
 
 export default CreaFarmaci;

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 function CreaPazienti(){
     const [isFormValid, setIsFormValid] = useState(false);
 
-    const [paziente, setFarmaco] = useState({
+    const [paziente, setPaziente] = useState({
         nome: "",
         cognome: "",
         birthDate: "",    // timestamp
@@ -17,11 +17,12 @@ function CreaPazienti(){
         comune: "",
         provincia: "",
         nazione:"",
-        paziente: true
+        paziente: true,
+        password: ""
     });
 
     useEffect(() => {
-        const { nome, cognome, email, sesso, comune, codiceFiscale, birthDate } = paziente;
+        const { nome, cognome, email, sesso, comune, codiceFiscale, birthDate, password } = paziente;
     
         const isValid: boolean =
             nome.trim() !== '' &&
@@ -30,7 +31,8 @@ function CreaPazienti(){
             sesso.trim() !== '' &&
             comune.trim() !== '' &&
             codiceFiscale.trim() !== '' &&
-            birthDate !== '';
+            birthDate !== '' &&
+            password != '';
     
         setIsFormValid(isValid);
     }, [paziente]);
@@ -38,7 +40,7 @@ function CreaPazienti(){
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
-        setFarmaco((prev: any) => ({
+        setPaziente((prev: any) => ({
             ...prev,
             [id]: value
         }));
@@ -50,7 +52,7 @@ function CreaPazienti(){
         try {
             await FirebaseService.addPaziente(paziente);
             alert("Paziente aggiunto con successo!");
-            setFarmaco({
+            setPaziente({
                 nome: "",
                 cognome: "",
                 birthDate: "",    // timestamp
@@ -62,7 +64,8 @@ function CreaPazienti(){
                 comune: "",
                 provincia: "",
                 nazione:"",
-                paziente: true
+                paziente: true,
+                password: ''
             });
         } catch (error) {
             console.error("Errore nell'aggiunta del paziente:", error);
@@ -72,8 +75,7 @@ function CreaPazienti(){
 
     return(
         <>
-            <div className="container">
-                <div className='form-container'>
+            <div className="form-container-1">
                     <div className='form-card'>
                         <h1>Aggiungi un paziente</h1>
                         <form onSubmit={addPaziente}>
@@ -97,14 +99,14 @@ function CreaPazienti(){
                                     <label htmlFor="sesso">Sesso</label>
                                     <select id="sesso" value={paziente.sesso} onChange={handleChange} required>
                                         <option value="">Seleziona</option>
-                                        <option value="male">m</option>
-                                        <option value="female">f</option>
+                                        <option value="m">Maschio</option>
+                                        <option value="f">Femmina</option>
                                     </select>
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="codFiscale">Codice fiscale</label>
-                                    <input id="codFiscale" type="text" value={paziente.codiceFiscale} onChange={handleChange} required />
+                                    <label htmlFor="codiceFiscale">Codice fiscale</label>
+                                    <input id="codiceFiscale" type="text" value={paziente.codiceFiscale} onChange={handleChange} required />
                                 </div>
 
                                 <div className="form-group">
@@ -136,6 +138,11 @@ function CreaPazienti(){
                                     <label htmlFor="nazione">Nazione</label>
                                     <input id="nazione" type="text" value={paziente.nazione} onChange={handleChange} required />
                                 </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="password">Password</label>
+                                    <input id="password" type="password" value={paziente.password} onChange={handleChange} required />
+                                </div>
                             </div>
 
                             <button
@@ -149,8 +156,7 @@ function CreaPazienti(){
 
                     </div>    
                 </div>
-            </div>     
-        </>
+            </>
     )
 }
 

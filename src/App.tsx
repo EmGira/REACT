@@ -9,17 +9,14 @@ import {ProtectedRoute} from './components/contexts/ProtectedRoute';
 import {useAuth} from './components/contexts/AuthContext'
 import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import User from './components/user/User';
-import { messaging } from "./configurations/FirebaseConfig.ts";
-import { getToken } from 'firebase/messaging';
 
 /* ICON */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
 import CreaFarmaci from './components/crea-farmaci/CreaFarmaci';
 import CreaPazienti from './components/crea-pazienti/CreaPazienti';
 import CreaPiani from './components/crea-piani/CreaPiani';
+import ModificaPiano from './components/modifica-piano/ModificaPiano';
 import CalendarioPazienti from './components/calendario/CalendarioPazienti';
-import { useEffect } from 'react';
+import FarmacoPage from './components/farmaco/Farmaco';
 
  './components/crea-pazienti/CreaPazienti.tsx';
 
@@ -40,7 +37,7 @@ function App(){
         isLoggedIn,
         isPatient,
         isMedic
-        } = useAuth();          //tira fuori i valori Context del utente con useContext e li assegna alla struttura
+        } = useAuth();    
         
 
     
@@ -49,33 +46,55 @@ function App(){
             <Router>
                 <Routes>
                    
-                    <Route path = "/" element = {<SignIn/>}/> 
-
+                    {/* ACCESSO  */}
+                    <Route path = "/login" element = {<SignIn/>}/> 
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
+                    {/* HOME */}
+                    <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />
 
+                    {/* GESTIONE UTENTI */}
+                    <Route path="/crea-paziente" element={<Impaginazione><CreaPazienti></CreaPazienti></Impaginazione>} />
+                    <Route path="/user/:view/:slug" element={<Impaginazione><User /></Impaginazione>} />
+                    <Route path="/user/crea-piano/:slug" element={<Impaginazione><CreaPiani /></Impaginazione>} />
+                    <Route path="/user/piano/:slug/:idPiano" element={<Impaginazione><ModificaPiano /></Impaginazione>} />
+                    
+                    {/* GESTIONE FARMACI */}
+                    <Route path="/crea-farmaco" element={<Impaginazione><CreaFarmaci /></Impaginazione>} /> 
+                    <Route path="/farmaco/:slug" element={<Impaginazione><FarmacoPage /></Impaginazione>} /> 
+
+                    {/* CALENDARIO */}
+                    <Route path="/calendar" element={<Impaginazione><Calendario /></Impaginazione>} />
                     <Route path = "/calendarPazienti" element = {<CalendarioPazienti/>}/>
-                    //route protette condivise
+
+                    {/* DEFAULT ROUTE */}
+                    <Route path = "*" element={<Navigate to="/login" replace />}/>  
+
+                    
+                    
+                    
+                    
+
+                    // route protette condivise
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='all'/>}>
-                        <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />
+                        
                     </Route>
                     
                     //route protette per i Pazienti
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='patient' />}>
-                        <Route path="/user/:view/:slug" element={<Impaginazione><User /></Impaginazione>}/>
+                        
                     </Route>
+
+
 
                     //route protette per i Medici
                     <Route element={<ProtectedRoute isAuthenticated={isLoggedIn} isPatient={isPatient} isMedic={isMedic} requiredRole='medic' />}>
-                        <Route path="/calendar" element={<Impaginazione><Calendario /></Impaginazione>} />
+                        
                     </Route>
 
-                    <Route path="/crea-paziente" element={<Impaginazione><CreaPazienti></CreaPazienti></Impaginazione>} />
-                    <Route path="/crea-farmaco" element={<Impaginazione><CreaFarmaci /></Impaginazione>} />
-                    <Route path="/user/crea-piano/:slug" element={<Impaginazione><CreaPiani /></Impaginazione>} />
                     
 
-                    <Route path = "*" element={<Navigate to="/" replace />}/>   
+                     
 
                 </Routes>
             </Router>

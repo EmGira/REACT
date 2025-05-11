@@ -9,7 +9,7 @@ function Profilo() {
   const navigate = useNavigate();
 
   const { slug } = useParams();  //recupero id
-
+  const [currentSlug, setCurrentSlug] = useState('');
 
   const [user, setUser] = useState<any>(null);
   const [editMode, setEditMode] = useState(false);
@@ -70,6 +70,7 @@ function Profilo() {
           setUser(userData);
           setFormData(userData);  
           setLoading(false);
+          setCurrentSlug(slug);
         } catch (error) {
           console.error("Errore nel recupero dei dati dell'utente", error);
         }
@@ -90,12 +91,6 @@ function Profilo() {
   };
 
   const handleInvia = async () => {
-    console.log("Nome:", formData.nome);
-    console.log("Email:", formData.email);
-    console.log("Sesso:", formData.sesso);
-    console.log("Sesso:", formData.email);
-    console.log("Sesso:", formData.birthDate);
-    console.log("Sesso:", formData.telefono);
 
     for (const [key, value] of Object.entries(formData)) {
       if (value === '' || value === null || value === undefined) {
@@ -119,8 +114,8 @@ function Profilo() {
     }
 
     try {
-      await FirebaseService.updateUserData(user.uid, formData);
-      alert("Dati aggiornati con successo.");
+      await FirebaseService.updateUserData(currentSlug.split('-')[0], formData);
+      //alert("Dati aggiornati con successo.");
       setUser({ ...user, ...formData });
       setEditMode(false);
     } catch (error) {

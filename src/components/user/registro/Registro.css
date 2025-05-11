@@ -1,0 +1,84 @@
+/* Container principale */
+.main-container {
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenuto principale */
+.content-right {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 0; /* Menu non presente */
+  overflow-y: auto;
+}
+
+/* Gruppo di assunzioni per data */
+.data-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px; /* Spaziatura tra le card */
+}
+
+/* Titolo della data nella card */
+.data-card h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Dettagli dell'assunzione */
+.assunzione-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between; /* Allinea i dati a sinistra e i bottoni a destra */
+  align-items: center;
+}
+
+/* Dati dell'assunzione (a sinistra) */
+.assunzione-details {
+  flex-grow: 1;
+  text-align: left; /* Allinea il testo a sinistra */
+}
+
+/* Bottoni di conferma ed eliminazione (a destra) */
+.assunzione-buttons {
+  display: flex;
+  flex-direction: column; /* I bottoni uno sotto l'altro */
+  gap: 10px;
+}
+
+.btn-confirm, .btn-delete {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-confirm {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-confirm:hover {
+  background-color: #45a049;
+}
+
+.btn-delete {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #e53935;
+}

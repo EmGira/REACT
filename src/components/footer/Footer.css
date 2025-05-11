@@ -1,5 +1,42 @@
-footer{
-    height: 15vh;
+.footer {
     width: 100%;
-    background-color: #CED0CE;
+    height: 30vh;
+    background-color: #2F4858;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* centriamo verticalmente */
+    padding: 3vh 5vw;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8vh;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin-top: 4vh;
+    gap: 2vh;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centra verticalmente il contenuto della colonna */
+    gap: 0.5vh;
+}
+
+.footer-center ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-center li {
+    margin-bottom: 0.3vh;
+}
+
+.footer h4 {
+    margin: 0 0 0.5vh 0;
+    font-size: 2vh;
 }

@@ -29,13 +29,13 @@ nav{
 .header-icon {
     color: white;
     transition: transform 0.3s, color 0.3s;
-    font-size: 28px;
+    font-size: 4vh;
     cursor: pointer;
 }
   
 .header-icon:hover {
     color: white;
-    transform: scale(1.2);
+    transform: scale(1.08);
 }
 
 .header-text {
@@ -45,4 +45,9 @@ nav{
     color: white;
     font-size: 2.4vh;
     cursor: pointer;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.header-text:hover{
+    transform: scale(1.08);
 }

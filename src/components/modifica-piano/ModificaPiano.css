@@ -1,0 +1,226 @@
+/* Contenitore principale del componente ModificaPiano */
+.p-6 {
+  padding: 1.5rem;
+}
+
+.max-w-3xl {
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 85vh;
+}
+
+.bg-white {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.border {
+  border: 1px solid #e5e7eb;
+}
+
+/* Impostazioni per i titoli */
+h2, h3 {
+  margin: 0;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-gray-600 {
+  color: #4b5563;
+}
+
+.text-red-600 {
+  color: #f87171;
+}
+
+.text-red-500 {
+  color: #f87171;
+}
+
+.text-emerald-600 {
+  color: #10b981;
+}
+
+/* Layout a griglia per il form */
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+/* Input e selezione */
+input, select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+input:disabled, select:disabled {
+  background-color: #e5e7eb;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+select {
+  background-color: #f9fafb;
+}
+
+/* Bottone */
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.bg-blue-500 {
+  background-color: #3b82f6;
+}
+
+.bg-blue-600 {
+  background-color: #2563eb;
+}
+
+.bg-green-500 {
+  background-color: #10b981;
+}
+
+.bg-green-600 {
+  background-color: #059669;
+}
+
+.bg-red-600 {
+  background-color: #dc2626;
+}
+
+.bg-emerald-600 {
+  background-color: #10b981;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-red-500:hover {
+  color: #f87171;
+}
+
+.text-emerald-600:hover {
+  color: #059669;
+}
+
+.bg-blue-500:hover {
+  background-color: #2563eb;
+}
+
+.bg-blue-600:hover {
+  background-color: #1d4ed8;
+}
+
+.bg-green-500:hover {
+  background-color: #059669;
+}
+
+.bg-green-600:hover {
+  background-color: #047857;
+}
+
+.bg-red-600:hover {
+  background-color: #b91c1c;
+}
+
+.bg-emerald-600:hover {
+  background-color: #059669;
+}
+
+.ml-4 {
+  margin-left: 1rem;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Modal */
+.modal {
+  background-color: #fff;
+  border-radius: 1rem;
+  margin-top: 1.5rem; /* Aggiungi un margine sopra */
+  margin-bottom: 2rem; /* Spazio sotto il form */
+  width: 100%; /* Usa tutta la larghezza disponibile */
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.modal select,
+.modal input {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.modal button {
+  margin-top: 1rem;
+}
+
+.modal button:hover {
+  background-color: #047857;
+}
+/* Responsività */
+@media (max-width: 768px) {
+  .grid-cols-2 {
+      grid-template-columns: 1fr;
+  }
+}
+
+.buttonModifica:disabled {
+  background-color: #d1d5db; /* grigio chiaro */
+  color: #e5e7eb; /* testo grigio chiaro */
+  cursor: not-allowed;
+}
+
+.buttonModifica:disabled:hover {
+  background-color: #d1d5db; /* Evita cambiamenti quando disabilitato */
+}

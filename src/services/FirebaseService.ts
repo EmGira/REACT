@@ -1,6 +1,7 @@
 
+import { Farmaco } from "@/models/farmaco.model.ts";
 import { auth, db } from "../configurations/FirebaseConfig.ts";
-import { Utente } from "../models/utente.model.ts"
+
 
 
 import {
@@ -11,7 +12,9 @@ import {
   User
 } from "firebase/auth";
 import { collection, getDocs, doc, setDoc, getDoc, query, where, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
-
+import { Piano } from "@/models/piano.model.ts";
+import { Utente } from "@/models/Utente.model.ts";
+import { Assunzione } from "@/models/assunzione.model.ts";
 
 interface userData{
   email: string,
@@ -220,15 +223,15 @@ export const FirebaseService = {
       throw error;
     }
   },
-
-  addFarmaco: async (farmaco: any) => {
+  
+  addFarmaco: async (farmaco: Farmaco) => {
     try {
       // Aggiungi il documento nella collezione "farmaci"
       const docRef = await addDoc(collection(db, "farmaci"), {
-        descrizione: farmaco.descrizione,
         nome: farmaco.nome,
+        descrizione: farmaco.descrizione,
         avvertenze: farmaco.avvertenze,
-        srcImg: farmaco.srcImg
+        barcode: farmaco.barcode
       });
 
       console.log("Documento scritto con ID: ", docRef.id);
@@ -237,7 +240,7 @@ export const FirebaseService = {
     }
   },
 
-  addPiano: async (piano: any) => {
+  addPiano: async (piano: Piano) => {
     try {
       // Aggiungi il documento nella collezione "farmaci"
       const docRef = await addDoc(collection(db, "piani"), {
@@ -258,11 +261,8 @@ export const FirebaseService = {
       // Estrai l'anno da birthDate
       const birthYear = new Date(paziente.birthDate).getFullYear();
 
-      // Crea la password: nome + cognome + anno
-      const password = `${paziente.nome}${paziente.cognome}${birthYear}`;
-
       // Crea l'utente su Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, paziente.email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, paziente.email, paziente.password);
       const user = userCredential.user;
 
       // Salva i dati utente su Firestore con UID
@@ -282,7 +282,7 @@ export const FirebaseService = {
         createdAt: new Date(),
       });
 
-      console.log("Utente creato con ID:", user.uid, "e password:", password);
+      console.log("Utente creato con ID:", user.uid, "e password:", paziente.password);
       return user;
 
     } catch (e) {
@@ -306,6 +306,16 @@ export const FirebaseService = {
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
   },
 
+  getPianiByIdPaziente: async (idPaziente: string) => {
+    const q = query(
+      collection(db, 'piani'),
+      where('id_paziente', '==', idPaziente)
+    );
+  
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  },
+
   getNotifications: async (userId: string) => {
     const querySnapshot = await getDocs(collection(db, 'users', userId, 'notifiche'))
     return querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
@@ -325,6 +335,79 @@ export const FirebaseService = {
     }
   },
 
+  deletePiano: async (id: string) => {
+    try {
+        // Ottieni il riferimento al documento che vuoi eliminare
+        const pianoRef = doc(db, "piani", id);
+        
+        // Elimina il documento da Firestore
+        await deleteDoc(pianoRef);
+        console.log("Piano eliminato con successo");
+    } catch (error) {
+        console.error("Errore nell'eliminare il piano: ", error);
+    }
+  },
+
+  updatePiano: async (piano: Piano) => {
+    try {
+
+        const pianoRef = doc(db, "piani", piano.id);
+        
+        await updateDoc(pianoRef, {
+          farmaci: piano.farmaci,
+          data_inizio: piano.data_inizio,
+          data_fine: piano.data_fine
+        });
+
+        console.log("Piano aggiornato con successo");
+    } catch (error) {
+        console.error("Errore nell'aggiornare il piano: ", error);
+    }
+  },
+
+  updateAssunzione: async (a: Assunzione) => {
+    try {
+      const pianoRef = doc(db, "piani", a.id_piano);
+      const pianoDoc = await getDoc(pianoRef);
+      const piano = pianoDoc.data() as Piano;
+  
+      if (!piano) {
+        console.error("Piano non trovato");
+        return;
+      }
+  
+      const currentDate = new Date(a.data).toISOString().split('T')[0];
+      if (currentDate < piano.data_inizio || currentDate > piano.data_fine) {
+        console.log("La data corrente non è nell'intervallo del piano");
+        return;
+      }
+  
+      const updatedFarmaci = piano.farmaci.map(farmaco => {
+        if (farmaco.id_farmaco === a.id_farmaco && farmaco.periodo === a.periodo) {
+          const updatedAssunzioni = farmaco.assunzioni.map(assunzione => {
+            if (assunzione.data === a.data) {
+              return { ...assunzione, stato: a.stato };
+            }
+            return assunzione;
+          });
+  
+          return { ...farmaco, assunzioni: updatedAssunzioni };
+        }
+        return farmaco;
+      });
+  
+      await updateDoc(pianoRef, {
+        farmaci: updatedFarmaci,
+        data_inizio: piano.data_inizio,
+        data_fine: piano.data_fine
+      });
+  
+      console.log("Assunzione aggiornata con successo");
+    } catch (error) {
+      console.error("Errore nell'aggiornare l'assunzione: ", error);
+    }
+  }
+  
 
 };
 
