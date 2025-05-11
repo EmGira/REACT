@@ -4,13 +4,22 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { slugifyService } from '@/services/SlugifyService';
 import FirebaseService from '@/services/FirebaseService';
+import { useAuth } from '../contexts/AuthContext';
 
 //import {Link} from 'react-router-dom'
 
 function Header(){
 
+    /*const { currentUser } = useAuth();
     const navigate = useNavigate();
+
+
+    function naviga() {
+      const slug = slugifyService.slugify(currentUser.id, currentUser.nome, currentUser.cognome);
+      navigate(`/user/profilo/${slug}`);
+    };*/
 
     const handleLogout = async () => {
         try {
