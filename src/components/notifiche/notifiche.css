@@ -26,6 +26,24 @@
     padding: 8px;
     border-bottom: 1px solid #f0f0f0;
 }
+.tendinaNotifiche li:hover {
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: rgb(255, 245, 235);
+}
+
+.tendinaNotifiche li button{
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 0.5vh;
+    background-color: rgb(151, 205, 255);
+}
+.tendinaNotifiche li button:hover{
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: rgb(151, 205, 255);
+    transform: scale(1.1)
+}
 
 .tendinaNotifiche li:last-child {
     border-bottom: none;

@@ -15,7 +15,7 @@ import { fetchAppointments } from '../calendario/appointments';
 //import {Link} from 'react-router-dom'
 
 function Header(){
-
+    const oneDayMs = 86400000
     const navigate = useNavigate();
     
     const {
@@ -58,20 +58,22 @@ function Header(){
             }
 
       }
+      
 
          //quando un appuntamento futuro dista 1 giorno dalla data corrente, allora invia notifica al database
     const notif = (appointments: Appointments[]) => {
         const futureAppointments = appointments
-                                              .filter((a: Appointments ) => new Date(a.data ?? '') >= new Date())
+                                              .filter((a: Appointments ) => (new Date(a.data ?? '')).getTime() >= (new Date().getTime() - oneDayMs))        //prende >= a oggi
               
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);  
+        tomorrow.setDate(tomorrow.getDate() +1  );  
         tomorrow.setHours(0, 0, 0, 0);  
       
         const approachingAppointments = futureAppointments.filter((a) => {
                 const futureApp = new Date(a.data ?? '');
                 futureApp.setHours(0, 0, 0, 0);
-                return futureApp.getTime() === tomorrow.getTime();
+                
+                return futureApp.getTime() >= (tomorrow.getTime() - oneDayMs) && futureApp.getTime() <= tomorrow.getTime() + oneDayMs ;
         });
       
         approachingAppointments.forEach((a) => {
@@ -79,9 +81,14 @@ function Header(){
             const notification = {
         
                         appointmentId: a.id,
+                        userId: userData.id,
+                        title: `Appuntamento: ${a.data}`,
+                        body: a.descrizione,
                         time: a.orarioInizio,
-                        title: `Appuntamento ${a.data}`,
-                        payload: `Il seguente appuntamento è stato programmato per domani:\n ${a.descrizione}`   
+                        date: a.data,
+                        read: false
+                         
+                        
             };
                 
             if (!notifications?.find((n: NotifInterface) => n.appointmentId === a.id)) {
@@ -94,7 +101,7 @@ function Header(){
             }
             
         });
-            
+            console.log("NOTIFICHE: ", notifications)
           } 
 
       //Al primo render:
@@ -135,14 +142,6 @@ function Header(){
       };
 
 
-      const renderNotifications = async () => {
-            console.log(notifications)
-            if(!notifications)
-                return <p>loading</p>
-            else
-                return <Notifiche notifications={notifications} className=''></Notifiche>
-      }
-
 
     return(
         <>
@@ -158,7 +157,7 @@ function Header(){
             </nav>
 
             {showNotifications && notifications && (
-                <Notifiche notifications={notifications} className='show'/>
+                <Notifiche notifications={notifications} setNotifications={setNotifications} className='show'/>
             )}
 
         </>

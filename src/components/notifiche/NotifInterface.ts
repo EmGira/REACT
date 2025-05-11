@@ -1,10 +1,12 @@
 export interface NotifInterface {
-    notifId: number,
-    appointmentId?: string,
-    title: string;
-    payload: string,
-    
-
+    id: string
+    appointmentId?: string
+    userId:string
+    title: string
+    body: string
+    time: string
+    date: string
+    read: boolean
 
 
 }

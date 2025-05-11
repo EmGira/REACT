@@ -325,8 +325,26 @@ export const FirebaseService = {
     }
   },
 
+  markNotifAsRead: async (NotifId:string | undefined, UserId: string) => {
+     if (!NotifId || !UserId) {
+      console.warn("NotifId o UserId non definito");
+      return;
+    }
+
+      const docRef = doc(db, "users", UserId, "notifiche", NotifId);
+
+        try {
+            await updateDoc(docRef, { read: true });
+            console.log(`Notifica ${NotifId} aggiornata con read: true`);
+        } catch (error) {
+            console.error("Errore nell'aggiornamento della notifica:", error);
+        }
+  }
+
 
 };
+
+
 
 
 export default FirebaseService;
