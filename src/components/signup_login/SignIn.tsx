@@ -50,7 +50,7 @@ function SignIn(){
                 localStorage.setItem('isPatient', 'true');
                 localStorage.setItem('isMedic', 'false');
            
-                navigate('./home')
+                navigate('/home')
             }
             else if(userData.paziente ==false){
                 setIsLoggedIn(true);
