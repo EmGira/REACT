@@ -47,7 +47,7 @@ import { Appointments } from "./appointmentInterface";
         //EVENTS
         const handleClick = (apt: any) => {
             
-            setShowForm(true);
+            setShowForm(!showForm);
             setChosenAppt(apt);
             return null;
         }
@@ -104,27 +104,29 @@ import { Appointments } from "./appointmentInterface";
                             <b>Info paziente: </b>{apt.paziente} - {apt.mailPaziente} <br />  
                             <b>Descrizione: </b> {apt.descrizione} <br />
                             <Button onClick={() => handleClick(apt)}>modifica</Button>
+
+                                    {showForm && chosenAppt && chosenAppt.id === apt.id &&(
+                                            <div className="inputs">
+                                            
+                                            <Input name = "data" type="data" placeholder="Data" defaultValue={activeDate}/>
+                                            <Input name = "orarioInizio" type="string" placeholder="Orario inizio" onChange={handleChange} value = {chosenAppt.orarioInizio}/>
+                                            <Input name = "orarioFine" type="string" placeholder="Orario fine" onChange={handleChange} value = {chosenAppt.orarioFine}/>
+                                
+                                            <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {chosenAppt.paziente}/>
+                                            <Input name = "mailPaziente" type="string" placeholder="e-mail" onChange={handleChange} value = {chosenAppt.mailPaziente}/>
+                                            <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {chosenAppt.descrizione} />
+                                            <Button onClick = {() => handleSubmit(chosenAppt)}>Apply Changes</Button>
+                                            <Button onClick = {() => handleRemove(chosenAppt)}>Remove</Button>
+                                            
+                                            </div>
+
+                                    )}
                         </li>
                        
                     ))} 
                 </ul>
                 
-                {showForm && chosenAppt && (
-                    <div className="inputs">
-                    
-                      <Input name = "data" type="data" placeholder="Data" defaultValue={activeDate}/>
-                      <Input name = "orarioInizio" type="string" placeholder="Orario inizio" onChange={handleChange} value = {chosenAppt.orarioInizio}/>
-                      <Input name = "orarioFine" type="string" placeholder="Orario fine" onChange={handleChange} value = {chosenAppt.orarioFine}/>
-        
-                      <Input name = "paziente" type="string" placeholder="Paziente" onChange={handleChange} value = {chosenAppt.paziente}/>
-                      <Input name = "mailPaziente" type="string" placeholder="e-mail" onChange={handleChange} value = {chosenAppt.mailPaziente}/>
-                      <Input name = "descrizione" type="string" placeholder="Descrizione" onChange={handleChange} value = {chosenAppt.descrizione} />
-                      <Button onClick = {() => handleSubmit(chosenAppt)}>Apply Changes</Button>
-                      <Button onClick = {() => handleRemove(chosenAppt)}>Remove</Button>
-                    
-                    </div>
-
-                )}
+              
             </div>
 
         )

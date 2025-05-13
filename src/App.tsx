@@ -58,6 +58,7 @@ function App(){
                     <Route path="/user/:view/:slug" element={<Impaginazione><User /></Impaginazione>} />
                     <Route path="/user/crea-piano/:slug" element={<Impaginazione><CreaPiani /></Impaginazione>} />
                     <Route path="/user/piano/:slug/:idPiano" element={<Impaginazione><ModificaPiano /></Impaginazione>} />
+                     <Route path = "/calendarPazienti" element = {<Impaginazione><CalendarioPazienti/></Impaginazione>}/>
                     
                     {/* GESTIONE FARMACI */}
                     <Route path="/crea-farmaco" element={<Impaginazione><CreaFarmaci /></Impaginazione>} /> 
@@ -65,7 +66,7 @@ function App(){
 
                     {/* CALENDARIO */}
                     <Route path="/calendar" element={<Impaginazione><Calendario /></Impaginazione>} />
-                    <Route path = "/calendarPazienti" element = {<CalendarioPazienti/>}/>
+                 
 
                     {/* DEFAULT ROUTE */}
                     <Route path = "*" element={<Navigate to="/login" replace />}/>  

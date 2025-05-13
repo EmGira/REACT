@@ -154,14 +154,18 @@ function CalendarioPazienti(){
                 
 
                 {activeDate && userId && appointments &&(             //se premi una tile (activeDate) mostra lista appuntamenti
-                    <div className = "boxAppuntamenti">
+                    <div className = "listaPaz">
+                      <p> <b className='title'>Appuntamenti  {activeDate.toDateString()}: </b></p>
                           <ul className="listaAppuntamenti">
-                                <p>Appuntamenti  {activeDate.toDateString()}:</p>
+                                
                               {appointments
                               .filter((apt) => apt.data === activeDate.toDateString())
                               .map((apt) => (
-                                  <li key = {apt.mailPaziente}>
-                                      {apt.id} - {apt.data} - {apt.orarioInizio} - {apt.orarioFine} - {apt.paziente} - {apt.mailPaziente} - {apt.descrizione}
+                                  <li key = {apt.id} className='elementoLista'>
+                                      <b>Data: </b> {apt.data} <br/>  
+                                      <b>Inizio/fine: </b>  {apt.orarioInizio} - {apt.orarioFine} <br /> 
+                                      <b>Info paziente: </b>{apt.paziente} - {apt.mailPaziente} <br />  
+                                      <b>Descrizione: </b> {apt.descrizione} <br />
                                      
                                   </li>
                                 
@@ -170,6 +174,7 @@ function CalendarioPazienti(){
 
                     </div>
                 )}
+
 
   
 

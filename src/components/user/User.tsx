@@ -5,6 +5,7 @@ import Profilo from "./profilo/Profilo";
 import { FirebaseService } from '../../services/FirebaseService';
 import Registro from "./registro/Registro";
 import Piano from "./piano/piano";
+import CalendarioPazienti from "../calendario/CalendarioPazienti";
 
 function User() {
 
@@ -111,6 +112,7 @@ function User() {
                         <>
                             <button className={selectedButton==1?'selected':'no-selected'} onClick={() =>  {navigate(`/user/registro/` + currentSlug) ; classNameButton(1)}} > registro </button>
                             <button className={selectedButton==2?'selected':'no-selected'} onClick={() =>  {navigate(`/user/piano/` + currentSlug); classNameButton(2)}} > piano </button>
+                            <button className={selectedButton==3?'selected':'no-selected'} onClick={() =>  {navigate(`/calendarPazienti`); classNameButton(2)}} > calendario </button>  //!!
                         </>
                         }
                         </div>
@@ -122,6 +124,8 @@ function User() {
                         <>
                         {currentView == 'registro' && <Registro></Registro>}
                         {currentView == 'piano' && <Piano user={currentUser}></Piano>}
+                        {currentView == 'calendario' && <CalendarioPazienti/>} //!!
+                        
                         </>
                     }
                 </div>
