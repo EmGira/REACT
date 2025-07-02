@@ -141,6 +141,15 @@ function Header(){
       };
 
 
+      const goToProfile = () => {
+        if (userData?.id && userData.nome && userData.cognome) {
+            // Usa slugify per creare l'URL "slugged"
+            const sluggedProfile = slugifyService.slugify(userData.id, userData.nome, userData.cognome);
+            console.log(userData.id, userData.nome, userData.cognome);
+            navigate(`/user/profilo/${sluggedProfile}`);
+        }
+    };
+
 
     return(
         <>
@@ -151,7 +160,7 @@ function Header(){
                     <p className='header-text' onClick={() => {handleLogout(); navigate("/login")} }>Log out</p>
                     <FontAwesomeIcon icon={faCalendar} onClick = {() => navigate("")} className='header-icon'/>
                     <FontAwesomeIcon icon={faBell}  onClick = {() => setShowNotifications(!showNotifications)} className='header-icon'/>
-                    <FontAwesomeIcon icon={faCircleUser}  onClick = {() => navigate("")} className='header-icon'/>
+                    <FontAwesomeIcon icon={faCircleUser}  /*onClick={goToProfile}*/ className='header-icon'/>
                 </div>
             </nav>
 
