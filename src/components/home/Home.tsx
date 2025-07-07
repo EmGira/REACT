@@ -9,6 +9,7 @@ import Calendario from '../calendario/Calendario';
 import { useAuth } from '../contexts/AuthContext';
 import { Farmaco } from '@/models/farmaco.model'; // Importa l'interfaccia Farmaco
 import CardPaziente from '@/sub_components/card_paziente/CardPaziente';
+import CalendarioPazienti from '../calendario/CalendarioPazienti';
 
 function Home() {
     const navigate = useNavigate();
@@ -88,6 +89,7 @@ function Home() {
                         <div className='add_box' onClick={() => { navigate('/crea-paziente'); }}><CardAggiungi /></div>
                         {pazienti.map((paziente) => (
                             <div className='centro' key={paziente.id}>
+                               
                                 <CardPaziente paziente={paziente} />
                             </div>
                         ))}
@@ -108,6 +110,7 @@ function Home() {
                 {selectedButton == 3 &&(
                            <div>
                                 <Calendario></Calendario>
+                                <CalendarioPazienti></CalendarioPazienti>
                            </div>         
                 )}
 

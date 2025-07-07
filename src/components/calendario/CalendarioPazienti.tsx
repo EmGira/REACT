@@ -102,12 +102,6 @@ function CalendarioPazienti(){
 
   
     
-
- 
-    
-
-   
-    
   
     
     //EVENTI

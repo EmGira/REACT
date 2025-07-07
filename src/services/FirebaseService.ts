@@ -153,6 +153,59 @@ export const FirebaseService = {
     return appointments
   },
 
+  // 🔹 Recupera un farmaco dato il suo ID (nome della collection: "farmaci")
+getFarmacoById: async (idFarmaco: string): Promise<Farmaco | null> => {
+  try {
+    const docRef = doc(db, "farmaci", idFarmaco);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      return {
+        id: docSnap.id,
+        ...docSnap.data()
+      } as Farmaco;
+    } else {
+      console.warn(`Farmaco con id ${idFarmaco} non trovato.`);
+      return null;
+    }
+  } catch (error) {
+    console.error("Errore recupero farmaco:", error);
+    return null;
+  }
+},
+
+// 🔹 Recupera i dati di un utente da Firestore
+getUserDataDC: async (userId: string): Promise<Utente | null> => {
+  const docRef = doc(db, "users", userId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    return {
+      id: docSnap.id,
+      nome: data.nome,
+      cognome: data.cognome,
+      birthDate: data.birthDate,
+      sesso: data.sesso,
+      codiceFiscale: data.codiceFiscale,
+      telefono: data.telefono,
+      email: data.email,
+      password: data.password ?? "", // se non c'è, metti stringa vuota
+      indirizzo: data.indirizzo,
+      comune: data.comune,
+      provincia: data.provincia,
+      nazione: data.nazione,
+      paziente: data.paziente,
+      createdAt: data.createdAt ? data.createdAt.toDate() : undefined
+    };
+  } else {
+    return null;
+  }
+},
+
+
+
+
   deleteData: async (collectionName: string, docId: string): Promise<void> => {
     const docRef = doc(db, collectionName, docId);
     await deleteDoc(docRef);
@@ -422,7 +475,68 @@ export const FirebaseService = {
         } catch (error) {
             console.error("Errore nell'aggiornamento della notifica:", error);
         }
+  },
+
+  // 🔹 Recupera tutti i piani associati a un determinato paziente
+getPianiByUserId: async (userId: string) => {
+  try {
+    const pianiQuery = query(
+      collection(db, "piani"),
+      where("userId", "==", userId)
+    );
+    const querySnapshot = await getDocs(pianiQuery);
+
+    const piani: (Piano & { id: string })[] = [];
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data() as Piano;
+
+      // Rimuovi eventuale "id" presente nel documento
+      const { id: _ignored, ...rest } = data;
+
+      piani.push({
+        ...rest,
+        id: docSnap.id,
+      });
+    });
+
+    return piani;
+  } catch (error) {
+    console.error("Errore nel recupero dei piani:", error);
+    throw error;
   }
+},
+// 🔹 Aggiorna un farmaco dato il suo ID
+updateFarmaco: async (farmaco: Farmaco) => {
+  try {
+    if (!farmaco.id) {
+      throw new Error("ID farmaco mancante");
+    }
+    const farmacoRef = doc(db, "farmaci", farmaco.id);
+    await updateDoc(farmacoRef, {
+      nome: farmaco.nome,
+      descrizione: farmaco.descrizione,
+      avvertenze: farmaco.avvertenze,
+      barcode: farmaco.barcode
+    });
+    console.log("Farmaco aggiornato con successo");
+  } catch (error) {
+    console.error("Errore nell'aggiornare il farmaco: ", error);
+    throw error;
+  }
+},
+
+// 🔹 Elimina un farmaco dato il suo ID
+deleteFarmaco: async (id: string) => {
+  try {
+    const farmacoRef = doc(db, "farmaci", id);
+    await deleteDoc(farmacoRef);
+    console.log("Farmaco eliminato con successo");
+  } catch (error) {
+    console.error("Errore nell'eliminare il farmaco: ", error);
+    throw error;
+  }
+},
+
 
 
 };

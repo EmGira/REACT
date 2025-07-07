@@ -17,6 +17,7 @@ import CreaPiani from './components/crea-piani/CreaPiani';
 import ModificaPiano from './components/modifica-piano/ModificaPiano';
 import CalendarioPazienti from './components/calendario/CalendarioPazienti';
 import FarmacoPage from './components/farmaco/Farmaco';
+import HomePaziente from './components/home/HomePaziente';
 
  './components/crea-pazienti/CreaPazienti.tsx';
 
@@ -51,6 +52,7 @@ function App(){
                     <Route path = "/signup" element = {<SignUp/>}/> 
 
                     {/* HOME */}
+                    <Route path="/homePaziente" element={<Impaginazione><HomePaziente /></Impaginazione>} />
                     <Route path="/home" element={<Impaginazione><Home /></Impaginazione>} />
 
                     {/* GESTIONE UTENTI */}
