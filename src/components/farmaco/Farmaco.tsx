@@ -111,7 +111,7 @@ function FarmacoPage() {
             </div>
 
             <div>
-              <label>Barcode</label>
+              <label>Codice univoco</label>
               <input
                 type="number"
                 value={farmaco.barcode}

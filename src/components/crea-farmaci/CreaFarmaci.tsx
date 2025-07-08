@@ -84,7 +84,7 @@ function CreaFarmaci() {
 
                             {/* Il campo barcode non è visibile all'utente */}
                             <div className="form-group">
-                                <label htmlFor="barcode">Barcode</label>
+                                <label htmlFor="barcode">Codice univoco</label>
                                 <input
                                     id="barcode"
                                     type="text"
