@@ -308,7 +308,7 @@ const notifPiani2 = async (piani: Piano[]) => {
                 <div className='dati'>
                     <p className='header-text' onClick={() => {handleLogout(); navigate("/login")} }>Log out</p>
                     {/* <FontAwesomeIcon icon={faCalendar} onClick = {() => navigate("")} className='header-icon'/> */}
-                    <FontAwesomeIcon icon={faBell}  onClick = {() => setShowNotifications(!showNotifications)} className='header-icon'/>
+                    {currentUser?.paziente && <FontAwesomeIcon icon={faBell}  onClick = {() => setShowNotifications(!showNotifications)} className='header-icon'/>}
                     <FontAwesomeIcon icon={faCircleUser}  onClick={goToProfile} className='header-icon'/>
                 </div>
             </nav>

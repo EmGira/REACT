@@ -38,7 +38,7 @@ function Registro() {
 
   useEffect(() => {
     FirebaseService.getFarmaci().then((response: any) => {
-      setFarmaci(response);
+      setFarmaci(response as Farmaco[]);
     });
   },[]);
 
@@ -116,6 +116,14 @@ function Registro() {
 
   if (loading) return (<div>Caricamento...</div>);
 
+  const getFarmaco = (id: string) => {
+    const result = farmaci.find((farmaco: Farmaco) => farmaco.id == id)
+      if(result)
+        return result.nome;
+      else
+        return "Tachipirina"
+  }
+
   return (
 
     <div className="main-container">
@@ -127,7 +135,7 @@ function Registro() {
               .filter((assunzione) => assunzione.data === data)
               .map((assunzione,index) => (
                 <div key={index} className="assunzione-item">
-                  <p><strong>Farmaco:</strong> {assunzione.id_farmaco}</p>
+                  <p><strong>Farmaco:</strong> {getFarmaco(assunzione.id_farmaco)}</p>
                   <p><strong>Periodo:</strong> {assunzione.periodo}</p>
                   <p><strong>Stato:</strong> {assunzione.stato}</p>
                   {assunzione.stato == 'pianificato' && <div className="assunzione-buttons">
