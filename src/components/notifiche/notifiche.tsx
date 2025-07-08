@@ -45,7 +45,7 @@ export function Notifiche({notifications, setNotifications, className = ""} : {n
                             <b>Titolo: </b>{n.title} <br/>
                             <b>Descrizione: </b>{n.body} <br/>
                             <b>Orario: </b>{n.time} <br/>
-                            <button onClick = {() => markAsRead(n.id, n.userId)}>mark as Read</button>
+                            <button onClick = {() => markAsRead(n.id, n.userId)}>segna come letto</button>
                         </li>
                     ))
                 

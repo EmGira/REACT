@@ -32,10 +32,9 @@
 }
 
 .listaAppuntamenti li{
-        border-bottom-width: 0.2vh;
+    border-bottom-width: 0.2vh;
     padding: 2vh;
-    border-color:rgb(160, 160, 150)
-    
+    border-color:rgb(160, 160, 150);
 }
 .listaAppuntamenti li:last-child {
     border-bottom: none;
@@ -51,4 +50,6 @@
   min-height: 100vh;
   box-sizing: border-box;
 }
+
+
 
