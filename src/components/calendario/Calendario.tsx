@@ -217,9 +217,9 @@ function Calendario(){
         
         <div className = "all">
 
-                {(loading || !authUser || !userId) && (   //se authUser e userId non sono inizializzati, mostra caricamento, DA FARE        
+                {/* {(loading || !authUser || !userId) && (   //se authUser e userId non sono inizializzati, mostra caricamento, DA FARE        
                     <div>loading users</div>
-                )}
+                )} */}
             
             
                 <Calendar onClickDay={handleClick} tileClassName = {tileClassName} className = "calendar"/>
