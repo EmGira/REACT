@@ -84,9 +84,9 @@ function HomePaziente() {
                         </button>
                     )}
 
-                          <button onClick={() => selectButton(2)} className={selectedButton == 2 ? 'selezionato' : 'non-selezionato'}>
+                          {/* <button onClick={() => selectButton(2)} className={selectedButton == 2 ? 'selezionato' : 'non-selezionato'}>
                             <p className='testo-button'>Profilo</p>
-                        </button>
+                        </button> */}
                 </div>
 
              

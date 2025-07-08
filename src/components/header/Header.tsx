@@ -303,7 +303,7 @@ const notifPiani2 = async (piani: Piano[]) => {
     return(
         <>
             <nav className="nav">
-            <img src="/src/assets/pharmaCare.png" alt="logo" className='logo' onClick={() => {isPatient? navigate('/homePaziente'): navigate('/home')}}/>
+            <img src="/src/assets/pharmaCare.png" alt="logo" className='logo' onClick={() => {currentUser?.paziente? navigate('/homePaziente'): navigate('/home')}}/>
 
                 <div className='dati'>
                     <p className='header-text' onClick={() => {handleLogout(); navigate("/login")} }>Log out</p>
