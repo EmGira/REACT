@@ -56,8 +56,10 @@ function User() {
             setSelectedButton(1);
         else if(view == 'piano')
             setSelectedButton(2);
+        else if(view == 'calendario')
+            setSelectedButton(3);
 
-        if(['piano','profilo','registro'].includes(view)){
+        if(['piano','profilo','registro','calendario'].includes(view)){
             FirebaseService.getAllUsers().then((users: any) => {
                 const user = users.find((u: any) => u.id == slug.split('-')[0]) || null;
                 if(user == null){
@@ -112,7 +114,7 @@ function User() {
                         <>
                             <button className={selectedButton==1?'selected':'no-selected'} onClick={() =>  {navigate(`/user/registro/` + currentSlug) ; classNameButton(1)}} > registro </button>
                             <button className={selectedButton==2?'selected':'no-selected'} onClick={() =>  {navigate(`/user/piano/` + currentSlug); classNameButton(2)}} > piano </button>
-                            <button className={selectedButton==3?'selected':'no-selected'} onClick={() =>  {navigate(`/calendarPazienti`); classNameButton(2)}} > calendario </button>  //!!
+                            <button className={selectedButton==3?'selected':'no-selected'} onClick={() =>  {navigate(`/user/calendario/` + currentSlug); classNameButton(2)}} > calendario </button>  
                         </>
                         }
                         </div>
@@ -124,7 +126,7 @@ function User() {
                         <>
                         {currentView == 'registro' && <Registro></Registro>}
                         {currentView == 'piano' && <Piano user={currentUser}></Piano>}
-                        {currentView == 'calendario' && <CalendarioPazienti/>} //!!
+                        {currentView == 'calendario' && <CalendarioPazienti/>} 
                         
                         </>
                     }

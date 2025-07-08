@@ -16,8 +16,8 @@ function Footer(){
             <h4>Sviluppatori</h4>
             <ul>
                 <li>Edoardo Poltronieri – VR501425</li>
-                <li>Emanuele Girardello – VR50XXXX</li>
-                <li>Matteo Tessera – VR50XXXX</li>
+                <li>Emanuele Girardello – VR500077</li>
+                <li>Matteo Tessera – VR502611</li>
             </ul>
             </div>
 

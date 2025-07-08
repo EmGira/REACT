@@ -2,13 +2,11 @@
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { useState, useEffect } from 'react';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
 import './CalendarioPazienti.css'
 import FirebaseService from '@/services/FirebaseService';
 import {useAuth} from '../contexts/AuthContext'
 import {AppointmentsList, fetchAppointments} from './appointments';
-import app from '@/configurations/FirebaseConfig';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface Appointments{
   id: number,
@@ -37,6 +35,19 @@ interface User{
 }
 
 function CalendarioPazienti(){
+
+  
+    const { slug } = useParams();
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+      if(slug)
+        setUserId(slug.split('-')[0]);
+      else
+        return;
+
+  },[slug, navigate]);
 
     //estrai contesto
     const {
@@ -137,9 +148,9 @@ function CalendarioPazienti(){
         <>
         <div className = "all">
 
-                {(loading || !authUser || !userId) && (   //se authUser e userId non sono inizializzati, mostra caricamento, DA FARE        
+                {/* {(loading || !authUser || !userId) && (   //se authUser e userId non sono inizializzati, mostra caricamento, DA FARE        
                     <div>loading users</div>
-                )}
+                )} */}
             
             
                 <Calendar onClickDay={handleClick} tileClassName={tileClassName} className = "calendar"/>
