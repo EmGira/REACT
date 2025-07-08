@@ -110,7 +110,7 @@ function Home() {
                 {selectedButton == 3 &&(
                            <div>
                                 <Calendario></Calendario>
-                                <CalendarioPazienti></CalendarioPazienti>
+                              
                            </div>         
                 )}
 

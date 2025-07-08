@@ -24,13 +24,14 @@ function ModificaPiano(){
     const [pianoPaziente, setPianoPaziente] = useState<Piano | null>(null);
 
     const [isAddingFarmaco, setIsAddingFarmaco] = useState(false);
-    const [newFarmaco, setNewFarmaco] = useState<RiferimentoFarmaco>({
-        id_farmaco: '',
-        dose: 0,
-        frequenza: 1,
-        periodo: '',
-        assunzioni: []
-    });
+  const [newFarmaco, setNewFarmaco] = useState<RiferimentoFarmaco & { customTime?: string }>({
+  id_farmaco: '',
+  dose: 0,
+  frequenza: 1,
+  periodo: '',
+  assunzioni: [],
+  customTime: ''
+});
 
     const [farmaci, setFarmaci] = useState<Farmaco[]>([]);
     const periodi = [
@@ -122,7 +123,13 @@ function ModificaPiano(){
 
         const updatedFarmaci: RiferimentoFarmaco[] = [...pianoPaziente.farmaci];
 
-        const newFarmacoCompleto: RiferimentoFarmaco = {...newFarmaco};
+        const newFarmacoCompleto: RiferimentoFarmaco = {
+          ...newFarmaco,
+          periodo: newFarmaco.periodo === "Orario personalizzato" && newFarmaco.customTime
+            ? `Orario personalizzato: ${newFarmaco.customTime}`
+            : newFarmaco.periodo
+        };
+
 
         const data = new Date(pianoPaziente.data_inizio);
 
@@ -152,9 +159,13 @@ function ModificaPiano(){
           dose: 0,
           frequenza: 1,
           periodo: '',
-          assunzioni: []
+          assunzioni: [],
+          customTime: ''
         });
+
         setIsAddingFarmaco(false);
+
+
     };
 
     const handleRemoveFarmaco = (index: number) => {
@@ -319,6 +330,20 @@ function ModificaPiano(){
                                 <option key={index} value={periodo}>{periodo}</option>
                             ))}
                         </select>
+
+                        {farmaco.periodo?.startsWith("Orario personalizzato") && (
+                            <input
+                              type="time"
+                              className="border rounded p-2"
+                              value={
+                                farmaco.periodo.split(": ")[1] || ""
+                              }
+                              onChange={(e) =>
+                                handleFarmacoChange(index, "periodo", `Orario personalizzato: ${e.target.value}`)
+                              }
+                              disabled={!isEditing}
+                            />
+                        )}
                       <select
                         className="border rounded p-2"
                         value={farmaco.frequenza}
@@ -375,6 +400,15 @@ function ModificaPiano(){
                                 <option key={index} value={farmaco.id}>{farmaco.nome}</option>
                             ))}
                         </select>
+
+                        {newFarmaco.periodo === "Orario personalizzato" && (
+                              <input
+                                type="time"
+                                className="border rounded p-2 mb-4"
+                                value={newFarmaco.customTime || ''}
+                                onChange={(e) => handleChangeNewFarmaco('customTime', e.target.value)}
+                              />
+                        )}
 
                         <select
                             className="border rounded p-2 mb-4"

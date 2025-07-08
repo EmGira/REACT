@@ -4,15 +4,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Farmaco } from '@/models/farmaco.model';
 
-
 function CreaPiani(){
 
     const navigate = useNavigate();
-
     const { slug } = useParams();
     const [currentSlug, setCurrentSlug] = useState('');
 
-    // array x select
     const periodi = [
         "Prima di colazione",
         "Dopo colazione",
@@ -20,7 +17,8 @@ function CreaPiani(){
         "Dopo pranzo",
         "Prima di cena",
         "Dopo cena",
-        "Prima di dormire"
+        "Prima di dormire",
+        "Orario personalizzato"
     ];
     const frequenze = [
         { value: 1, label: 'Ogni giorno' },
@@ -29,26 +27,24 @@ function CreaPiani(){
     ];
     const [farmaci, setFarmaci] = useState<Farmaco[]>([]);
 
-    // form farmaco 
     const [isFormValid, setIsFormValid] = useState(false);
     const [farmaco, setFarmaco] = useState({
         id_farmaco: '',
         periodo: '',
+        orarioPersonalizzato: '',
         dose: 0,
         frequenza: 0
     });
 
-    // form piano
     const [isFarmacoValid, setIsFarmacoValid] = useState(false);
     const [farmaciAggiunti, setFarmaciAggiunti] = useState<any[]>([]);
     const [piano, setPiano] = useState<any>({
         farmaci: [],
-        id_paziente: currentSlug.split('-')[0], 
+        id_paziente: currentSlug.split('-')[0],
         data_inizio: '',
         data_fine: ''
     });
-       
-    // on init
+
     useEffect(() => {
         fetchFarmaci();
     }, []);
@@ -61,27 +57,25 @@ function CreaPiani(){
 
         setPiano({
             farmaci: [],
-            id_paziente: slug.split('-')[0], // da cambiare 
+            id_paziente: slug.split('-')[0],
             data_inizio: '',
             data_fine: ''
         });
 
         setCurrentSlug(slug);
-        
-    },[slug, navigate]);
 
-    // validatore per farmaco
+    }, [slug, navigate]);
+
     useEffect(() => {
         const { id_farmaco, periodo, dose, frequenza } = farmaco;
         const isValid =
             id_farmaco.trim() !== '' &&
             periodo.trim() !== '' &&
-            !isNaN(dose) && dose > 0 && // Assicurati che la dose sia un numero positivo
-            !isNaN(frequenza) && frequenza > 0; // Assicurati che la frequenza sia un numero positivo
-    
+            !isNaN(dose) && dose > 0 &&
+            !isNaN(frequenza) && frequenza > 0 &&
+            (periodo !== "Orario personalizzato" || farmaco.orarioPersonalizzato.trim() !== '');
         setIsFarmacoValid(isValid);
     }, [farmaco]);
-
 
     useEffect(() => {
         const isValid = piano.id_paziente.trim() !== '' && farmaciAggiunti.length > 0 && piano.data_inizio.trim() !== '';
@@ -90,12 +84,12 @@ function CreaPiani(){
             ...prevPiano,
             farmaci: farmaciAggiunti
         }));
-    
+
         if (piano.data_inizio !== '') {
             const dataInizio = new Date(piano.data_inizio);
             const dataFine = new Date(dataInizio);
-            dataFine.setDate(dataInizio.getDate() + 7); 
-    
+            dataFine.setDate(dataInizio.getDate() + 7);
+
             setPiano((prevPiano: any) => ({
                 ...prevPiano,
                 data_fine: dataFine.toISOString().split('T')[0]
@@ -106,15 +100,14 @@ function CreaPiani(){
                 data_fine: ''
             }));
         }
-    
+
         setIsFormValid(isValid);
     }, [piano.data_inizio, farmaciAggiunti]);
 
-    // ottengo tutti i farmaci disponibili
     const fetchFarmaci = async () => {
         try {
             const result: any = await FirebaseService.getFarmaci();
-            setFarmaci(result); // Assegna direttamente i valori agli array
+            setFarmaci(result);
         } catch (err) {
             setError("Errore nel recupero dei farmaci");
         }
@@ -122,15 +115,20 @@ function CreaPiani(){
 
     const addFarmacoToList = (e: any) => {
         e.preventDefault();
-        
-        const assunzioni: {data: string, stato: 'assunto' | 'pianificato' | 'dimenticato'}[] = [];
 
-        const newFarmaco = { ...farmaco, assunzioni: []};
+        const periodoFinale =
+            farmaco.periodo === "Orario personalizzato"
+            ? `Orario personalizzato: ${farmaco.orarioPersonalizzato}`
+            : farmaco.periodo;
+
+        const newFarmaco = { ...farmaco, periodo: periodoFinale, assunzioni: [] };
+
         setFarmaciAggiunti((prevFarmaci) => [...prevFarmaci, newFarmaco]);
 
         setFarmaco({
             id_farmaco: '',
             periodo: '',
+            orarioPersonalizzato: '',
             dose: 0,
             frequenza: 0
         });
@@ -143,7 +141,7 @@ function CreaPiani(){
 
         for (let farmaco of piano.farmaci) {
             const data = new Date(piano.data_inizio);
-            const farmacoCopia = { ...farmaco};
+            const farmacoCopia = { ...farmaco, assunzioni: [] };
 
             for (let i = 0; i < 7; i += farmaco.frequenza) {
                 const nuovaData = new Date(data);
@@ -151,36 +149,32 @@ function CreaPiani(){
                 if (!isNaN(nuovaData.getTime())) {
                     farmacoCopia.assunzioni.push({
                         data: nuovaData.toISOString().split('T')[0],
-                        stato: 'pianificato'
+                        stato: 'pianificato',
+                        periodo: farmaco.periodo,
+                        orario: farmaco.periodo === "Orario personalizzato" ? farmaco.orarioPersonalizzato : null
                     });
                 } else {
-                console.error("Data non valida: ", nuovaData);
+                    console.error("Data non valida: ", nuovaData);
                 }
             }
 
             farmaciAggiornato.push(farmacoCopia);
         }
-        console.log('farmaciAggiornato')
-        console.log(farmaciAggiornato)
 
-        setPiano({
-        ...piano,
-        farmaci: farmaciAggiornato
-        });
-
-          
         try {
             await FirebaseService.addPiano({
                 ...piano,
                 farmaci: farmaciAggiornato
             });
+
             setFarmaco({
                 id_farmaco: '',
                 periodo: '',
+                orarioPersonalizzato: '',
                 dose: 0,
                 frequenza: 1
             });
-    
+
             setPiano({
                 farmaci: [],
                 id_paziente: currentSlug.split('-')[0],
@@ -191,25 +185,20 @@ function CreaPiani(){
             navigate('./../../piano/' + currentSlug);
 
         } catch (error) {
-            console.error("Errore nell'aggiunta del farmaco:", error);
-        }  
+            console.error("Errore nell'aggiunta del piano:", error);
+        }
     };
 
     const getFrequenza = (frequenza: number) => {
-        if(frequenza == 1)
-            return frequenze[0].label;
-        else if(frequenza == 2)
-            return frequenze[1].label;
-        else if(frequenza == 3)
-            return frequenze[2].label;
-    }
+        return frequenze.find(f => f.value === frequenza)?.label || '';
+    };
 
     const getFarmaco = (id: string) => {
         const farmaco = farmaci.find((farmaco: any) => farmaco.id == id) || null;
         if(farmaco != null)
             return farmaco.nome.charAt(0).toUpperCase() + farmaco.nome.slice(1);
-    }
-    
+    };
+
     return (
         <div className="c">
             <div className='form-separatore'>
@@ -225,7 +214,7 @@ function CreaPiani(){
                                     onChange={(e) => setFarmaco({ ...farmaco, id_farmaco: e.target.value })}
                                     required
                                 >
-                                    <option value="">Seleziona un farmaco</option> {/* Opzione di default */}
+                                    <option value="">Seleziona un farmaco</option>
                                     {farmaci.map((farmacoItem) => (
                                         <option key={farmacoItem.id} value={farmacoItem.id}>
                                             {farmacoItem.nome}
@@ -233,6 +222,7 @@ function CreaPiani(){
                                     ))}
                                 </select>
                             </div>
+
                             <div className="form-group">
                                 <label htmlFor="periodo">Periodo</label>
                                 <select
@@ -241,7 +231,7 @@ function CreaPiani(){
                                     onChange={(e) => setFarmaco({ ...farmaco, periodo: e.target.value })}
                                     required
                                 >
-                                    <option value="">Seleziona un periodo</option> {/* Opzione di default */}
+                                    <option value="">Seleziona un periodo</option>
                                     {periodi.map((periodo, index) => (
                                         <option key={index} value={periodo}>
                                             {periodo}
@@ -249,6 +239,19 @@ function CreaPiani(){
                                     ))}
                                 </select>
                             </div>
+
+                            {farmaco.periodo === "Orario personalizzato" && (
+                                <div className="form-group">
+                                    <label htmlFor="orarioPersonalizzato">Orario</label>
+                                    <input
+                                        id="orarioPersonalizzato"
+                                        type="time"
+                                        value={farmaco.orarioPersonalizzato}
+                                        onChange={(e) => setFarmaco({ ...farmaco, orarioPersonalizzato: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                            )}
 
                             <div className="form-group">
                                 <label htmlFor="dose">Dose (mg)</label>
@@ -260,6 +263,7 @@ function CreaPiani(){
                                     required
                                 />
                             </div>
+
                             <div className="form-group">
                                 <label htmlFor="frequenza">Frequenza</label>
                                 <select
@@ -268,7 +272,7 @@ function CreaPiani(){
                                     onChange={(e) => setFarmaco({ ...farmaco, frequenza: parseInt(e.target.value) })}
                                     required
                                 >
-                                    <option value="">Seleziona frequenza</option> {/* Opzione di default */}
+                                    <option value="">Seleziona frequenza</option>
                                     {frequenze.map((freq) => (
                                         <option key={freq.value} value={freq.value}>
                                             {freq.label}
@@ -282,22 +286,11 @@ function CreaPiani(){
                         </button>
                     </form>
                 </div>
-        
-                {/* Form per creare un piano */}
+
                 <div className="form-container">
                     <h2>Crea Piano</h2>
                     <form onSubmit={createPiano}>
                         <div className='form-dimensione'>
-                            {/* <div className="form-group">
-                                <label htmlFor="id_paziente">ID Paziente</label>
-                                <input
-                                    id="id_paziente"
-                                    type="text"
-                                    value={piano.id_paziente}
-                                    onChange={(e) => setPiano({ ...piano, id_paziente: e.target.value })}
-                                    required
-                                />
-                            </div> */}
                             <div className="form-group">
                                 <label htmlFor="data_inizio">Data Inizio</label>
                                 <input
@@ -308,6 +301,7 @@ function CreaPiani(){
                                     required
                                 />
                             </div>
+
                             <div className="form-group">
                                 <label htmlFor="data_fine">Data Fine</label>
                                 <input
@@ -317,20 +311,21 @@ function CreaPiani(){
                                     readOnly
                                 />
                             </div>
-            
-                            <div className="form-group, farmaci-aggiunti">
+
+                            <div className="form-group farmaci-aggiunti">
                                 <label>Farmaci prescritti</label>
                                 <ul>
-                                    {farmaciAggiunti.length == 0 && <p>Nessun farmaco aggiunto...</p>}
+                                    {farmaciAggiunti.length === 0 && <p>Nessun farmaco aggiunto...</p>}
                                     {farmaciAggiunti.map((farmaco, index) => (
                                         <li key={index}>
                                             {getFarmaco(farmaco.id_farmaco)} - {farmaco.dose}mg - {getFrequenza(farmaco.frequenza)} - {farmaco.periodo}
+                                            {farmaco.periodo === "Orario personalizzato" && ` (${farmaco.orarioPersonalizzato})`}
                                         </li>
                                     ))}
                                 </ul>
                             </div>
                         </div>
-        
+
                         <button type="submit" className={`submit-btn ${!isFormValid ? 'disabled' : ''}`} disabled={!isFormValid}>
                             Crea Piano
                         </button>
@@ -341,8 +336,8 @@ function CreaPiani(){
     );
 }
 
-export default CreaPiani
+export default CreaPiani;
 
-function setError(arg0: string) {
-    throw new Error('Function not implemented.');
+function setError(message: string) {
+    console.error(message);
 }

@@ -6,5 +6,6 @@ export interface RiferimentoFarmaco{
     assunzioni:{
         data: string,
         stato: 'assunto' | 'pianificato' | 'dimenticato'
+        
     }[]
 }
