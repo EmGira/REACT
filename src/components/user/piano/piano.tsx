@@ -1,13 +1,20 @@
 import { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { FirebaseService } from '../../../services/FirebaseService';
-import "../User.css"
+import "./piano.css"
+import { useAuth } from "@/components/contexts/AuthContext";
 
 
 function Piano({user}: any) {
   const navigate = useNavigate();
 
+   
+      const {
+              isMedic
+      } = useAuth();
+
   const [pianiPaziente, setPianiPaziente] = useState<any[]>([]);
+  const [isMedicUpdate, setIsMedicUpdate] = useState(false);
 
   const frequenze = [
     { value: 1, label: 'Ogni giorno' },
@@ -25,7 +32,11 @@ function Piano({user}: any) {
 
   useEffect(() => {
     fetchFarmaci();
+    console.log("ISMEDIC VALUE", isMedic);
+
+
   },[]);
+
 
   const fetchFarmaci = async () => {
       try {
@@ -97,11 +108,13 @@ function Piano({user}: any) {
 
       {pianiPaziente.length != 0 && 
         pianiPaziente.map((piano: any) => (
-          <div key={piano.id} onClick={() => navigate('./' + piano.id)}>
-            {piano.data_inizio} - {piano.data_fine}
+          <div key={piano.id}  className="piano-card" onClick={() => navigate('./' + piano.id)}>
+                  <div className="piano-date">
+                     {piano.data_inizio} – {piano.data_fine}
+                  </div>
             {
               piano.farmaci.map((farmaco: any) => (
-                <div key={farmaco.id_farmaco}>
+                <div key={farmaco.id_farmaco} className="farmaco-item">
                   {getFarmaco(farmaco.id_farmaco)} - {farmaco.dose}mg - {getFrequenza(farmaco.frequenza)} - {farmaco.periodo}
                 </div>
               ))
@@ -110,7 +123,7 @@ function Piano({user}: any) {
         ))  
       }
       <br />
-      <div onClick={() => {navigate("/user/crea-piano/"+currentSlug)}}>Aggiungi un nuovo piano</div>
+      {isMedic && <div className = "aggiungi-piano" onClick={() => {navigate("/user/crea-piano/"+currentSlug)}}>Aggiungi un nuovo piano</div>}
 
         {/* <h2>Informazioni personali</h2>
         <hr className="linea_h2"/>

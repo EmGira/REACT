@@ -42,6 +42,7 @@ export function Notifiche({notifications, setNotifications, className = ""} : {n
                         <li key = {n.id}>   
                   
                             <b>Data: </b>{n.date} <br/>
+                            <b>Titolo: </b>{n.title} <br/>
                             <b>Descrizione: </b>{n.body} <br/>
                             <b>Orario: </b>{n.time} <br/>
                             <button onClick = {() => markAsRead(n.id, n.userId)}>mark as Read</button>

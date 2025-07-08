@@ -7,6 +7,7 @@ import { Piano } from "@/models/piano.model";
 import { User } from "firebase/auth";
 import { Assunzione } from "@/models/assunzione.model";
 import './Registro.css'
+import { useAuth } from "@/components/contexts/AuthContext";
 
 
 function Registro() {
@@ -20,6 +21,10 @@ function Registro() {
     "Dopo cena",
     "Prima di dormire"
   ];
+
+     const {
+                isPatient
+        } = useAuth();
 
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -126,12 +131,16 @@ function Registro() {
                   <p><strong>Periodo:</strong> {assunzione.periodo}</p>
                   <p><strong>Stato:</strong> {assunzione.stato}</p>
                   {assunzione.stato == 'pianificato' && <div className="assunzione-buttons">
-                    <button onClick={() => updateAssunzione({ ...assunzione, stato: 'assunto' })} className="btn-confirm">
-                      Conferma
-                    </button>
-                    <button onClick={() => updateAssunzione({ ...assunzione, stato: 'dimenticato' })} className="btn-delete">
-                      Dimenticato
-                    </button>
+                    {isPatient && (
+                      <div>
+                        <button onClick={() => updateAssunzione({ ...assunzione, stato: 'assunto' })} className="btn-confirm">
+                          Conferma
+                        </button>
+                        <button onClick={() => updateAssunzione({ ...assunzione, stato: 'dimenticato' })} className="btn-delete">
+                          Dimenticato
+                        </button>
+                      </div>
+                    )}
                     
                   </div>}
                 </div>

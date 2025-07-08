@@ -40,3 +40,14 @@
 .listaAppuntamenti li:last-child {
     border-bottom: none;
 }
+
+.all {
+  display: flex;
+  justify-content: center; /* centra l'intero blocco orizzontalmente */
+  align-items: flex-start; /* allinea in alto */
+  gap: 2rem; /* spazio tra calendario e lista */
+  padding: 2rem;
+  flex-wrap: wrap; /* va su righe diverse su schermi piccoli */
+  min-height: 100vh;
+  box-sizing: border-box;
+}

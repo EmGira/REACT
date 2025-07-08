@@ -6,6 +6,7 @@ function CardFarmaco({ farmaco }: any){
 
     const navigate = useNavigate();
 
+ 
 
 
     return(

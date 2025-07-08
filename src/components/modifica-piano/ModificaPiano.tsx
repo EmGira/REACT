@@ -5,8 +5,14 @@ import FirebaseService from '@/services/FirebaseService';
 import { Piano } from '@/models/piano.model';
 import { Farmaco } from '@/models/farmaco.model';
 import { RiferimentoFarmaco } from '@/models/riferimentoFarmaco.model';
+import { useAuth } from '../contexts/AuthContext';
 
 function ModificaPiano(){
+
+   
+      const {
+              isMedic
+      } = useAuth();
 
     const { slug, idPiano } = useParams();
     const navigate = useNavigate();
@@ -246,12 +252,12 @@ function ModificaPiano(){
               {/* Modalità visualizzazione e modifica del piano */}
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Gestione Piano</h2>
-                <button
+                {isMedic && (<button
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                   onClick={toggleEdit}
                 >
                   {isEditing ? "Annulla" : "Modifica"}
-                </button>
+                </button>)}
               </div>
     
               <div className="grid grid-cols-2 gap-4 mb-6">
@@ -335,18 +341,18 @@ function ModificaPiano(){
                         }
                         disabled={!isEditing}
                       />
-                      <button
+                      {isMedic && (<button
                         className="text-red-500 hover:text-red-700"
                         onClick={() => handleRemoveFarmaco(index)}
                         disabled={!isEditing}
                       >
                         🗑
-                      </button>
+                      </button>)}
                     </div>
                   ))}
                 </div>
     
-                {isEditing && (
+                {isEditing && isMedic && (
                   <button
                     className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
                     onClick={() => setIsAddingFarmaco(true)}
@@ -415,7 +421,7 @@ function ModificaPiano(){
                     </div>
                 )}
     
-              {isEditing && (
+              {isEditing && isMedic && (
                 <div className="button-group text-right fondo">
                 {isValid && (
                   <button

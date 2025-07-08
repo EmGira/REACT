@@ -8,3 +8,60 @@
 .piu_icon{
     color: #2F4858;
 }
+
+.anagrafica {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.anagrafica h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2b3d4f;
+}
+
+.piano-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.piano-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.piano-date {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.farmaco-item {
+  padding: 0.4rem 0.2rem;
+  border-top: 1px solid #eee;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.farmaco-item:first-child {
+  border-top: none;
+}
+
+.aggiungi-piano {
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: 600;
+  color: #0066cc;
+  cursor: pointer;
+}
+
+.aggiungi-piano:hover {
+  text-decoration: underline;
+}
