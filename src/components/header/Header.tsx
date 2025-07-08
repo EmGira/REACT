@@ -13,6 +13,7 @@ import { NotifInterface } from '../notifiche/NotifInterface';
 import { Appointments } from '../calendario/appointmentInterface';
 import { fetchAppointments } from '../calendario/appointments';
 import { Piano } from '@/models/piano.model';
+import { Utente } from '@/models/Utente.model';
 
 
 
@@ -233,12 +234,23 @@ const notifPiani2 = async (piani: Piano[]) => {
 
 
     
- 
+    const [currentUser, setCurrentUser] = useState<Utente | null>(null);
+    const [currentUserId, setCurrentUserId] = useState('');
 
 
       //Al primo render:
        useEffect(() => {
-              fetchUser()    
+              fetchUser()  
+            FirebaseService.getCurrentUser().then((response: any) => {
+              if(response){
+                setCurrentUserId(response.uid);
+                FirebaseService.getUserById(response.uid).then((response2: any) => {
+                    setCurrentUser(response2 as Utente);
+                    console.log(response2);
+                });
+              }
+                
+            });
         }, []);
 
         useEffect(() => {
@@ -280,12 +292,10 @@ const notifPiani2 = async (piani: Piano[]) => {
       };
 
 
-      const goToProfile = () => {
-        if (userData?.id && userData.nome && userData.cognome) {
-            // Usa slugify per creare l'URL "slugged"
-            const sluggedProfile = slugifyService.slugify(userData.id, userData.nome, userData.cognome);
-            console.log(userData.id, userData.nome, userData.cognome);
-            navigate(`/user/profilo/${sluggedProfile}`);
+    const goToProfile = () => {
+        if(currentUser && currentUserId != null){
+            const sluggedProfile = slugifyService.slugify(currentUserId, currentUser.nome, currentUser.cognome);
+            navigate(`/user/profilo/` + sluggedProfile);
         }
     };
 
@@ -297,9 +307,9 @@ const notifPiani2 = async (piani: Piano[]) => {
 
                 <div className='dati'>
                     <p className='header-text' onClick={() => {handleLogout(); navigate("/login")} }>Log out</p>
-                    <FontAwesomeIcon icon={faCalendar} onClick = {() => navigate("")} className='header-icon'/>
+                    {/* <FontAwesomeIcon icon={faCalendar} onClick = {() => navigate("")} className='header-icon'/> */}
                     <FontAwesomeIcon icon={faBell}  onClick = {() => setShowNotifications(!showNotifications)} className='header-icon'/>
-                    <FontAwesomeIcon icon={faCircleUser}  /*onClick={goToProfile}*/ className='header-icon'/>
+                    <FontAwesomeIcon icon={faCircleUser}  onClick={goToProfile} className='header-icon'/>
                 </div>
             </nav>
 

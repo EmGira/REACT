@@ -1,54 +1,42 @@
-# React + TypeScript + Vite
+# 🩺 Medical Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Questo progetto è un'applicazione sviluppata con React che abbiamo realizzato per gestire l'interazione tra medici e pazienti, in particolare per quanto riguarda farmaci, appuntamenti, piani farmacologici e notifiche.
 
-Currently, two official plugins are available:
+Ho utilizzato **Firebase** sia per l'autenticazione degli utenti sia per la gestione dei dati tramite **Firestore**. Inoltre, ho creato un servizio generale per semplificare le chiamate al database e per disporre dei dati in maniera globale nell'applicazione.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Come funziona
 
-## Expanding the ESLint configuration
+L'app parte da un sistema di login e registrazione. Chi non ha ancora un account può registrarsi come **medico** o come **paziente**. Dopo l'accesso, l’utente viene reindirizzato a una home differente a seconda del suo ruolo.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Home Medico
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,s
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Se si accede come medico, è possibile:
+- Visualizzare e gestire i pazienti associati.
+- Aggiungere nuovi farmaci e modificarli.
+- Creare appuntamenti tramite un calendario interattivo.
+- Assegnare ai pazienti dei **piani farmacologici**.
+- Gestire i piani attivi (modificarli, aggiornarli, ecc.).
+- Cambiare i dati dei pazienti se necessario.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Home Paziente
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+I pazienti invece hanno accesso a:
+- Il calendario con i propri appuntamenti.
+- La possibilità di segnalare se hanno assunto o dimenticato un farmaco.
+- La visualizzazione dei piani farmacologici assegnati dal proprio medico.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Sistema di Notifiche
+
+Sia medici che pazienti vedono un’icona delle notifiche in alto a destra nell’header. Le notifiche servono a segnalare eventi importanti come nuovi appuntamenti, modifiche o aggiornamenti nei trattamenti.
+
+## Struttura del progetto
+
+Il progetto è organizzato in componenti React riutilizzabili e pagine principali per ogni sezione (login, home medico, home paziente, ecc.). C’è anche una cartella dedicata ai servizi, dove si trovano le funzioni che comunicano con Firebase e con il backend.
+
+## Avvio del progetto
+
+Per far partire il progetto in locale:
+
+1. Clonare la repository:
+   ```bash
+   git clone https://github.com/EmGira/REACT.git

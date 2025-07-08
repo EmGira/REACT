@@ -112,9 +112,9 @@ function User() {
                         <button className={selectedButton==0?'selected':'no-selected'} onClick={() =>  {navigate(`/user/profilo/` + currentSlug); classNameButton(0)}} > profilo </button>
                         {!medic &&
                         <>
-                            <button className={selectedButton==1?'selected':'no-selected'} onClick={() =>  {navigate(`/user/registro/` + currentSlug) ; classNameButton(1)}} > registro </button>
-                            <button className={selectedButton==2?'selected':'no-selected'} onClick={() =>  {navigate(`/user/piano/` + currentSlug); classNameButton(2)}} > piano </button>
-                            <button className={selectedButton==3?'selected':'no-selected'} onClick={() =>  {navigate(`/user/calendario/` + currentSlug); classNameButton(2)}} > calendario </button>  
+                            {currentUser.paziente == true && <button className={selectedButton==1?'selected':'no-selected'} onClick={() =>  {navigate(`/user/registro/` + currentSlug) ; classNameButton(1)}} > registro </button>}
+                            {currentUser.paziente == true && <button className={selectedButton==2?'selected':'no-selected'} onClick={() =>  {navigate(`/user/piano/` + currentSlug); classNameButton(2)}} > piano </button>}
+                            {/* <button className={selectedButton==3?'selected':'no-selected'} onClick={() =>  {navigate(`/user/calendario/` + currentSlug); classNameButton(2)}} > calendario </button>   */}
                         </>
                         }
                         </div>
