@@ -24,7 +24,7 @@ export function Notifiche({notifications, setNotifications, className = ""} : {n
 
         <div className = "tendinaNotifiche">
             <ul>
-                 <b className='title'>APPUNTAMENTI</b>
+                 <b className='title'>NOTIFICHE</b>
                 {notifications
                     .filter((n) => {
                         const apptDate = new Date(n.date)
