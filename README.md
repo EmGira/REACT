@@ -1,42 +1,83 @@
 # 🩺 Medical Management App
 
-Questo progetto è un'applicazione sviluppata con React che abbiamo realizzato per gestire l'interazione tra medici e pazienti, in particolare per quanto riguarda farmaci, appuntamenti, piani farmacologici e notifiche.
+**Medical Management App** is a **React** application wich allows interactions between **doctors** and **patients**, focusing on:
 
-Ho utilizzato **Firebase** sia per l'autenticazione degli utenti sia per la gestione dei dati tramite **Firestore**. Inoltre, ho creato un servizio generale per semplificare le chiamate al database e per disporre dei dati in maniera globale nell'applicazione.
+- Medication management  
+- Appointments  
+- Treatment plans  
+- Notifications  
 
-## Come funziona
+The app uses **Firebase** for:  
+- User authentication  
+- Data management with **Firestore**  
 
-L'app parte da un sistema di login e registrazione. Chi non ha ancora un account può registrarsi come **medico** o come **paziente**. Dopo l'accesso, l’utente viene reindirizzato a una home differente a seconda del suo ruolo.
+A **general service layer** was also implemented to simplify database calls and provide global data availability across the application.  
 
-### Home Medico
+---
 
-Se si accede come medico, è possibile:
-- Visualizzare e gestire i pazienti associati.
-- Aggiungere nuovi farmaci e modificarli.
-- Creare appuntamenti tramite un calendario interattivo.
-- Assegnare ai pazienti dei **piani farmacologici**.
-- Gestire i piani attivi (modificarli, aggiornarli, ecc.).
-- Cambiare i dati dei pazienti se necessario.
+## 🚀 How It Works
 
-### Home Paziente
+### 🔑 Login & Registration
+- New users can register as either a **doctor** or a **patient**.  
+- After logging in, the user is redirected to a **different home page** depending on their role.  
 
-I pazienti invece hanno accesso a:
-- Il calendario con i propri appuntamenti.
-- La possibilità di segnalare se hanno assunto o dimenticato un farmaco.
-- La visualizzazione dei piani farmacologici assegnati dal proprio medico.
+---
 
-## Sistema di Notifiche
+### 👨‍⚕️ Doctor Home
+Doctors can:  
+- 📋 View and manage their patients  
+- 💊 Add and edit medications  
+- 📅 Create appointments using an **interactive calendar**  
+- 📝 Assign treatment plans to patients  
+- 🔄 Manage active plans (update, modify, suspend, etc.)  
+- ✏️ Edit patient details if needed  
 
-Sia medici che pazienti vedono un’icona delle notifiche in alto a destra nell’header. Le notifiche servono a segnalare eventi importanti come nuovi appuntamenti, modifiche o aggiornamenti nei trattamenti.
+---
 
-## Struttura del progetto
+### 🧑‍🤝‍🧑 Patient Home
+Patients can:  
+- 📅 Access their appointment calendar  
+- 💊 Mark whether they have taken or missed a medication  
+- 📝 View treatment plans assigned by their doctor  
 
-Il progetto è organizzato in componenti React riutilizzabili e pagine principali per ogni sezione (login, home medico, home paziente, ecc.). C’è anche una cartella dedicata ai servizi, dove si trovano le funzioni che comunicano con Firebase e con il backend.
+---
 
-## Avvio del progetto
+### 🔔 Notification System
+- Both doctors and patients have a **notification icon** in the header (top-right).  
+- Notifications highlight important events such as:  
+  - New appointments  
+  - Treatment changes  
+  - Updates to active plans  
 
-Per far partire il progetto in locale:
+---
 
-1. Clonare la repository:
-   ```bash
-   git clone https://github.com/EmGira/REACT.git
+## 🛠️ Project Structure
+The project is organized into:  
+- **Reusable React components**  
+- **Main pages** (login, doctor home, patient home, etc.)  
+- **Service layer** for Firebase and backend communication  
+
+---
+
+## 📌 Technologies Used
+- React
+- Firebase Authentication
+- Firestore (Database)
+- React Router (for navigation)
+
+## ▶️ Getting Started
+
+Run the project locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/EmGira/REACT.git
+
+# Navigate into the project folder
+cd REACT
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
